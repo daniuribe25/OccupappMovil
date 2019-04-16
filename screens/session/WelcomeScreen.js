@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { commonStyles } from '../../styles/commonStyles';
 import { sessionStyles } from '../../styles/sessionStyles';
-import AppContext from '../../AppContext';
 import BigButtonIcon from '../../components/custom/BigButtonIcon';
 
 const backgroudSource = require('../../assets/images/background.jpg');

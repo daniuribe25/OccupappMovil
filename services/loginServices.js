@@ -1,7 +1,7 @@
 export const registerUser = (userInfo) => {
   return fetch('https://occupapp.herokuapp.com/api/users', {
     method: 'POST',
-    body: userInfo,
+    body: JSON.stringify(userInfo),
     headers: { 'Content-Type': 'multipart/form-data' },
   });
 };
@@ -9,7 +9,7 @@ export const registerUser = (userInfo) => {
 export const authUser = (credentials) => {
   return fetch('https://occupapp.herokuapp.com/api/authUser', {
     method: 'POST',
-    body: credentials,
+    body: JSON.stringify(credentials),
     headers: { 'Content-Type': 'application/json' },
   });
 };

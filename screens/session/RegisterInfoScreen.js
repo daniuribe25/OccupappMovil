@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Image } from 'react-native';
+import { View, Image, Alert } from 'react-native';
 import { Container, Text, Button } from 'native-base';
 import ImagePicker from 'react-native-image-picker';
 import PropTypes from 'prop-types';
@@ -86,12 +86,19 @@ class RegisterInfo extends Component {
 
   onSendInfo = () => {
     // if (!this.validateForm(this.state.formData)) return;
-    this.props.storeUserInfo(this.state.formData);
 
     const data = this.getFormatData();
-    registerUser.registerUser(data);
-
-    this.props.navigation.push('RegisterInfo');
+    this.props.registerUser(data)
+      .then(req => req.json())
+      .then((resp) => {
+        if (!resp.success) {
+          Alert.alert('Error', resp.message);
+          return;
+        }
+        this.props.navigation.push('Tabs');
+      }).catch((err) => {
+        console.error(err);
+      });
   }
 
   getFormatData = () => ({
@@ -171,7 +178,7 @@ RegisterInfo.propTypes = {
   loginInfo: PropTypes.objectOf(PropTypes.any).isRequired,
   userInfo: PropTypes.objectOf(PropTypes.any).isRequired,
   navigation: PropTypes.objectOf(PropTypes.any).isRequired,
-  storeUserInfo: PropTypes.func.isRequired,
+  registerUser: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -181,7 +188,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispachToProps = {
-  storeUserInfo,
+  registerUser,
 };
 
 export default connect(mapStateToProps, mapDispachToProps)(RegisterInfo);
