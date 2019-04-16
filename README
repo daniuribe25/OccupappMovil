@@ -1,0 +1,65 @@
+// install CLI react-native
+npm i -g react-native-cli
+
+// Create new project
+react-native init <ProjectName>
+
+#if react-native not found then have to add global node_modules to environment varibles
+
+// verify my device is connected
+adb devices
+
+// Run app in connected device
+// device has to be connected by USB and allow USB debbuging
+// fisrt console
+react-native start -- --reset-cache
+// second console
+react-native run-android
+
+// Accept SDK licenses
+// place cmd into /Android/sdk/tools/bin and run
+sdkmanager.bat --licenses
+// then accept with "y"
+
+
+// Install lingui globally
+npm install -g @lingui/cli
+lingui add-locale es en
+npx lingui extract
+npx lingui compile
+
+// check js logs, open new terminal and..
+react-native log-android
+
+// Run Android emulator
+Run Android studio, create a device in tools/AVD devices/create device
+run it and the run in console react-native run-android
+
+// DEBUG JS CODE
+Shake it or Ctrl + M and
+click "Debug Js Code"
+go to http://localhost:8081/debugger-ui/
+Ctrl * F12 and debug
+
+//************************ERRORS*****************************
+
+PROBLEM:
+when npm link =>
+Error: EPERM: operation not permitted
+SOLUTION:
+restart pc
+
+
+PROBLEM
+when react-native run-android =>
+Execution failed for task ':app:packageDebug'
+signing-config.json (Acceso denegado)
+SOLUTION:
+Delete signing-config.json file and run again
+
+PROBLEM
+when react-native run-android
+Error: EPERM: operation not permitted, lstat 'D:\ en el metro console
+SOLUTION
+cd android
+gradlew clean (since other terminal out of vs code)
