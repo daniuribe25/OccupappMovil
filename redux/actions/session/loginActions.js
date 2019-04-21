@@ -8,11 +8,11 @@ export const authenticateUser = loginInfo => (dispach) => {
     type: loginTypes.STORE_LOGIN_INFO,
     payLoad: loginInfo,
   });
-  return authUser({ email: 'dani.uribe21@gmail.com', password: 'daniuribe' });
+  return authUser({ email: 'dani.uribe13@gmail.com', password: 'daniuribeq' });
 };
 
-export const storeUserInfo = userInfo => dispach => dispach({
-  type: loginTypes.STORE_USER_INFO,
+export const storeLoginInfo = userInfo => dispach => dispach({
+  type: loginTypes.STORE_LOGIN_INFO,
   payLoad: userInfo,
 });
 
@@ -22,12 +22,13 @@ export const registerUserInfo = userInfo => (dispach) => {
     payLoad: userInfo,
   });
   userInfo = {
-    email: 'dani.uribe12@gmail.com',
+    email: 'dani.uribe43@gmail.com',
     password: 'daniuribe',
     name: 'Dani',
     lastName: 'Uribe',
     cel: '324235345234',
     birthday: '1993-11-24',
+    profileImage: userInfo.profileImage,
   };
   return registerUser(userInfo);
 };

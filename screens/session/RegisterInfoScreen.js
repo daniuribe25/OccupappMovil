@@ -4,8 +4,7 @@ import { View, Image, Alert } from 'react-native';
 import { Container, Text, Button } from 'native-base';
 import ImagePicker from 'react-native-image-picker';
 import PropTypes from 'prop-types';
-import { storeUserInfo } from '../../redux/actions/session/loginActions';
-import { registerUser } from '../../services/loginServices';
+import { registerUserInfo } from '../../redux/actions/session/loginActions';
 import { commonStyles } from '../../styles/commonStyles';
 import TextInputIcon from '../../components/custom/TextInputIcon';
 import DatePickerIcon from '../../components/custom/DatePickerIcon';
@@ -88,7 +87,7 @@ class RegisterInfo extends Component {
     // if (!this.validateForm(this.state.formData)) return;
 
     const data = this.getFormatData();
-    this.props.registerUser(data)
+    this.props.registerUserInfo(data)
       .then(req => req.json())
       .then((resp) => {
         if (!resp.success) {
@@ -101,10 +100,14 @@ class RegisterInfo extends Component {
       });
   }
 
-  getFormatData = () => ({
-    ...this.props.loginInfo,
-    ...this.state.formData,
-  });
+  getFormatData = () => {
+    const userInfo = this.state.formData;
+    userInfo.birthday = userInfo.birthday instanceof Date ? (userInfo.birthday.toISOString()).substring(0, 10) : '';
+    return {
+      ...this.props.loginInfo,
+      ...userInfo,
+    };
+  };
 
   render() {
     return (
@@ -166,7 +169,7 @@ class RegisterInfo extends Component {
         <BigButtonIcon
           iconName="arrow-forward"
           text={this.props.language.ready}
-          onPress={() => this.loginRegister()}
+          onPress={() => this.onSendInfo()}
         />
       </Container>
     );
@@ -178,7 +181,7 @@ RegisterInfo.propTypes = {
   loginInfo: PropTypes.objectOf(PropTypes.any).isRequired,
   userInfo: PropTypes.objectOf(PropTypes.any).isRequired,
   navigation: PropTypes.objectOf(PropTypes.any).isRequired,
-  registerUser: PropTypes.func.isRequired,
+  registerUserInfo: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -188,7 +191,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispachToProps = {
-  registerUser,
+  registerUserInfo,
 };
 
 export default connect(mapStateToProps, mapDispachToProps)(RegisterInfo);

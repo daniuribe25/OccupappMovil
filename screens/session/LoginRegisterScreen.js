@@ -4,9 +4,8 @@ import { Container, Text } from 'native-base';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import TextInputIcon from '../../components/custom/TextInputIcon';
-import { authenticateUser, storeUserInfo } from '../../redux/actions/session/loginActions';
+import { authenticateUser, storeLoginInfo } from '../../redux/actions/session/loginActions';
 import BigButtonIcon from '../../components/custom/BigButtonIcon';
-import Popup from '../../components/custom/Popup';
 import { commonStyles } from '../../styles/commonStyles';
 
 class LoginRegister extends Component {
@@ -57,7 +56,7 @@ class LoginRegister extends Component {
           console.error(err);
         });
     } else {
-      this.props.storeUserInfo(this.state);
+      this.props.storeLoginInfo(this.state.formData);
       this.props.navigation.push('RegisterInfo');
     }
   }
@@ -117,9 +116,6 @@ class LoginRegister extends Component {
           text={this.props.language[+this.state.formData.type ? 'next' : 'begin']}
           onPress={() => this.loginRegister()}
         />
-        <Popup
-          modalVisible={this.state.modalVisible}
-        />
       </Container>
     );
   }
@@ -130,7 +126,7 @@ LoginRegister.propTypes = {
   loginInfo: PropTypes.objectOf(PropTypes.any).isRequired,
   navigation: PropTypes.objectOf(PropTypes.any).isRequired,
   authenticateUser: PropTypes.func.isRequired,
-  storeUserInfo: PropTypes.func.isRequired,
+  storeLoginInfo: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -140,7 +136,7 @@ const mapStateToProps = state => ({
 
 const mapDispachToProps = {
   authenticateUser,
-  storeUserInfo,
+  storeLoginInfo,
 };
 
 export default connect(mapStateToProps, mapDispachToProps)(LoginRegister);
