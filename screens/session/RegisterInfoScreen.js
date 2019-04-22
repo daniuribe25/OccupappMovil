@@ -4,6 +4,7 @@ import { View, Image, Alert } from 'react-native';
 import { Container, Text, Button } from 'native-base';
 import ImagePicker from 'react-native-image-picker';
 import PropTypes from 'prop-types';
+import { storeLocally } from '../../services/handlers/commonServices';
 import { registerUserInfo } from '../../redux/actions/session/loginActions';
 import { commonStyles } from '../../styles/commonStyles';
 import TextInputIcon from '../../components/custom/TextInputIcon';
@@ -84,7 +85,7 @@ class RegisterInfo extends Component {
   }
 
   onSendInfo = () => {
-    // if (!this.validateForm(this.state.formData)) return;
+    if (!this.validateForm(this.state.formData)) return;
 
     const data = this.getFormatData();
     this.props.registerUserInfo(data)
@@ -94,7 +95,8 @@ class RegisterInfo extends Component {
           Alert.alert('Error', resp.message);
           return;
         }
-        this.props.navigation.push('Tabs');
+        storeLocally('user-data', data);
+        this.props.navigation.navigate('Tabs');
       }).catch((err) => {
         console.error(err);
       });

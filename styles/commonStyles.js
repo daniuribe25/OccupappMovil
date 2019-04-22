@@ -28,6 +28,7 @@ export const commonStyles = StyleSheet.create({
     letterSpacing: 5,
     fontSize: 20,
     height: 25,
+    color: appColors.black,
   },
   backBtnIconContainer: {
     position: 'absolute',
@@ -135,5 +136,9 @@ export const commonStyles = StyleSheet.create({
     width: 85,
     height: 85,
     borderRadius: 50,
+  },
+  centerElement: {
+    flex: 1,
+    justifyContent: 'center',
   },
 });

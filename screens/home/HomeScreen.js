@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Container, Text } from 'native-base';
+import { Container } from 'native-base';
+import { View, Text } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { commonStyles } from '../../styles/commonStyles';
@@ -9,7 +10,9 @@ class HomeScreen extends Component {
   render() {
     return (
       <Container style={commonStyles.container}>
-        <Text>Daniel</Text>
+        <View style={commonStyles.titleContainer}>
+          <Text style={{ ...commonStyles.title, fontWeight: 'bold' }} h1>OCCUPAPP</Text>
+        </View>
       </Container>
     );
   }

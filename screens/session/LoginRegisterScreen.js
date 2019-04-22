@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { View, Alert } from 'react-native';
+import { View, Alert, ToastAndroid } from 'react-native';
 import { Container, Text } from 'native-base';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { storeLocally } from '../../services/handlers/commonServices';
 import TextInputIcon from '../../components/custom/TextInputIcon';
 import { authenticateUser, storeLoginInfo } from '../../redux/actions/session/loginActions';
 import BigButtonIcon from '../../components/custom/BigButtonIcon';
@@ -38,9 +39,8 @@ class LoginRegister extends Component {
   };
 
   loginRegister = () => {
-    // if (!this.validateForm(this.state)) return;
+    if (!this.validateForm(this.state.formData)) return;
 
-    console.log('login   Register');
     if (!+this.state.formData.type) {
       this.props.authenticateUser({
         email: this.state.formData.email,
@@ -51,9 +51,10 @@ class LoginRegister extends Component {
             Alert.alert('Error', resp.message);
             return;
           }
-          this.props.navigation.push('Tabs');
-        }).catch((err) => {
-          console.error(err);
+          storeLocally('user-data', this.state.formData);
+          this.props.navigation.navigate('Tabs');
+        }).catch(() => {
+          ToastAndroid.show('Error 003');
         });
     } else {
       this.props.storeLoginInfo(this.state.formData);

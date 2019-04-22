@@ -41,6 +41,10 @@ click "Debug Js Code"
 go to http://localhost:8081/debugger-ui/
 Ctrl * F12 and debug
 
+// GENERATE APK
+Move keystore file to android/app/ then
+cd android && ./gradlew assembleRelease
+
 //************************ERRORS*****************************
 
 PROBLEM:
@@ -63,3 +67,10 @@ Error: EPERM: operation not permitted, lstat 'D:\ en el metro console
 SOLUTION
 cd android
 gradlew clean (since other terminal out of vs code)
+
+
+ERROR LIST
+001 => commonServices/storeLocally
+002 => commonServices/getFromStorage
+003 => LoginRegister/loginRegister
+004 => commonServices/removeFromStorage

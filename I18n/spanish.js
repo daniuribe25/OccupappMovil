@@ -11,6 +11,7 @@ export const language = {
   cel: 'N° Celular',
   continue: 'Continuemos',
   join: 'Unirme',
+  get_out: 'Salir',
   begin: 'Iniciar',
   ready: 'Listo ?',
   pick_profile_image: 'Elige foto de perfil',
