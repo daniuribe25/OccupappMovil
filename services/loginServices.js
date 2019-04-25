@@ -4,7 +4,7 @@ export const registerUser = (userInfo) => {
   Object.keys(userInfo).forEach((key) => {
     if (key !== 'profileImage') {
       formData.append(key, userInfo[key]);
-    } else {
+    } else if (userInfo.uri) {
       formData.append('profileImage', {
         uri: userInfo[key].uri,
         type: userInfo[key].type,
@@ -26,5 +26,11 @@ export const authUser = (credentials) => {
     method: 'POST',
     body: JSON.stringify(credentials),
     headers: { 'Content-Type': 'application/json' },
+  });
+};
+
+export const getUserByEmail = (email) => {
+  return fetch(`https://occupapp.herokuapp.com/api/usersByEmail/${email}`, {
+    method: 'GET',
   });
 };

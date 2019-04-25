@@ -10,6 +10,7 @@ import { commonStyles } from '../../styles/commonStyles';
 import TextInputIcon from '../../components/custom/TextInputIcon';
 import DatePickerIcon from '../../components/custom/DatePickerIcon';
 import BigButtonIcon from '../../components/custom/BigButtonIcon';
+import Loader from '../../components/custom/Loader';
 import { appColors } from '../../styles/colors';
 
 class RegisterInfo extends Component {
@@ -21,6 +22,7 @@ class RegisterInfo extends Component {
       cel: undefined,
       profileImage: null,
     },
+    showLoader: false,
     textInputStyles: commonStyles.textInput,
     imagePickerBtnStyles: commonStyles.imagePickerBtn,
     imagePickerBtnTextStyles: commonStyles.imagePickerBtnText,
@@ -54,7 +56,9 @@ class RegisterInfo extends Component {
   handleImageFromGallery = () => {
     const options = {};
     const { checked } = appColors;
+    this.showLoader(true);
     ImagePicker.launchImageLibrary(options, (response) => {
+      this.showLoader(false);
       if (response.uri) {
         console.log(response);
         this.setState(prevState => (
@@ -79,8 +83,11 @@ class RegisterInfo extends Component {
     if (!data.name || !data.lastName || !data.birthday || !data.cel) {
       errorMessages.push('Todos los campos son requeridos.');
       isValid = false;
+    } else if (data.cel.length < 10 || !(/^\d+$/.test(data.cel))) {
+      errorMessages.push('Debe ser un número celular válido');
+      isValid = false;
     }
-    errorMessages.forEach(x => alert(x));
+    errorMessages.forEach(x => Alert.alert('Error', x));
     return isValid;
   }
 
@@ -88,14 +95,16 @@ class RegisterInfo extends Component {
     if (!this.validateForm(this.state.formData)) return;
 
     const data = this.getFormatData();
+    this.showLoader(true);
     this.props.registerUserInfo(data)
       .then(req => req.json())
       .then((resp) => {
+        this.showLoader(false);
         if (!resp.success) {
           Alert.alert('Error', resp.message);
           return;
         }
-        storeLocally('user-data', data);
+        // storeLocally('user-data', data);
         this.props.navigation.navigate('Tabs');
       }).catch((err) => {
         console.error(err);
@@ -111,9 +120,20 @@ class RegisterInfo extends Component {
     };
   };
 
+  setDefaultDate = () => {
+    const dt = new Date(Date.now());
+    dt.setDate(dt.getDate() - 6574);
+    return dt;
+  }
+
+  showLoader = (show) => {
+    this.setState(prevState => ({ ...prevState, showLoader: show }));
+  }
+
   render() {
     return (
       <Container style={commonStyles.container}>
+        <Loader show={this.state.showLoader} />
         {/* <BackButton onPress={() => this.props.navigation.pop(1)} /> */}
         <View style={commonStyles.titleContainer}>
           <Text style={{ ...commonStyles.title, fontWeight: 'bold' }} h1>OCCUPAPP</Text>
@@ -125,24 +145,30 @@ class RegisterInfo extends Component {
             placeholder="name"
             value={this.state.formData.name}
             onChangeText={text => this.inputChangeHandler('name', text)}
+            textContentType="givenName"
           />
           <TextInputIcon
             iconName="person"
             placeholder="last_name"
             value={this.state.formData.lastName}
             onChangeText={text => this.inputChangeHandler('lastName', text)}
+            textContentType="familyName"
           />
           <DatePickerIcon
             onDateChange={this.setDate}
             placeHolder={this.props.language.birthday}
             iconName="calendar"
             locale="es"
+            maximumDate={this.setDefaultDate()}
+            defaultDate={this.setDefaultDate()}
           />
           <TextInputIcon
             iconName="call"
             placeholder="cel"
             value={this.state.formData.cel}
             onChangeText={text => this.inputChangeHandler('cel', text)}
+            keyboardType="numeric"
+            textContentType="telephoneNumber"
           />
           <View style={commonStyles.imagePickerContainer}>
             <Button

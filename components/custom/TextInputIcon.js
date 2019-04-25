@@ -36,6 +36,8 @@ class TextInputIcon extends Component {
           onBlur={() => { this.onBlurTextInput(); }}
           value={this.props.value}
           secureTextEntry={this.props.secureTextEntry}
+          keyboardType={this.props.keyboardType}
+          maxLength={30}
         />
       </View>
     );
@@ -47,6 +49,7 @@ TextInputIcon.defaultProps = {
   iconName: '',
   textPadding: 10,
   value: '',
+  keyboardType: 'default',
 };
 
 TextInputIcon.propTypes = {
@@ -56,6 +59,7 @@ TextInputIcon.propTypes = {
   iconName: PropTypes.string,
   textPadding: PropTypes.number,
   value: PropTypes.string,
+  keyboardType: PropTypes.string,
 };
 
 const mapStateToProps = state => ({

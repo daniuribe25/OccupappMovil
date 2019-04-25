@@ -18,11 +18,12 @@ class DatePickerIcon extends Component {
           />
         ) : null}
         <DatePicker
-          defaultDate={Date.now()}
+          defaultDate={this.props.defaultDate}
           locale={this.props.locale}
           timeZoneOffsetInMinutes={undefined}
           animationType="slide"
           androidMode="default"
+          maximumDate={this.props.maximumDate}
           placeHolderText={this.props.placeHolder}
           textStyle={commonStyles.timePickerInput}
           placeHolderTextStyle={{ ...commonStyles.timePickerInput, color: appColors.placeHolder }}
@@ -38,11 +39,15 @@ DatePickerIcon.defaultProps = {
   iconName: '',
   onDateChange: () => {},
   placeHolder: '',
+  maximumDate: undefined,
+  defaultDate: undefined,
 };
 
 DatePickerIcon.propTypes = {
   onDateChange: PropTypes.func,
   iconName: PropTypes.string,
+  maximumDate: PropTypes.instanceOf(Date),
+  defaultDate: PropTypes.instanceOf(Date),
   placeHolder: PropTypes.string,
   locale: PropTypes.string.isRequired,
 };

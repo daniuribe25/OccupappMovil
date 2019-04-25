@@ -142,3 +142,17 @@ export const commonStyles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+
+export const loaderStyles = {
+  container: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: appColors.grey,
+    opacity: 0.3,
+    zIndex: 1000,
+  },
+};
