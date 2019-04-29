@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import { Button, Text } from 'native-base';
-import { Icon } from 'react-native-elements';
+import { Button, Text, Icon } from 'native-base';
+// import { Icon } from 'react-native-elements';
 import PropTypes from 'prop-types';
 import { commonStyles } from '../../styles/commonStyles';
 import { appColors } from '../../styles/colors';
@@ -9,7 +9,7 @@ import { appColors } from '../../styles/colors';
 class BigButtonIcon extends Component {
   render() {
     return (
-      <View style={commonStyles.btnContainer}>
+      <View style={{ ...commonStyles.btnContainer, ...this.props.btnContainerStyle }}>
         <Button
           style={{ ...commonStyles.btn, ...this.props.btnStyle }}
           iconRight
@@ -19,7 +19,7 @@ class BigButtonIcon extends Component {
             <Text style={commonStyles.btnText}>{this.props.text}</Text>
           ) : null}
           {this.props.iconName ? (
-            <Icon name={this.props.iconName} color={appColors.white} />
+            <Icon name={this.props.iconName} color={appColors.white} type={this.props.iconType} />
           ) : null}
         </Button>
       </View>
@@ -31,6 +31,8 @@ BigButtonIcon.defaultProps = {
   text: '',
   iconName: undefined,
   btnStyle: {},
+  iconType: 'Ionicons',
+  btnContainerStyle: {},
 };
 
 BigButtonIcon.propTypes = {
@@ -38,6 +40,8 @@ BigButtonIcon.propTypes = {
   iconName: PropTypes.string,
   text: PropTypes.string,
   btnStyle: PropTypes.objectOf(PropTypes.any),
+  btnContainerStyle: PropTypes.objectOf(PropTypes.any),
+  iconType: PropTypes.string,
 };
 
 export default BigButtonIcon;

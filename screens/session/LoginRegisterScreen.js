@@ -4,12 +4,14 @@ import { Container, Text } from 'native-base';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { storeLocally } from '../../services/handlers/commonServices';
+import FacebookButton from '../../services/handlers/facebookService';
 import TextInputIcon from '../../components/custom/TextInputIcon';
 import { authenticateUser, storeLoginInfo } from '../../redux/actions/session/loginActions';
-import { getUserByEmail } from '../../services/loginServices';
+import { getUserByEmail, registerUser } from '../../services/loginServices';
 import BigButtonIcon from '../../components/custom/BigButtonIcon';
 import Loader from '../../components/custom/Loader';
 import { commonStyles } from '../../styles/commonStyles';
+import { sessionStyles } from '../../styles/sessionStyles';
 
 class LoginRegister extends Component {
   state = {
@@ -44,7 +46,7 @@ class LoginRegister extends Component {
   }
 
   loginRegister = () => {
-    // if (!this.validateForm(this.state.formData)) return;
+    if (!this.validateForm(this.state.formData)) return;
 
     if (!+this.state.formData.type) {
       this.showLoader(true);
@@ -58,7 +60,7 @@ class LoginRegister extends Component {
             Alert.alert('Error', resp.message);
             return;
           }
-          // storeLocally('user-data', this.state.formData);
+          storeLocally('user-data', this.state.formData);
           this.props.navigation.navigate('Tabs');
         }).catch(() => {
           ToastAndroid.show('Error 003', ToastAndroid.LONG);
@@ -66,6 +68,18 @@ class LoginRegister extends Component {
     } else {
       this.checkDuplicatedEmail();
     }
+  }
+
+  facebookLogin = (user) => {
+    registerUser(user)
+      .then(req => req.json())
+      .then((resp) => {
+        if (!resp.success) {
+          Alert.alert('Error', resp.message);
+          return;
+        }
+        storeLocally('user-data', user);
+      });
   }
 
   redirectToRegister = () => {
@@ -119,11 +133,14 @@ class LoginRegister extends Component {
     return isValid;
   }
 
+  rememberPass = () => {
+    this.props.navigation.push('RememberPassword');
+  }
+
   render() {
     return (
       <Container style={commonStyles.container}>
         <Loader show={this.state.showLoader} />
-        {/* <BackButton onPress={() => this.props.navigation.navigate('Welcome')} /> */}
         <View style={commonStyles.titleContainer}>
           <Text style={{ ...commonStyles.title, fontWeight: 'bold' }} h1>OCCUAPP</Text>
         </View>
@@ -155,10 +172,25 @@ class LoginRegister extends Component {
           ) : null}
         </View>
         <BigButtonIcon
-          iconName="arrow-forward"
+          iconName="sign-in"
+          iconType="FontAwesome"
           text={this.props.language[+this.state.formData.type ? 'next' : 'begin']}
           onPress={() => this.loginRegister()}
+          btnContainerStyle={{ paddingTop: 40, paddingBottom: 15 }}
         />
+        {!+this.state.formData.type && (
+          <View style={sessionStyles.rememberPasswordLink}>
+            <Text style={sessionStyles.rememberPasswordLinkText} onPress={() => this.rememberPass()}>
+              {this.props.language['recover_pass']}
+            </Text>
+          </View>
+        )}
+        <View style={sessionStyles.continueWith}>
+          <Text style={sessionStyles.continueWithText}>
+            {this.props.language[+this.state.formData.type ? 'register_with' : 'continue_with']}
+          </Text>
+        </View>
+        <FacebookButton login={this.facebookLogin} />
       </Container>
     );
   }

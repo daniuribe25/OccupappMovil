@@ -9,4 +9,5 @@ export const appColors = {
   wrong: '#e51635',
   grey: '#827878',
   black: '#000000',
+  fb: '#4267B2',
 };

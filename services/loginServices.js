@@ -23,6 +23,7 @@ export const registerUser = (userInfo) => {
 
 export const authUser = (credentials) => {
   return fetch('https://occupapp.herokuapp.com/api/authUser', {
+  // return fetch('http://10.0.2.2:3000/api/authUser', {
     method: 'POST',
     body: JSON.stringify(credentials),
     headers: { 'Content-Type': 'application/json' },
@@ -31,6 +32,13 @@ export const authUser = (credentials) => {
 
 export const getUserByEmail = (email) => {
   return fetch(`https://occupapp.herokuapp.com/api/usersByEmail/${email}`, {
+    method: 'GET',
+  });
+};
+
+export const recoverPassword = (email) => {
+  return fetch(`https://occupapp.herokuapp.com/api/recoverPassword/${email}`, {
+  // return fetch(`http://10.0.2.2:3000/api/recoverPassword/${email}`, {
     method: 'GET',
   });
 };
