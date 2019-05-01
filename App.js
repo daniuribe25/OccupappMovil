@@ -8,11 +8,13 @@ import Welcome from './screens/session/WelcomeScreen';
 import Tabs from './screens/home/index';
 import LoginRegister from './screens/session/LoginRegisterScreen';
 import RegisterInfo from './screens/session/RegisterInfoScreen';
+import RememberPassword from './screens/session/RememberPassword';
 
 const WelcomeStack = createStackNavigator({
   Welcome,
   LoginRegister,
   RegisterInfo,
+  RememberPassword,
 }, {
   initialRouteName: 'Welcome',
   defaultNavigationOptions: {

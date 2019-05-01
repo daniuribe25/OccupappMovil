@@ -14,7 +14,12 @@ export const language = {
   get_out: 'Salir',
   begin: 'Iniciar',
   ready: 'Listo ?',
+  facebook_button: 'Facebook',
   pick_profile_image: 'Elige foto de perfil',
+  continue_with: 'Continuar con',
+  register_with: 'Registrarme con',
+  recover_pass: 'Recuperar contraseña',
+  recover: 'Recuperar',
   // Document types
   document_id: 'Cedula',
   foreign_id: 'Extrangería',

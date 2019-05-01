@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Text, Container, Button } from 'native-base';
+import { NavigationActions } from 'react-navigation';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -11,7 +12,16 @@ class Profile extends Component {
 
   logOut = () => {
     // removeFromStorage('user-data');
-    this.props.navigation.navigate('LoadingAuth');
+    const resetAction = NavigationActions.reset({
+      index: 0,
+      actions: [
+        NavigationActions.navigate({ routeName: 'Welcome' })
+      ],
+    });
+    this.props.navigation.dispatch(resetAction);
+    this.props.navigation.goBack(null);
+    // this.props.rootNavigation.navigation.navigate('WelcomeStack')
+    // this.props.navigation.navigate('WelcomeStack');
   }
 
   render() {

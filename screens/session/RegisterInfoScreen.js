@@ -21,6 +21,7 @@ class RegisterInfo extends Component {
       birthday: new Date(),
       cel: undefined,
       profileImage: null,
+      loginType: 'LO',
     },
     showLoader: false,
     textInputStyles: commonStyles.textInput,
@@ -104,7 +105,7 @@ class RegisterInfo extends Component {
           Alert.alert('Error', resp.message);
           return;
         }
-        // storeLocally('user-data', data);
+        storeLocally('user-data', data);
         this.props.navigation.navigate('Tabs');
       }).catch((err) => {
         console.error(err);
@@ -134,7 +135,6 @@ class RegisterInfo extends Component {
     return (
       <Container style={commonStyles.container}>
         <Loader show={this.state.showLoader} />
-        {/* <BackButton onPress={() => this.props.navigation.pop(1)} /> */}
         <View style={commonStyles.titleContainer}>
           <Text style={{ ...commonStyles.title, fontWeight: 'bold' }} h1>OCCUPAPP</Text>
         </View>
