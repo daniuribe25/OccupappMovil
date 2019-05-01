@@ -24,7 +24,7 @@ class FacebookButton extends PureComponent {
         accessToken,
         parameters: {
           fields: {
-            string: 'email,name,first_name,middle_name,last_name,birthday,location,hometown,picture',
+            string: 'email,name,first_name,middle_name,last_name,birthday',
           },
         },
       },
@@ -60,7 +60,7 @@ class FacebookButton extends PureComponent {
   });
 
   handleFacebookLogin = () => {
-    LoginManager.logInWithReadPermissions(['public_profile', 'email', 'user_friends', 'user_birthday', 'user_location']).then(
+    LoginManager.logInWithReadPermissions(['public_profile', 'email', 'user_birthday']).then(
       (result) => {
         if (result.isCancelled) {
           ToastAndroid.show('Login con facebook cancelado', ToastAndroid.LONG);
@@ -79,7 +79,7 @@ class FacebookButton extends PureComponent {
       () => {
         ToastAndroid.show('005', ToastAndroid.LONG);
       },
-    );
+    ).catch(err => ToastAndroid.show(err, ToastAndroid.LONG));
   }
 
   render = () => (

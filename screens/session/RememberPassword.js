@@ -35,7 +35,7 @@ class RememberPassword extends Component {
           Alert.alert('Error', resp.message);
         } else {
           Alert.alert(
-            'Error',
+            'Listo',
             'Se ha enviado un email con tu nueva contraseña, por favor después de ingresar cambiala desde la opción de ajustes',
             [{ text: 'OK', onPress: () => this.props.navigation.goBack() }],
           );
