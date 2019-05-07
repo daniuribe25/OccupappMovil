@@ -61,7 +61,7 @@ class LoginRegister extends Component {
             return;
           }
           storeLocally('user-data', this.state.formData);
-          this.props.navigation.navigate('Tabs');
+          this.props.navigation.navigate('TabsNavigator');
         }).catch(() => {
           ToastAndroid.show('Error 003', ToastAndroid.LONG);
         });

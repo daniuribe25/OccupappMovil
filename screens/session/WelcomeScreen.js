@@ -15,7 +15,7 @@ class Welcome extends Component {
       <React.Fragment>
         <ImageBackground source={backgroudSource} style={{ width: '100%', height: '100%' }}>
           <View style={commonStyles.welcomeTitleContainer}>
-            <Text style={{ ...commonStyles.welcomeTitle, fontWeight: 'bold' }} h1>OCCU34PAPP</Text>
+            <Text style={{ ...commonStyles.welcomeTitle, fontWeight: 'bold' }} h1>OCCUPAPP</Text>
           </View>
           <View style={sessionStyles.welcomeBtnsContainer}>
             <View style={sessionStyles.welcomeBtnsContent}>

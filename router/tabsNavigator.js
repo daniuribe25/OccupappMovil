@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
+import React from 'react';
+import { createBottomTabNavigator } from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import Home from './HomeScreen';
-import Profile from '../profile/Profile';
-import { appColors } from '../../styles/colors';
+import Home from '../screens/home/HomeScreen';
+import Profile from '../screens/profile/Profile';
+import { appColors } from '../styles/colors';
 
-const SettingsTabs = createAppContainer(createBottomTabNavigator({
+const TabsNavigator = createBottomTabNavigator({
   Home: {
     screen: Home,
     navigationOptions: {
@@ -44,14 +44,6 @@ const SettingsTabs = createAppContainer(createBottomTabNavigator({
   },
 }, {
   tabBarOptions: { showLabel: false },
-}));
+});
 
-export default class Tabs extends Component {
-  render() {
-    return (
-      <SettingsTabs />
-    );
-  }
-}
-// Issue: the tab navigator needs to be wrapped inside a stack navigator
-// export default createStackNavigator({ SettingsTabs }, { headerMode: 'none' });
+export default TabsNavigator;

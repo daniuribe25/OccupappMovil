@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text, Container, Button } from 'native-base';
-import { NavigationActions } from 'react-navigation';
+// import { NavigationActions } from 'react-navigation';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -9,19 +9,9 @@ import { commonStyles } from '../../styles/commonStyles';
 import { removeFromStorage } from '../../services/handlers/commonServices';
 
 class Profile extends Component {
-
   logOut = () => {
-    // removeFromStorage('user-data');
-    const resetAction = NavigationActions.reset({
-      index: 0,
-      actions: [
-        NavigationActions.navigate({ routeName: 'Welcome' })
-      ],
-    });
-    this.props.navigation.dispatch(resetAction);
-    this.props.navigation.goBack(null);
-    // this.props.rootNavigation.navigation.navigate('WelcomeStack')
-    // this.props.navigation.navigate('WelcomeStack');
+    removeFromStorage('user-data');
+    this.props.navigation.navigate('LoginNavigator');
   }
 
   render() {

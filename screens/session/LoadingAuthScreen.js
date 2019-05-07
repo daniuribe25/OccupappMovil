@@ -12,7 +12,7 @@ export default class LoadingAuth extends Component {
 
   bootstrapAsync = async () => {
     const userData = await getFromStorage('user-data');
-    this.props.navigation.navigate(!userData ? 'WelcomeStack' : 'Tabs', { screenPropssss: this.props.navigation });
+    this.props.navigation.navigate(!userData ? 'LoginNavigator' : 'TabsNavigator', { screenPropssss: this.props.navigation });
   };
 
   render() {

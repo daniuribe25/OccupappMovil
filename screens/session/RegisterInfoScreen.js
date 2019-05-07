@@ -106,7 +106,7 @@ class RegisterInfo extends Component {
           return;
         }
         storeLocally('user-data', data);
-        this.props.navigation.navigate('Tabs');
+        this.props.navigation.navigate('TabsNavigator');
       }).catch((err) => {
         console.error(err);
       });
