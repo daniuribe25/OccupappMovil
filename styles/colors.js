@@ -8,6 +8,8 @@ export const appColors = {
   checked: '#70bf16',
   wrong: '#e51635',
   grey: '#827878',
+  mediumGrey: '#bababa',
+  lightGrey: '#ededed',
   black: '#000000',
   fb: '#4267B2',
 };

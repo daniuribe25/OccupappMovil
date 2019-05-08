@@ -5,6 +5,7 @@ import RootNavigator from './router/rootNavigator';
 
 export default class App extends Component {
   render() {
+    console.disableYellowBox = true;
     return (
       <Provider store={store}>
         <RootNavigator />

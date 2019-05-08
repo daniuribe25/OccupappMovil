@@ -12,7 +12,7 @@ const TabsNavigator = createBottomTabNavigator({
       tabBarIcon: ({ focused }) => (
         <Icon
           name="home"
-          size={25}
+          size={20}
           color={focused ? appColors.primary : appColors.grey}
         />
       ),
@@ -24,7 +24,7 @@ const TabsNavigator = createBottomTabNavigator({
       tabBarIcon: ({ focused }) => (
         <Icon
           name="wallet"
-          size={25}
+          size={20}
           color={focused ? appColors.primary : appColors.grey}
         />
       ),
@@ -36,7 +36,7 @@ const TabsNavigator = createBottomTabNavigator({
       tabBarIcon: ({ focused }) => (
         <Icon
           name="user"
-          size={25}
+          size={20}
           color={focused ? appColors.primary : appColors.grey}
         />
       ),
