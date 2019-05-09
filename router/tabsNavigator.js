@@ -1,13 +1,13 @@
 import React from 'react';
 import { createBottomTabNavigator } from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import Home from '../screens/home/HomeScreen';
+import homeNavigator from '../router/homeNavigator';
 import Profile from '../screens/profile/Profile';
 import { appColors } from '../styles/colors';
 
 const TabsNavigator = createBottomTabNavigator({
   Home: {
-    screen: Home,
+    screen: homeNavigator,
     navigationOptions: {
       tabBarIcon: ({ focused }) => (
         <Icon
@@ -19,7 +19,7 @@ const TabsNavigator = createBottomTabNavigator({
     },
   },
   Wallet: {
-    screen: Home,
+    screen: Profile,
     navigationOptions: {
       tabBarIcon: ({ focused }) => (
         <Icon

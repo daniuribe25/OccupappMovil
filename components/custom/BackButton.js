@@ -20,7 +20,7 @@ class BackButton extends Component {
             name="arrow-circle-left"
             style={commonStyles.backBtnIcon}
             color={appColors.primary}
-            size={40}
+            size={30}
           />
         </Button>
       </View>

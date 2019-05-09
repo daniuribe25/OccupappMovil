@@ -20,6 +20,7 @@ export const language = {
   register_with: 'Registrarme con',
   recover_pass: 'Recuperar contraseña',
   recover: 'Recuperar',
+  quote: 'Cotizar',
   // Document types
   document_id: 'Cedula',
   foreign_id: 'Extrangería',

@@ -18,7 +18,7 @@ export default class LoadingAuth extends Component {
   render() {
     return (
       <View style={commonStyles.centerElement}>
-        <ActivityIndicator color={appColors.primary} size="large" />
+        <ActivityIndicator color={appColors.primary} style={{ zIndex: 100 }} size="large" />
         <StatusBar barStyle="default" />
       </View>
     );

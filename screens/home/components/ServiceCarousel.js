@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import Carousel from 'react-native-snap-carousel';
-import { View, Dimensions, Text, StyleSheet, Image } from 'react-native';
+import { View, Dimensions, Text, StyleSheet, Image, TouchableHighlight } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { carouselStyles } from '../../styles/carouselStyles';
+import { carouselStyles } from '../../../styles/carouselStyles';
+import { appColors } from '../../../styles/colors';
 
-// const sliderWidth = Dimensions.get('screen').width;
 const horizontalMargin = 0;
 const slideWidth = 300;
 
@@ -20,19 +21,31 @@ const styles = StyleSheet.create({
 
 class ServiceCarousel extends Component {
   renderItem = ({ item }) => {
-    const { media, name, service } = item;
-    // const mediaUri = require(`${media}`);
+    const { media, name, service, rating } = item;
     return (
       <View style={{ ...styles.slide, ...carouselStyles.slide }}>
         <View style={{ ...styles.slideInnerContainer, ...carouselStyles.slideInnerContainer }}>
-          <Image source={{ uri: media }} style={carouselStyles.image} />
+          <TouchableHighlight
+            onPress={() => this.props.navigation.navigate('ServiceDetails', { service: item })}
+          >
+            <Image
+              source={{ uri: media[0] }}
+              style={carouselStyles.image}
+            />
+          </TouchableHighlight>
           <View style={carouselStyles.descriptionContainer}>
             <View style={carouselStyles.serviceNamePanel}>
               <Text style={carouselStyles.serviceText}>{ service }</Text>
               <Text style={carouselStyles.userNameText}>{ name }</Text>
             </View>
             <View style={carouselStyles.ratingPanel}>
-              <Text style={carouselStyles.ratingText}>4.3**</Text>
+              <Text style={carouselStyles.ratingText}>{rating}</Text>
+              <Icon
+                style={carouselStyles.ratingIcon}
+                name="star"
+                size={18}
+                color={appColors.primary}
+              />
             </View>
           </View>
         </View>
@@ -50,7 +63,8 @@ class ServiceCarousel extends Component {
       itemHeight={340}
       layout="default"
       autoplay
-      autoplayInterval={3000}
+      loop
+      autoplayInterval={Math.random() * (6000 - 3000) + 3000}
       slideStyle="Animated"
     />
   );
