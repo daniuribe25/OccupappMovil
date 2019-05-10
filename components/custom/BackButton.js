@@ -17,7 +17,7 @@ class BackButton extends Component {
         >
           <Icon
             type="font-awesome"
-            name="arrow-circle-left"
+            name={this.props.icon}
             style={commonStyles.backBtnIcon}
             color={appColors.primary}
             size={30}
@@ -27,9 +27,13 @@ class BackButton extends Component {
     );
   }
 }
+BackButton.defaultProps = {
+  icon: 'arrow-left',
+};
 
 BackButton.propTypes = {
   onPress: PropTypes.func.isRequired,
+  icon: PropTypes.string,
 };
 
 export default BackButton;

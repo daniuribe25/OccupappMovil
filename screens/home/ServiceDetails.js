@@ -30,7 +30,7 @@ class ServiceDetails extends Component {
     return (
       <View style={{ ...styles.slide, ...servicesStyles.slide }}>
         <View style={{ ...styles.slideInnerContainer, ...servicesStyles.slideInnerContainer }}>
-          <Image source={{ uri: media[0] }} style={servicesStyles.image} />
+          <Image source={{ uri: media[0] }} style={servicesStyles.image} blurRadius={1} />
           <View style={servicesStyles.titleContainer}>
             <View style={servicesStyles.serviceNamePanel}>
               <Text style={servicesStyles.serviceText}>{ service }</Text>
@@ -53,6 +53,7 @@ class ServiceDetails extends Component {
             text={this.props.language['quote']}
             btnStyle={{ flexBasis: '75%', justifyContent: 'center', borderRadius: 20, marginTop: -20 }}
             onPress={() => Alert.alert('Información', 'Viene pronto')}
+            icon="arrow-circle-left"
           />
         </View>
       </View>

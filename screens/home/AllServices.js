@@ -9,10 +9,8 @@ import { appColors } from '../../styles/colors';
 import { commonStyles } from '../../styles/commonStyles';
 import BackButton from '../../components/custom/BackButton';
 
-const horizontalMargin = 0;
-
 const sliderWidth = Dimensions.get('window').width;
-const itemWidth = sliderWidth + horizontalMargin * 2;
+const itemWidth = sliderWidth;
 const itemHeight = 230;
 
 const styles = StyleSheet.create({

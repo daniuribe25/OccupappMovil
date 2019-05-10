@@ -6,6 +6,8 @@ export const servicesStyles = StyleSheet.create({
     paddingHorizontal: -25,
     borderRadius: 3,
     marginBottom: 20,
+    height: 270,
+    backgroundColor: 'rgba(0,0,0,.6)',
   },
   slideInnerContainer: {
     flex: 1,
@@ -13,6 +15,7 @@ export const servicesStyles = StyleSheet.create({
   image: {
     width: '100%',
     height: 270,
+    opacity: 0.7,
   },
   titleContainer: {
     display: 'flex',

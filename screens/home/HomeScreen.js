@@ -183,7 +183,7 @@ class HomeScreen extends Component {
       <Container style={commonStyles.container}>
         <ScrollView>
           <View style={commonStyles.titleContainer}>
-            <Text style={{ ...commonStyles.title, fontWeight: 'bold' }} h1>OCCUPAPP</Text>
+            <Text style={{ ...commonStyles.title, fontWeight: 'bold' }} h1>OCCUPeAPP</Text>
             {this.searchInput()}
             {this.createCarousels()}
           </View>
