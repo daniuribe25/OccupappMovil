@@ -1,15 +1,14 @@
 export const registerUser = (userInfo) => {
   const formData = new FormData();
-
   Object.keys(userInfo).forEach((key) => {
-    if (key !== 'profileImage') {
-      formData.append(key, userInfo[key]);
-    } else if (userInfo.uri) {
+    if (userInfo[key].uri) {
       formData.append('profileImage', {
         uri: userInfo[key].uri,
         type: userInfo[key].type,
         name: userInfo[key].fileName,
       });
+    } else {
+      formData.append(key, userInfo[key]);
     }
   });
 

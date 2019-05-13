@@ -1,6 +1,7 @@
+/* eslint-disable camelcase */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Image, Alert } from 'react-native';
+import { View, Image, Alert, ToastAndroid } from 'react-native';
 import { Container, Text, Button } from 'native-base';
 import ImagePicker from 'react-native-image-picker';
 import PropTypes from 'prop-types';
@@ -16,26 +17,21 @@ import { appColors } from '../../styles/colors';
 class RegisterInfo extends Component {
   state = {
     formData: {
-      name: '',
-      lastName: '',
-      birthday: new Date(),
-      cel: undefined,
-      profileImage: null,
-      loginType: 'LO',
+      ...{
+        name: '',
+        lastName: '',
+        birthday: new Date(),
+        cel: undefined,
+        profileImage: null,
+        loginType: 'CL', // common login
+      },
+      ...this.props.navigation.getParam('loginInfo'),
     },
     showLoader: false,
     textInputStyles: commonStyles.textInput,
     imagePickerBtnStyles: commonStyles.imagePickerBtn,
     imagePickerBtnTextStyles: commonStyles.imagePickerBtnText,
-  }
-
-  componentWillReceiveProps = (nextProps) => {
-    if (Object.keys(nextProps.userInfo).length > 0) {
-      this.setState(prevState => ({
-        ...prevState,
-        formData: nextProps.userInfo,
-      }));
-    }
+    registerType: this.props.navigation.getParam('type'),
   }
 
   setDate(newDate) {
@@ -44,6 +40,15 @@ class RegisterInfo extends Component {
         formData: { ...prevState.formData, birthday: newDate },
       }
     ));
+  }
+
+  UNSAFE_componentWillReceiveProps = (nextProps) => {
+    if (Object.keys(nextProps.userInfo).length > 0) {
+      this.setState(prevState => ({
+        ...prevState,
+        formData: nextProps.userInfo,
+      }));
+    }
   }
 
   inputChangeHandler = (name, value) => {
@@ -81,7 +86,8 @@ class RegisterInfo extends Component {
     let isValid = true;
     const errorMessages = [];
 
-    if (!data.name || !data.lastName || !data.birthday || !data.cel) {
+    if (((!data.name || !data.lastName) && this.state.registerType === 'CL')
+    || !data.birthday || !data.cel) {
       errorMessages.push('Todos los campos son requeridos.');
       isValid = false;
     } else if (data.cel.length < 10 || !(/^\d+$/.test(data.cel))) {
@@ -97,7 +103,7 @@ class RegisterInfo extends Component {
 
     const data = this.getFormatData();
     this.showLoader(true);
-    this.props.registerUserInfo(data)
+    this.props.registerUserInfo(data, false)
       .then(req => req.json())
       .then((resp) => {
         this.showLoader(false);
@@ -107,8 +113,9 @@ class RegisterInfo extends Component {
         }
         storeLocally('user-data', data);
         this.props.navigation.navigate('TabsNavigator');
-      }).catch((err) => {
-        console.error(err);
+      }).catch(() => {
+        this.showLoader(false);
+        ToastAndroid.show('Error 008', ToastAndroid.LONG);
       });
   }
 
@@ -140,20 +147,24 @@ class RegisterInfo extends Component {
         </View>
 
         <View style={commonStyles.inputContainer}>
-          <TextInputIcon
-            iconName="person"
-            placeholder="name"
-            value={this.state.formData.name}
-            onChangeText={text => this.inputChangeHandler('name', text)}
-            textContentType="givenName"
-          />
-          <TextInputIcon
-            iconName="person"
-            placeholder="last_name"
-            value={this.state.formData.lastName}
-            onChangeText={text => this.inputChangeHandler('lastName', text)}
-            textContentType="familyName"
-          />
+          {this.state.registerType === 'CL' && (
+            <React.Fragment>
+              <TextInputIcon
+                iconName="person"
+                placeholder="name"
+                value={this.state.formData.name}
+                onChangeText={text => this.inputChangeHandler('name', text)}
+                textContentType="givenName"
+              />
+              <TextInputIcon
+                iconName="person"
+                placeholder="last_name"
+                value={this.state.formData.lastName}
+                onChangeText={text => this.inputChangeHandler('lastName', text)}
+                textContentType="familyName"
+              />
+            </React.Fragment>
+          )}
           <DatePickerIcon
             onDateChange={this.setDate}
             placeHolder={this.props.language.birthday}
@@ -170,29 +181,31 @@ class RegisterInfo extends Component {
             keyboardType="numeric"
             textContentType="telephoneNumber"
           />
-          <View style={commonStyles.imagePickerContainer}>
-            <Button
-              bordered
-              title=""
-              style={this.state.imagePickerBtnStyles}
-              onPress={() => this.handleImageFromGallery()}
-            >
-              <Text
-                style={this.state.imagePickerBtnTextStyles}
-                uppercase={false}
+          {this.state.registerType === 'CL' && (
+            <View style={commonStyles.imagePickerContainer}>
+              <Button
+                bordered
+                title=""
+                style={this.state.imagePickerBtnStyles}
+                onPress={() => this.handleImageFromGallery()}
               >
-                {this.props.language.pick_profile_image}
-              </Text>
-            </Button>
-            { this.state.formData.profileImage && (
-              <View style={commonStyles.imagePickerShowedContainer}>
-                <Image
-                  style={commonStyles.imagePickerShowed}
-                  source={{ uri: this.state.formData.profileImage.uri }}
-                />
-              </View>
-            )}
-          </View>
+                <Text
+                  style={this.state.imagePickerBtnTextStyles}
+                  uppercase={false}
+                >
+                  {this.props.language.pick_profile_image}
+                </Text>
+              </Button>
+              { this.state.formData.profileImage && (
+                <View style={commonStyles.imagePickerShowedContainer}>
+                  <Image
+                    style={commonStyles.imagePickerShowed}
+                    source={{ uri: this.state.formData.profileImage.uri }}
+                  />
+                </View>
+              )}
+            </View>
+          )}
         </View>
         <BigButtonIcon
           iconName="arrow-forward"
@@ -207,7 +220,6 @@ class RegisterInfo extends Component {
 RegisterInfo.propTypes = {
   language: PropTypes.objectOf(PropTypes.string).isRequired,
   loginInfo: PropTypes.objectOf(PropTypes.any).isRequired,
-  userInfo: PropTypes.objectOf(PropTypes.any).isRequired,
   navigation: PropTypes.objectOf(PropTypes.any).isRequired,
   registerUserInfo: PropTypes.func.isRequired,
 };

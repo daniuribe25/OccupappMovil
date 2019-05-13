@@ -10,19 +10,17 @@ import { commonStyles } from '../../styles/commonStyles';
 import BackButton from '../../components/custom/BackButton';
 
 const sliderWidth = Dimensions.get('window').width;
-const itemWidth = sliderWidth;
-const itemHeight = 230;
+const itemWidth = sliderWidth - (sliderWidth * 0.12);
 
 const styles = StyleSheet.create({
-  slide: { width: itemWidth, height: itemHeight, flexGrow: 1, justifyContent: 'center' },
-  slideInnerContainer: { width: sliderWidth },
+  slide: { width: sliderWidth, height: 240, justifyContent: 'center', alignItems: 'center', paddingBottom: 10 },
+  slideInnerContainer: { width: itemWidth },
 });
 
 class AllServices extends Component {
   state = {
     services: this.props.navigation.getParam('services'),
   }
-
 
   renderItem = ({ item }) => {
     const { media, name, service, rating } = item;

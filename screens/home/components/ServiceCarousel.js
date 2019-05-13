@@ -8,9 +8,9 @@ import { carouselStyles } from '../../../styles/carouselStyles';
 import { appColors } from '../../../styles/colors';
 
 const horizontalMargin = 0;
-const slideWidth = 300;
 
 const sliderWidth = Dimensions.get('window').width;
+const slideWidth = sliderWidth - (sliderWidth * 0.15);
 const itemWidth = slideWidth + horizontalMargin * 2;
 const itemHeight = 230;
 

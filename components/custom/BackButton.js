@@ -19,21 +19,24 @@ class BackButton extends Component {
             type="font-awesome"
             name={this.props.icon}
             style={commonStyles.backBtnIcon}
-            color={appColors.primary}
-            size={30}
+            color={this.props.color}
+            size={25}
           />
         </Button>
       </View>
     );
   }
 }
+
 BackButton.defaultProps = {
-  icon: 'arrow-left',
+  icon: 'arrow-circle-left',
+  color: appColors.primary,
 };
 
 BackButton.propTypes = {
   onPress: PropTypes.func.isRequired,
   icon: PropTypes.string,
+  color: PropTypes.string,
 };
 
 export default BackButton;

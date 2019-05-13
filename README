@@ -75,4 +75,6 @@ ERROR LIST
 003 => LoginRegister/loginRegister
 004 => commonServices/removeFromStorage
 005 => facebookService/handleFacebookLogin
-06 => rememberPassword/recoverPass
+006 => rememberPassword/recoverPass
+007 => LoginRegister/facebookLogin
+008 => RegisterInfo/onSendInfo

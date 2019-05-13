@@ -25,7 +25,7 @@ class HomeScreen extends Component {
     {
       service: 'Plomería',
       name: 'Daniel Uribe Londono',
-      media: ['https://res.cloudinary.com/occupapp/image/upload/v1555988013/ProfileImages/2019-04-23T02-53-09.218Z_IMG_20190418_185108_630_nhq3hm.jpg'],
+      media: ['https://res.cloudinary.com/occupapp/image/upload/v1555879036/ProfileImages/2019-04-21T20-37-14.694Z_FB_IMG_1553616485773_vkpms5.jpg'],
       category: 'Hogar',
       rating: 0.3,
       description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum',
@@ -49,7 +49,7 @@ class HomeScreen extends Component {
     {
       name: 'Santiago Lince',
       service: 'Reparación de ventanas',
-      media: ['https://res.cloudinary.com/occupapp/image/upload/v1555988013/ProfileImages/2019-04-23T02-53-09.218Z_IMG_20190418_185108_630_nhq3hm.jpg'],
+      media: ['https://res.cloudinary.com/occupapp/image/upload/v1555879036/ProfileImages/2019-04-21T20-37-14.694Z_FB_IMG_1553616485773_vkpms5.jpg'],
       category: 'Hogar',
       rating: '5.0',
       description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum',
@@ -57,7 +57,7 @@ class HomeScreen extends Component {
     {
       name: 'Laura Bedoya Peña',
       service: 'Manicure y pedicure',
-      media: ['https://res.cloudinary.com/occupapp/image/upload/v1555988013/ProfileImages/2019-04-23T02-53-09.218Z_IMG_20190418_185108_630_nhq3hm.jpg'],
+      media: ['https://res-console.cloudinary.com/occupapp/thumbnails/v1/image/upload/v1553936966/UHJvZmlsZUltYWdlcy8yMDE5LTAzLTMwVDA5LTA5LTIyLjI4OFpfY3JpbmdlX3NtaWxlX2MxNW40aw==/grid'],
       category: 'Estetica',
       rating: 2.1,
       description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum',
@@ -73,7 +73,7 @@ class HomeScreen extends Component {
     {
       name: 'Juan Carlos Cardona',
       service: 'Manicure y pedicure',
-      media: ['https://res.cloudinary.com/occupapp/image/upload/v1555988013/ProfileImages/2019-04-23T02-53-09.218Z_IMG_20190418_185108_630_nhq3hm.jpg'],
+      media: ['https://res-console.cloudinary.com/occupapp/thumbnails/v1/image/upload/v1554023633/UHJvZmlsZUltYWdlcy8yMDE5LTAzLTMxVDA5LTEzLTQxLjU4N1pfV2hhdHNBcHBfSW1hZ2VfMjAxOS0wMi0yM19hdF85LjU3LjE5X0FNX2pnODRqaQ==/grid'],
       category: 'Estetica',
       rating: 3.7,
       description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum',
@@ -81,7 +81,7 @@ class HomeScreen extends Component {
     {
       name: 'Santiago Lince',
       service: 'Monitoria matemática',
-      media: ['https://res.cloudinary.com/occupapp/image/upload/v1555988013/ProfileImages/2019-04-23T02-53-09.218Z_IMG_20190418_185108_630_nhq3hm.jpg'],
+      media: ['https://res-console.cloudinary.com/occupapp/thumbnails/v1/image/upload/v1553936966/UHJvZmlsZUltYWdlcy8yMDE5LTAzLTMwVDA5LTA5LTIyLjI4OFpfY3JpbmdlX3NtaWxlX2MxNW40aw==/grid'],
       category: 'Educación',
       rating: '5.0',
       description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum',
@@ -97,7 +97,7 @@ class HomeScreen extends Component {
     {
       name: 'Maria Alejandra Ramirez',
       service: 'Clases de guitarra',
-      media: ['https://res.cloudinary.com/occupapp/image/upload/v1555988013/ProfileImages/2019-04-23T02-53-09.218Z_IMG_20190418_185108_630_nhq3hm.jpg'],
+      media: ['https://res.cloudinary.com/occupapp/image/upload/v1555879036/ProfileImages/2019-04-21T20-37-14.694Z_FB_IMG_1553616485773_vkpms5.jpg'],
       category: 'Educación',
       rating: 4.2,
       description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum',
@@ -105,7 +105,7 @@ class HomeScreen extends Component {
     {
       name: 'Juan Carlos Cardona',
       service: 'Clases de inglés',
-      media: ['https://res.cloudinary.com/occupapp/image/upload/v1555988013/ProfileImages/2019-04-23T02-53-09.218Z_IMG_20190418_185108_630_nhq3hm.jpg'],
+      media: ['https://res-console.cloudinary.com/occupapp/thumbnails/v1/image/upload/v1554023633/UHJvZmlsZUltYWdlcy8yMDE5LTAzLTMxVDA5LTEzLTQxLjU4N1pfV2hhdHNBcHBfSW1hZ2VfMjAxOS0wMi0yM19hdF85LjU3LjE5X0FNX2pnODRqaQ==/grid'],
       category: 'Educación',
       rating: 3.7,
       description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum',
@@ -132,8 +132,8 @@ class HomeScreen extends Component {
 
   createCarousels = () => {
     const { servicesCategories } = this.state;
-    return Object.keys(servicesCategories).map(x => (
-      <React.Fragment>
+    return Object.keys(servicesCategories).map((x, i) => (
+      <React.Fragment key={i}>
         <View style={carouselStyles.header}>
           <Text style={carouselStyles.category}>{x}</Text>
           <Text
@@ -183,7 +183,7 @@ class HomeScreen extends Component {
       <Container style={commonStyles.container}>
         <ScrollView>
           <View style={commonStyles.titleContainer}>
-            <Text style={{ ...commonStyles.title, fontWeight: 'bold' }} h1>OCCUPeAPP</Text>
+            <Text style={{ ...commonStyles.title, fontWeight: 'bold' }} h1>OCCUPAPP</Text>
             {this.searchInput()}
             {this.createCarousels()}
           </View>

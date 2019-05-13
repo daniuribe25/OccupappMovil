@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, Dimensions, Alert } from 'react-native';
+import { View, Text, StyleSheet, Image, Dimensions, Alert, FlatList } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -53,7 +53,6 @@ class ServiceDetails extends Component {
             text={this.props.language['quote']}
             btnStyle={{ flexBasis: '75%', justifyContent: 'center', borderRadius: 20, marginTop: -20 }}
             onPress={() => Alert.alert('Información', 'Viene pronto')}
-            icon="arrow-circle-left"
           />
         </View>
       </View>
@@ -63,7 +62,11 @@ class ServiceDetails extends Component {
   render = () => {
     return (
       <View>
-        <BackButton onPress={() => this.props.navigation.goBack()} />
+        <BackButton
+          onPress={() => this.props.navigation.goBack()}
+          icon="arrow-left"
+          color={appColors.white}
+        />
         <View style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', alignContent: 'center', flexDirection: 'row', width: '100%' }}>
           {this.renderItem()}
         </View>

@@ -28,6 +28,7 @@
         "react/prefer-stateless-function": "off",
         "object-curly-newline": "off",
         "react/destructuring-assignment": "off",
-        "dot-notation": "off"
+        "dot-notation": "off",
+        "no-array-index-key": "off"
     }
 }

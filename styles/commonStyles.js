@@ -40,6 +40,7 @@ export const commonStyles = StyleSheet.create({
     zIndex: 10,
     elevation: 10,
     color: appColors.primary,
+    opacity: 0.4,
   },
   inputContainer: {
     flexDirection: 'column',
