@@ -33,8 +33,8 @@ export const commonStyles = StyleSheet.create({
   backBtnIconContainer: {
     position: 'absolute',
     top: -5,
-    left: 15,
-    zIndex: 100,
+    left: 20,
+    zIndex: 1000,
   },
   backBtnIcon: {
     zIndex: 10,

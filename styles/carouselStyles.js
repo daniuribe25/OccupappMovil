@@ -83,29 +83,3 @@ export const carouselStyles = StyleSheet.create({
   },
 });
 
-export const searchBarStyles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    width: '85%',
-    alignItems: 'center',
-    marginTop: 15,
-    marginBottom: 25,
-  },
-  icon: {
-    position: 'absolute',
-    left: '5%',
-    zIndex: 2,
-    color: appColors.mediumGrey,
-  },
-  input: {
-    backgroundColor: appColors.lightGrey,
-    borderRadius: 30,
-    width: '100%',
-    height: 40,
-    paddingLeft: 45,
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    color: appColors.grey,
-  },
-});
