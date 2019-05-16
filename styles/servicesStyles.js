@@ -15,9 +15,9 @@ export const servicesStyles = StyleSheet.create({
   image: {
     width: '100%',
     height: 270,
-    opacity: 0.7,
   },
   titleContainer: {
+    flex: 1,
     display: 'flex',
     flexDirection: 'row',
     paddingTop: 5,
@@ -66,6 +66,7 @@ export const servicesStyles = StyleSheet.create({
     marginLeft: 2,
   },
   descriptionContainer: {
+    flex: 1,
     paddingHorizontal: 25,
   },
   descriptionText: {

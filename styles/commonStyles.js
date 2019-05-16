@@ -1,5 +1,7 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import { appColors } from './colors';
+
+const sliderWidth = Dimensions.get('window').width;
 
 export const commonStyles = StyleSheet.create({
   container: {
@@ -40,6 +42,15 @@ export const commonStyles = StyleSheet.create({
     zIndex: 10,
     elevation: 10,
     color: appColors.primary,
+    opacity: 0.4,
+  },
+  floatIconContainer: {
+    position: 'absolute',
+    zIndex: 1000,
+  },
+  floatIcon: {
+    zIndex: 10,
+    elevation: 10,
     opacity: 0.4,
   },
   inputContainer: {
@@ -142,6 +153,15 @@ export const commonStyles = StyleSheet.create({
   centerElement: {
     flex: 1,
     justifyContent: 'center',
+  },
+  noRecordsFound: {
+    marginTop: '30%',
+    textAlign: 'center',
+    alignItems: 'center',
+    fontSize: 25,
+    fontWeight: '500',
+    color: appColors.mediumGrey,
+    width: sliderWidth,
   },
 });
 

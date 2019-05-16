@@ -29,9 +29,7 @@ class AllServices extends Component {
   }
 
   updateSearch = (value) => {
-    debugger;
     const services = this.filterServices(value);
-
     this.setState(prevState => ({
       ...prevState,
       search: value,
@@ -46,25 +44,23 @@ class AllServices extends Component {
     );
   }
 
-  searchBar = () => {
-    return (
-      <View style={searchHeaderBarStyles.container}>
-        <Icon
-          style={searchHeaderBarStyles.icon}
-          name={this.state.search ? 'times' : 'search'}
-          size={22}
-          onPress={() => { if (this.state.search) { this.updateSearch(''); } }}
-        />
-        <TextInput
-          style={searchHeaderBarStyles.input}
-          placeholder="Buscar"
-          onChangeText={text => this.updateSearch(text)}
-          value={this.state.search}
-          maxLength={30}
-        />
-      </View>
-    );
-  }
+  searchBar = () => (
+    <View style={searchHeaderBarStyles.container}>
+      <Icon
+        style={searchHeaderBarStyles.icon}
+        name={this.state.search ? 'times' : 'search'}
+        size={22}
+        onPress={() => { if (this.state.search) { this.updateSearch(''); } }}
+      />
+      <TextInput
+        style={searchHeaderBarStyles.input}
+        placeholder={this.props.language['search']}
+        onChangeText={text => this.updateSearch(text)}
+        value={this.state.search}
+        maxLength={30}
+      />
+    </View>
+  );
 
   renderItem = ({ item }) => {
     const { media, name, service, rating } = item;

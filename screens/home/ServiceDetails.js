@@ -1,22 +1,21 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, Dimensions, Alert, FlatList } from 'react-native';
+import { View, Text, StyleSheet, Image, Dimensions, Alert, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Lightbox from 'react-native-lightbox';
+import Carousel from 'react-native-looped-carousel';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { servicesStyles } from '../../styles/servicesStyles';
 import { appColors } from '../../styles/colors';
 import BackButton from '../../components/custom/BackButton';
 import BigButtonIcon from '../../components/custom/BigButtonIcon';
-
-const horizontalMargin = 0;
+import FloatIcon from '../../components/custom/FloatIcon';
+import { commonStyles } from '../../styles/commonStyles';
 
 const sliderWidth = Dimensions.get('window').width;
-const itemWidth = sliderWidth + horizontalMargin * 2;
-const itemHeight = 230;
-
 const styles = StyleSheet.create({
-  slide: { width: itemWidth, height: itemHeight, flexGrow: 1, justifyContent: 'center' },
+  slide: { width: sliderWidth, height: 230, flexGrow: 1, justifyContent: 'center' },
   slideInnerContainer: { width: sliderWidth },
 });
 
@@ -25,52 +24,81 @@ class ServiceDetails extends Component {
     service: this.props.navigation.getParam('service'),
   }
 
-  renderItem = () => {
+  renderGalleryCarousel = () => {
+    const { media } = this.state.service;
+    return (
+      <Carousel style={{ width: sliderWidth, height: sliderWidth }}>
+        {media.map(x => <Image style={{ flex: 1 }} resizeMode="contain" source={{ uri: x }} />)}
+      </Carousel>
+    );
+  };
+
+  renderImage = media => (
+    <Lightbox springConfig={{ tension: 15, friction: 7 }} swipeToDismiss={false} renderContent={this.renderGalleryCarousel}>
+      <Image
+        source={{ uri: media[0] }}
+        style={servicesStyles.image}
+      />
+    </Lightbox>
+  );
+
+  renderServicio = () => {
     const { media, name, service, rating, description } = this.state.service;
     return (
-      <View style={{ ...styles.slide, ...servicesStyles.slide }}>
-        <View style={{ ...styles.slideInnerContainer, ...servicesStyles.slideInnerContainer }}>
-          <Image source={{ uri: media[0] }} style={servicesStyles.image} blurRadius={1} />
-          <View style={servicesStyles.titleContainer}>
-            <View style={servicesStyles.serviceNamePanel}>
-              <Text style={servicesStyles.serviceText}>{ service }</Text>
-              <Text style={servicesStyles.userNameText}>{ name }</Text>
-            </View>
-            <View style={servicesStyles.ratingPanel}>
-              <Text style={servicesStyles.ratingText}>{rating}</Text>
-              <Icon
-                style={servicesStyles.ratingIcon}
-                name="star"
-                size={18}
-                color={appColors.primary}
-              />
-            </View>
+      // <View style={{ ...styles.slide, ...servicesStyles.slide }}>
+      <View style={{ ...styles.slideInnerContainer, ...servicesStyles.slideInnerContainer }}>
+        {this.renderImage(media)}
+        <FloatIcon
+          onPress={() => this.renderGalleryCarousel()}
+          icon="image"
+          color={appColors.white}
+          style={{ right: 20, top: -265 }}
+        />
+        <View style={servicesStyles.titleContainer}>
+          <View style={servicesStyles.serviceNamePanel}>
+            <Text style={{
+              ...servicesStyles.serviceText,
+              ...{ fontSize: service.length > 16 ? 25 : 30 } }}
+            >
+              { service }
+            </Text>
+            <Text style={servicesStyles.userNameText}>{ name }</Text>
           </View>
-          <View style={servicesStyles.descriptionContainer}>
-            <Text style={servicesStyles.descriptionText}>{description}</Text>
+          <View style={servicesStyles.ratingPanel}>
+            <Text style={servicesStyles.ratingText}>{rating}</Text>
+            <Icon
+              style={servicesStyles.ratingIcon}
+              name="star"
+              size={18}
+              color={appColors.primary}
+            />
           </View>
-          <BigButtonIcon
-            text={this.props.language['quote']}
-            btnStyle={{ flexBasis: '75%', justifyContent: 'center', borderRadius: 20, marginTop: -20 }}
-            onPress={() => Alert.alert('Información', 'Viene pronto')}
-          />
         </View>
+        <View style={servicesStyles.descriptionContainer}>
+          <Text style={servicesStyles.descriptionText}>{description}</Text>
+        </View>
+        <BigButtonIcon
+          text={this.props.language['quote']}
+          btnStyle={{ flexBasis: '75%', justifyContent: 'center', borderRadius: 20, marginTop: -20 }}
+          onPress={() => Alert.alert('Información', 'Viene pronto')}
+        />
       </View>
+      // </View>
     );
   }
 
   render = () => {
+    const screenHeight = Dimensions.get('window').height;
     return (
-      <View>
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <BackButton
           onPress={() => this.props.navigation.goBack()}
           icon="arrow-left"
           color={appColors.white}
+          style={{ top: 5 }}
         />
-        <View style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', alignContent: 'center', flexDirection: 'row', width: '100%' }}>
-          {this.renderItem()}
-        </View>
-      </View>
+        {this.renderServicio()}
+      </ScrollView>
     );
   }
 }

@@ -26,6 +26,10 @@ export const searchBarStyles = StyleSheet.create({
     justifyContent: 'center',
     color: appColors.grey,
   },
+  filterIcon: {
+    marginHorizontal: 7,
+    color: appColors.primary,
+  },
 });
 
 export const searchHeaderBarStyles = StyleSheet.create({

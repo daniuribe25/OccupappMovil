@@ -21,6 +21,8 @@ export const language = {
   recover_pass: 'Recuperar contraseña',
   recover: 'Recuperar',
   quote: 'Cotizar',
+  search: 'Buscar',
+  seeAll: 'Ver todas',
   // Document types
   document_id: 'Cedula',
   foreign_id: 'Extrangería',

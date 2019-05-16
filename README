@@ -78,3 +78,4 @@ ERROR LIST
 006 => rememberPassword/recoverPass
 007 => LoginRegister/facebookLogin
 008 => RegisterInfo/onSendInfo
+009 => HomeScreen/getUserServices
