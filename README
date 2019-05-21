@@ -68,6 +68,13 @@ SOLUTION
 cd android
 gradlew clean (since other terminal out of vs code)
 
+PROMLEM
+when UNMET PEER DEPENDENCY
+SOLUTION
+1) npm install npm@latest -g
+2) npm prune
+3) npm install i
+
 
 ERROR LIST
 001 => commonServices/storeLocally
@@ -78,4 +85,6 @@ ERROR LIST
 006 => rememberPassword/recoverPass
 007 => LoginRegister/facebookLogin
 008 => RegisterInfo/onSendInfo
-009 => HomeScreen/getUserServices
+009 => Home/getUserServices
+010 => Home/getUser
+011 => Quote/onSendInfo

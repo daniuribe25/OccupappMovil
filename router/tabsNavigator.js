@@ -1,9 +1,10 @@
 import React from 'react';
 import { createBottomTabNavigator } from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import homeNavigator from '../router/homeNavigator';
-import Profile from '../screens/profile/Profile';
+import homeNavigator from './homeNavigator';
+import Profile from '../screens/profile/ProfileScreen';
 import { appColors } from '../styles/colors';
+import TabBar from './components/TabBar';
 
 const TabsNavigator = createBottomTabNavigator({
   Home: {
@@ -43,6 +44,7 @@ const TabsNavigator = createBottomTabNavigator({
     },
   },
 }, {
+  tabBarComponent: props => <TabBar {...props} />,
   tabBarOptions: { showLabel: false },
 });
 

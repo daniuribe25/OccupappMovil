@@ -10,16 +10,39 @@ import { commonStyles } from '../../styles/commonStyles';
 import { carouselStyles } from '../../styles/carouselStyles';
 import { searchBarStyles } from '../../styles/searchInputStyles';
 import { getUserServicesWithCategories } from '../../services/userServicesServices';
+import { getFromStorage, storeLocally } from '../../services/handlers/commonServices';
+import { getUserByEmail } from '../../services/loginServices';
+import { storeLoginInfo } from '../../redux/actions/session/loginActions';
 
-class HomeScreen extends Component {
+class Home extends Component {
   state = {
     servicesCategories: [],
     noFound: false,
     showLoader: false,
+    user: {},
   }
 
   componentDidMount = () => {
     this.getUserServices();
+    this.getUser();
+  }
+
+  getUser = async () => {
+    const userData = JSON.parse(await getFromStorage('user-data'));
+    if (!userData.profileImage) {
+      getUserByEmail(userData.email)
+        .then(req => req.json())
+        .then((resp) => {
+          if (resp.success) {
+            this.props.storeLoginInfo(userData);
+            storeLocally('user-data', resp.output);
+          }
+        }).catch(() => {
+          ToastAndroid.show('Error 010', ToastAndroid.LONG);
+        });
+    } else {
+      this.props.storeLoginInfo(userData);
+    }
   }
 
   getUserServices = () => {
@@ -69,7 +92,7 @@ class HomeScreen extends Component {
             style={carouselStyles.seeAllLink}
             onPress={() => this.goToServices(x, false)}
           >
-            {this.props.language['seeAll']}
+            {this.props.language['see_all']}
           </Text>
         </View>
         <ServiceCarousel
@@ -106,7 +129,7 @@ class HomeScreen extends Component {
         maxLength={30}
         onFocus={() => this.goToServices('', true)}
       />
-      <Icon style={searchBarStyles.filterIcon} name="filter" size={20} onPress={this.openFilter}/>
+      {/* <Icon style={searchBarStyles.filterIcon} name="filter" size={20} onPress={this.openFilter}/> */}
     </View>
   );
 
@@ -129,12 +152,17 @@ class HomeScreen extends Component {
   );
 }
 
-HomeScreen.propTypes = {
+Home.propTypes = {
   language: PropTypes.objectOf({}).isRequired,
+  storeLoginInfo: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
   language: state.login.language,
 });
 
-export default connect(mapStateToProps)(HomeScreen);
+const mapDispachToProps = {
+  storeLoginInfo,
+};
+
+export default connect(mapStateToProps, mapDispachToProps)(Home);

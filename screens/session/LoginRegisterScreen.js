@@ -105,7 +105,7 @@ class LoginRegister extends Component {
         this.showLoader(false);
         if (resp.success) {
           let mess = '';
-          mess = resp.output[0].loginType === 'FB'
+          mess = resp.output.loginType === 'FB'
             ? 'Email ya registrado en Occupapp con una cuenta de facebook, por favor intenta logandote desde esta opción'
             : 'Email ya registrado, si no recuerdas la contraseña puedes recuperarla.';
           Alert.alert('Información', mess);

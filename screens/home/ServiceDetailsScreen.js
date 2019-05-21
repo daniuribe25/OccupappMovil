@@ -43,9 +43,8 @@ class ServiceDetails extends Component {
   );
 
   renderServicio = () => {
-    const { media, name, service, rating, description } = this.state.service;
+    const { media, userId, name, service, serviceId, rating, description } = this.state.service;
     return (
-      // <View style={{ ...styles.slide, ...servicesStyles.slide }}>
       <View style={{ ...styles.slideInnerContainer, ...servicesStyles.slideInnerContainer }}>
         {this.renderImage(media)}
         <FloatIcon
@@ -80,27 +79,24 @@ class ServiceDetails extends Component {
         <BigButtonIcon
           text={this.props.language['quote']}
           btnStyle={{ flexBasis: '75%', justifyContent: 'center', borderRadius: 20, marginTop: -20 }}
-          onPress={() => Alert.alert('Información', 'Viene pronto')}
+          onPress={() => this.props.navigation.navigate('Quote', { userId, serviceId })}
         />
       </View>
       // </View>
     );
   }
 
-  render = () => {
-    const screenHeight = Dimensions.get('window').height;
-    return (
-      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-        <BackButton
-          onPress={() => this.props.navigation.goBack()}
-          icon="arrow-left"
-          color={appColors.white}
-          style={{ top: 5 }}
-        />
-        {this.renderServicio()}
-      </ScrollView>
-    );
-  }
+  render = () => (
+    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+      <BackButton
+        onPress={() => this.props.navigation.goBack()}
+        icon="arrow-left"
+        color={appColors.white}
+        style={{ top: 5 }}
+      />
+      {this.renderServicio()}
+    </ScrollView>
+  );
 }
 
 ServiceDetails.propTypes = {

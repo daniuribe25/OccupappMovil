@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-expressions */
+/* eslint-disable react/require-default-props */
 import React, { Component } from 'react';
 import { TextInput, View } from 'react-native';
 import { Icon } from 'native-base';
@@ -26,13 +28,15 @@ class TextInputIcon extends Component {
             name={this.props.iconName}
             size={20}
             color="red"
+            type="FontAwesome5"
           />
         ) : null}
         <TextInput
+          ref={(c) => { if (this.props.ref) { this.props.ref(c) } }}
           style={{ ...this.state.style, paddingStart: this.props.textPadding }}
           placeholder={this.props.language[this.props.placeholder]}
           onChangeText={text => this.props.onChangeText(text)}
-          onFocus={() => { this.onFocusTextInput(); }}
+          onFocus={() => { this.props.onFocus ? this.props.onFocus() : this.onFocusTextInput(); }}
           onBlur={() => { this.onBlurTextInput(); }}
           value={this.props.value}
           secureTextEntry={this.props.secureTextEntry}
@@ -60,6 +64,9 @@ TextInputIcon.propTypes = {
   textPadding: PropTypes.number,
   value: PropTypes.string,
   keyboardType: PropTypes.string,
+  onFocus: PropTypes.func,
+  language: PropTypes.objectOf(PropTypes.instanceOf({})).isRequired,
+  ref: PropTypes.func,
 };
 
 const mapStateToProps = state => ({

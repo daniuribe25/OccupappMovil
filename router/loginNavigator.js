@@ -2,7 +2,7 @@ import { createStackNavigator } from 'react-navigation';
 import Welcome from '../screens/session/WelcomeScreen';
 import LoginRegister from '../screens/session/LoginRegisterScreen';
 import RegisterInfo from '../screens/session/RegisterInfoScreen';
-import RememberPassword from '../screens/session/RememberPassword';
+import RememberPassword from '../screens/session/RememberPasswordScreen';
 
 const loginNavigator = createStackNavigator({
   Welcome,
