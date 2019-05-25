@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Container } from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { View, Text, ScrollView, TextInput, ToastAndroid } from 'react-native';
+import { View, Text, ScrollView, TextInput, ToastAndroid, Button, Dimensions } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import Modal from 'react-native-modal';
 import ServiceCarousel from './components/ServiceCarousel';
 import Loader from '../../components/custom/Loader';
 import { commonStyles } from '../../styles/commonStyles';
@@ -13,6 +14,7 @@ import { getUserServicesWithCategories } from '../../services/userServicesServic
 import { getFromStorage, storeLocally } from '../../services/handlers/commonServices';
 import { getUserByEmail } from '../../services/loginServices';
 import { storeLoginInfo } from '../../redux/actions/session/loginActions';
+import { appColors } from '../../styles/colors';
 
 class Home extends Component {
   state = {
@@ -20,6 +22,7 @@ class Home extends Component {
     noFound: false,
     showLoader: false,
     user: {},
+    isModalVisible: false,
   }
 
   componentDidMount = () => {
@@ -29,7 +32,7 @@ class Home extends Component {
 
   getUser = async () => {
     const userData = JSON.parse(await getFromStorage('user-data'));
-    if (!userData.profileImage) {
+    if (!userData.profileImage || !userData._id) {
       getUserByEmail(userData.email)
         .then(req => req.json())
         .then((resp) => {
@@ -114,8 +117,8 @@ class Home extends Component {
     this.props.navigation.navigate('AllServices', { services, type: isSearch ? 0 : 1 });
   }
 
-  openFilter = () => {
-    
+  toggleModal = () => {
+    this.setState(prevState => ({ ...prevState, isModalVisible: !prevState.isModalVisible }));
   }
 
   searchInput = () => (
@@ -129,7 +132,7 @@ class Home extends Component {
         maxLength={30}
         onFocus={() => this.goToServices('', true)}
       />
-      {/* <Icon style={searchBarStyles.filterIcon} name="filter" size={20} onPress={this.openFilter}/> */}
+      <Icon style={searchBarStyles.filterIcon} name="filter" size={20} onPress={this.toggleModal} />
     </View>
   );
 
@@ -148,6 +151,34 @@ class Home extends Component {
           {this.createCarousels()}
         </View>
       </ScrollView>
+
+      <Modal
+        transparent
+        isVisible={this.state.isModalVisible}
+      >
+        <View style={{
+          flexDirection: 'column',
+          justifyContent: 'flex-start',
+          alignItems: 'flex-start',
+          backgroundColor: appColors.white,
+          height: 150,
+          width: '100%',
+          paddingVertical: 15,
+          paddingHorizontal: 30,
+          borderRadius: 6,
+        }}
+        >
+          <View style={{ height: 40 }}>
+            <Text style={{ fontWeight: '500', fontSize: 22, color: appColors.primary }}>Felicidades!</Text>
+          </View>
+          <View style={{ height: 40 }}>
+            <Text style={{ fontSize: 17 }}>Tienes una nueva cotización.</Text>
+          </View>
+          <View style={{ height: 50, alignItems: 'flex-end', alignSelf: 'flex-end' }}>
+            <Button title="Ir a Cotizaciones" onPress={this.toggleModal} color={appColors.secondary} />
+          </View>
+        </View>
+      </Modal>
     </Container>
   );
 }

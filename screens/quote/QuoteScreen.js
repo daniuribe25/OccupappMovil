@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
-import { View, Alert, ToastAndroid, TextInput, ScrollView, Dimensions } from 'react-native';
+import { View, Alert, ToastAndroid, TextInput, ScrollView } from 'react-native';
 import { Button } from 'react-native-elements';
 import { Container, Text } from 'native-base';
 import ImagePicker from 'react-native-image-picker';
@@ -61,8 +61,8 @@ class Quote extends Component {
     }));
   };
 
-  handleImageFromGallery = () => {
-    const options = {};
+  handleMediaFromGallery = (isImage) => {
+    const options = { mediaType: isImage ? 'image' : 'video', noData: true };
     this.showLoader(true);
     ImagePicker.launchImageLibrary(options, (response) => {
       this.showLoader(false);
@@ -97,6 +97,11 @@ class Quote extends Component {
         this.showLoader(false);
         if (!resp.success) {
           Alert.alert('Error', resp.message);
+        } else {
+          Alert.alert('Info',
+            'Tu cotización se ha enviado exitosamente, te dejaremos saber tan pronto sea respondida.',
+            [{ text: 'OK', onPress: () => this.props.navigation.navigate('Home') }],
+            { cancelable: false });
         }
       }).catch(() => {
         this.showLoader(false);
@@ -205,13 +210,13 @@ class Quote extends Component {
                 type="outline"
                 icon={{ type: 'font-awesome', name: 'camera', size: 35, color: appColors.secondary }}
                 buttonStyle={quoteStyles.imagePickerBtnStyles}
-                onPress={() => this.handleImageFromGallery()}
+                onPress={() => this.handleMediaFromGallery(true)}
               />
               <Button
                 type="outline"
                 icon={{ type: 'material-community', name: 'video', size: 50, color: appColors.secondary }}
                 buttonStyle={quoteStyles.imagePickerBtnStyles}
-                onPress={() => this.handleImageFromGallery()}
+                onPress={() => this.handleMediaFromGallery(false)}
               />
             </View>
             {this.state.media.length ? (
