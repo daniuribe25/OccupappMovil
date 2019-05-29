@@ -16,13 +16,20 @@
         android:name=".MainActivity"
         android:label="@string/app_name"
         android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
-        android:windowSoftInputMode="adjustPan">
+        android:windowSoftInputMode="adjustPan"
+        android:launchMode="singleTop"> <!-- OneSignal push notification -->
+      >
         <!-- android:windowSoftInputMode="stateAlwaysHidden|adjustPan|adjustResize"> -->
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
       </activity>
+      <service android:name=".NotificationService">
+        <intent-filter>
+          <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+        </intent-filter>
+      </service>
       <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id" />
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
     </application>
