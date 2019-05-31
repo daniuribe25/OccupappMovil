@@ -16,7 +16,9 @@
         android:name=".MainActivity"
         android:label="@string/app_name"
         android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
-        android:windowSoftInputMode="adjustPan">
+        android:windowSoftInputMode="adjustPan"
+        android:launchMode="singleTop"> <!-- OneSignal push notification -->
+      >
         <!-- android:windowSoftInputMode="stateAlwaysHidden|adjustPan|adjustResize"> -->
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
