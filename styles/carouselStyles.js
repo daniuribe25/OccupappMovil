@@ -67,7 +67,7 @@ export const carouselStyles = StyleSheet.create({
     paddingLeft: '8%',
   },
   category: {
-    fontSize: 30,
+    fontSize: 24,
     fontWeight: '500',
     color: appColors.black,
     alignItems: 'flex-start',

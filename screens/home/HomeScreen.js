@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Container } from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { View, Text, ScrollView, TextInput, ToastAndroid, Button, Dimensions } from 'react-native';
+import { View, Text, ScrollView, TextInput, ToastAndroid, Button } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Modal from 'react-native-modal';
@@ -12,6 +12,7 @@ import { carouselStyles } from '../../styles/carouselStyles';
 import { searchBarStyles } from '../../styles/searchInputStyles';
 import { getUserServicesWithCategories } from '../../services/userServicesServices';
 import { getFromStorage, storeLocally } from '../../services/handlers/commonServices';
+import { pushNotificationConfig } from '../../config/pushNotificationConfig';
 import { getUserByEmail } from '../../services/loginServices';
 import { storeLoginInfo } from '../../redux/actions/session/loginActions';
 import { appColors } from '../../styles/colors';
@@ -28,6 +29,11 @@ class Home extends Component {
   componentDidMount = () => {
     this.getUserServices();
     this.getUser();
+    pushNotificationConfig(null, this.onOpenNotification);
+  }
+
+  onOpenNotification = () => {
+    this.props.navigation.navigate('profile');
   }
 
   getUser = async () => {

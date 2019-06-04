@@ -88,3 +88,5 @@ ERROR LIST
 009 => Home/getUserServices
 010 => Home/getUser
 011 => Quote/onSendInfo
+012 => pushNotificationConfig/onIds
+013 => QuoteDetails/onSendInfo

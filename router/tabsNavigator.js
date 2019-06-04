@@ -5,6 +5,7 @@ import homeNavigator from './homeNavigator';
 import Profile from '../screens/profile/ProfileScreen';
 import { appColors } from '../styles/colors';
 import TabBar from './components/TabBar';
+import ServiceList from '../screens/services/ServiceListScreen';
 
 const TabsNavigator = createBottomTabNavigator({
   Home: {
@@ -13,6 +14,18 @@ const TabsNavigator = createBottomTabNavigator({
       tabBarIcon: ({ focused }) => (
         <Icon
           name="home"
+          size={20}
+          color={focused ? appColors.primary : appColors.grey}
+        />
+      ),
+    },
+  },
+  ServiceList: {
+    screen: ServiceList,
+    navigationOptions: {
+      tabBarIcon: ({ focused }) => (
+        <Icon
+          name="hammer"
           size={20}
           color={focused ? appColors.primary : appColors.grey}
         />

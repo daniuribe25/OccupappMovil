@@ -32,6 +32,8 @@
         "no-array-index-key": "off",
         "react/no-array-index-key": "off",
         "no-underscore-dangle": "off",
-        "no-confusing-arrow": "off"
+        "no-confusing-arrow": "off",
+        "no-param-reassign": "off",
+        "react/forbid-prop-types": "off"
     }
 }

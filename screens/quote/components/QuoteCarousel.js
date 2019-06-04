@@ -22,7 +22,7 @@ class QuoteCarousel extends Component {
       <View style={{ ...styles.slide, ...carouselStyles.slide }}>
         <View style={{ ...styles.slideInnerContainer, ...carouselStyles.slideInnerContainer }}>
           <TouchableHighlight
-            onPress={() => {}}
+            onPress={() => this.props.onPressImage ? this.props.onPressImage(uri) : {}}
           >
             <Image
               source={{ uri }}

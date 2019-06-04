@@ -46,4 +46,12 @@ export const quoteStyles = StyleSheet.create({
     elevation: 1,
     marginStart: 15,
   },
+  titleText: {
+    fontSize: 18,
+    color: appColors.secondary,
+    fontWeight: '500',
+    textAlign: 'left',
+    width: sliderWidth - 40,
+    marginVertical: 10,
+  },
 });

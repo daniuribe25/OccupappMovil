@@ -151,10 +151,6 @@ class Quote extends Component {
     this.descriptionInput.focus();
   };
 
-  scrollToInput = (reactNode) => {
-    this.scroll.props.scrollToFocusedInput(reactNode);
-  }
-
   render() {
     return (
       <Container style={{ ...commonStyles.container, ...{ flex: 1, paddingBottom: 0 } }}>
