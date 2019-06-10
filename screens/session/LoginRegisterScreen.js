@@ -170,7 +170,7 @@ class LoginRegister extends Component {
             textContentType="emailAddress"
           />
           <TextInputIcon
-            iconName="medical"
+            iconName="asterisk"
             placeholder="password"
             onChangeText={text => this.inputChangeHandler('password', text)}
             value={this.state.formData.password}
@@ -178,7 +178,7 @@ class LoginRegister extends Component {
           />
           {+this.state.formData.type ? (
             <TextInputIcon
-              iconName="medical"
+              iconName="asterisk"
               placeholder="confirm_password"
               onChangeText={text => this.inputChangeHandler('confirmPass', text)}
               value={this.state.formData.confirmPass}

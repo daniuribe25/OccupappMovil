@@ -34,7 +34,7 @@ export const commonStyles = StyleSheet.create({
   },
   backBtnIconContainer: {
     position: 'absolute',
-    top: -5,
+    top: -10,
     left: 20,
     zIndex: 1000,
   },
@@ -162,6 +162,24 @@ export const commonStyles = StyleSheet.create({
     fontWeight: '500',
     color: appColors.mediumGrey,
     width: sliderWidth,
+  },
+  alertFullImageContainer: {
+    width: sliderWidth,
+    padding: 30,
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  alertFullImage: {
+    width: sliderWidth - 100,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 220,
+  },
+  alertFullImageText: {
+    fontSize: 20,
+    color: appColors.grey,
+    padding: 30,
   },
 });
 

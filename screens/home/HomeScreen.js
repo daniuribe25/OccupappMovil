@@ -24,6 +24,7 @@ class Home extends Component {
     showLoader: false,
     user: {},
     isModalVisible: false,
+    daviplataInput: '',
   }
 
   componentDidMount = () => {
@@ -32,8 +33,14 @@ class Home extends Component {
     pushNotificationConfig(null, this.onOpenNotification);
   }
 
-  onOpenNotification = () => {
-    this.props.navigation.navigate('profile');
+  onOpenNotification = (not) => {
+    const { id, action } = not.notification.payload.additionalData;
+    if (action === 'OnWallet') {
+      this.props.navigation.navigate('Wallet');
+    } else {
+      this.props.navigation.navigate('QuoteDetails',
+        { quote: { _id: id }, action });
+    }
   }
 
   getUser = async () => {
@@ -87,7 +94,7 @@ class Home extends Component {
   inputChangeHandler = (value) => {
     this.setState(prevState => ({
       ...prevState,
-      search: value,
+      daviplataInput: value,
     }));
   };
 
@@ -138,7 +145,7 @@ class Home extends Component {
         maxLength={30}
         onFocus={() => this.goToServices('', true)}
       />
-      <Icon style={searchBarStyles.filterIcon} name="filter" size={20} onPress={this.toggleModal} />
+      {/* <Icon style={searchBarStyles.filterIcon} name="filter" size={20} onPress={this.toggleModal} /> */}
     </View>
   );
 

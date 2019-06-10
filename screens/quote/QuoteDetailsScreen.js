@@ -2,18 +2,19 @@
 import React, { Component } from 'react';
 import { View, Alert, ToastAndroid, TextInput, ScrollView } from 'react-native';
 import { Container, Text } from 'native-base';
-import { CheckBox } from 'react-native-elements';
+import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import ImageView from 'react-native-image-view';
 import PropTypes from 'prop-types';
 import { getQuote, answerQuote } from '../../services/quoteServices';
-import BigButtonIcon from '../../components/custom/BigButtonIcon';
 import Loader from '../../components/custom/Loader';
 import { commonStyles } from '../../styles/commonStyles';
 import { quoteStyles } from '../../styles/quoteStyles';
 import QuoteCarousel from './components/QuoteCarousel';
 import Dialog from '../../components/custom/Dialog';
 import { appColors } from '../../styles/colors';
+import { setQuoteTitle, setQuoteMessage } from './components/QuoteDescriptions';
+import BackButton from '../../components/custom/BackButton';
 
 class QuoteDetails extends Component {
   state = {
@@ -63,8 +64,12 @@ class QuoteDetails extends Component {
       return m;
     });
     this.setState(prevState => ({ ...prevState,
-      formData: { ...prevState.formData, id: quote._id },
       quote,
+      action: this.props.navigation.getParam('action'),
+      formData: { ...prevState.formData,
+        id: quote._id,
+        sentBy: quote.sentBy._id,
+        receivedBy: quote.receivedBy._id },
       images,
     }));
   }
@@ -79,11 +84,8 @@ class QuoteDetails extends Component {
     let isValid = true;
     const errorMessages = [];
 
-    if (!data.accept) {
-      errorMessages.push('Todos los campos son requeridos.');
-      isValid = false;
-    } else if (!data.observation || !data.price) {
-      errorMessages.push('Todos los campos son requeridos.');
+    if (data.accept && !(/^\d+$/.test(data.price))) {
+      errorMessages.push('Precio no es un valor válido');
       isValid = false;
     }
     errorMessages.forEach(x => Alert.alert('Error', x));
@@ -93,27 +95,49 @@ class QuoteDetails extends Component {
   onSendInfo = () => {
     if (!this.validateForm(this.state.formData)) return;
 
+    const data = this.state.formData;
+    data.status = this.setFormState();
+
     this.showLoader(true);
     answerQuote(this.state.formData)
       .then(req => req.json())
       .then((resp) => {
         this.showLoader(false);
-        if (!resp.success) {
-          Alert.alert('Error', resp.message);
-          return;
-        }
-        this.props.navigation.navigate('ServiceList');
+        if (!resp.success) { Alert.alert('Error', resp.message); return; }
+        this.showQuoteDialog(false, true);
+
+        Alert.alert('Info', 'Se ha enviado tu respuesta correctamente',
+          [{ text: 'OK', onPress: () => this.props.navigation.navigate('Home') }],
+          { cancelable: false });
       }).catch(() => {
-        ToastAndroid.show('Error 012', ToastAndroid.LONG);
+        ToastAndroid.show('Error 013', ToastAndroid.LONG);
       });
+  }
+
+  acceptQuote = (accept) => {
+    this.setState(prevState => ({ ...prevState,
+      formData: { ...prevState.formData, accept },
+    }));
+    this.onSendInfo();
+  }
+
+  setFormState = () => {
+    const { action, formData } = this.state;
+    if (action === 'Sent' && formData.accept) return 'Answered';
+    if (action === 'Sent' && !formData.accept) return 'Rejected';
+    if (action !== 'Sent' && formData.accept) return 'Accepted';
+    if (action !== 'Sent' && !formData.accept) return 'NoAccepted';
   }
 
   showLoader = (show) => {
     this.setState(prevState => ({ ...prevState, showLoader: show }));
   }
 
-  showQuoteDialog = (show) => {
-    this.setState(prevState => ({ ...prevState, showQuoteDialog: show }));
+  showQuoteDialog = (show, accept) => {
+    this.setState(prevState => ({ ...prevState,
+      formData: { ...prevState.formData, accept },
+      modalHeight: accept ? 170 : 100,
+      showQuoteDialog: show }));
   }
 
   onPressImage = (uri) => {
@@ -126,38 +150,28 @@ class QuoteDetails extends Component {
 
   quoteDialog = () => (
     <View style={{ width: '100%', height: this.state.modalHeight }}>
-      <CheckBox
-        title="Aceptar servicio"
-        checked={this.state.formData.accept}
-        onPress={() => this.setState(prevState => ({ ...prevState,
-          modalHeight: prevState.formData.accept ? 60 : 240,
-          formData: { ...prevState.formData, accept: !prevState.formData.accept },
-        }))}
-      />
       {this.state.formData.accept ? (
-        <React.Fragment>
-          <TextInput
-            style={commonStyles.textInput}
-            value={this.state.formData.price}
-            placeholder={this.props.language.price}
-            onChangeText={text => this.inputChangeHandler('price', text)}
-          />
-          <TextInput
-            style={commonStyles.textInput}
-            placeholder={this.props.language.observation}
-            ref={(c) => { this.descriptionInput = c; }}
-            value={this.state.formData.observation}
-            onChangeText={text => this.inputChangeHandler('observation', text)}
-            multiline
-            numberOfLines={4}
-          />
-        </React.Fragment>
+        <TextInput
+          style={commonStyles.textInput}
+          value={this.state.formData.price}
+          placeholder={this.props.language.price}
+          onChangeText={text => this.inputChangeHandler('price', text)}
+        />
       ) : null}
+      <TextInput
+        style={commonStyles.textInput}
+        placeholder={this.props.language.observation}
+        ref={(c) => { this.descriptionInput = c; }}
+        value={this.state.formData.observation}
+        onChangeText={text => this.inputChangeHandler('observation', text)}
+        multiline
+        numberOfLines={4}
+      />
     </View>
   );
 
   render() {
-    const { quote, images, imageIndex, showImageViwer } = this.state;
+    const { quote, images, imageIndex, showImageViwer, action } = this.state;
     return (
       <Container style={{ ...commonStyles.container, ...{ flex: 1, paddingBottom: 0 } }}>
         <ScrollView
@@ -165,13 +179,18 @@ class QuoteDetails extends Component {
           automaticallyAdjustContentInsets={false}
         >
           <Loader show={this.state.showLoader} />
+          <BackButton
+            onPress={() => this.props.navigation.goBack()}
+            icon="arrow-left"
+            color={appColors.primary}
+            type="material-community"
+          />
           <View style={{ ...commonStyles.titleContainer, ...{ paddingBottom: 5 } }}>
             <Text style={{ ...commonStyles.title, fontWeight: 'bold' }} h1>COTIZACIÓN</Text>
           </View>
           <View style={commonStyles.inputContainer}>
-            <Text style={quoteStyles.descriptionText}>
-              {this.props.language.quote_answer_text}
-            </Text>
+            {setQuoteTitle(action, this.props.language)}
+            {setQuoteMessage(action, this.props.language, quote.price)}
             <View>
               <Text style={{ ...quoteStyles.descriptionText, ...{ textAlign: 'left' } }}>
                 <Text style={quoteStyles.titleText}>
@@ -206,14 +225,25 @@ class QuoteDetails extends Component {
                 />
               </View>
             ) : null}
-            <View style={{ marginVertical: 0, height: 100 }}>
-              <BigButtonIcon
-                btnStyle={{ flexBasis: '65%' }}
-                btnContainerStyle={{ paddingTop: 20, paddingBottom: 0 }}
-                text={this.props.language.answer_label}
-                onPress={() => this.showQuoteDialog(true)}
-              />
-            </View>
+            {action === 'Sent' || action === 'Answered' ? (
+              <View style={{ paddingVertical: 25, textAlign: 'center', height: 100, justifyContent: 'center', alignItems: 'stretch', flexDirection: 'row', width: '100%' }}>
+                <Button
+                  buttonStyle={{ paddingVertical: 10, backgroundColor: appColors.primary }}
+                  containerStyle={{ width: '45%', marginRight: 10 }}
+                  btnContainerStyle={{ paddingTop: 20, paddingBottom: 0 }}
+                  title={this.props.language.accept}
+                  onPress={() => action === 'Sent' ? this.showQuoteDialog(true, true) : this.acceptQuote(true)}
+                />
+                <Button
+                  buttonStyle={{ paddingVertical: 10 }}
+                  containerStyle={{ width: '45%', marginRight: 10 }}
+                  btnContainerStyle={{ paddingTop: 20, paddingBottom: 0 }}
+                  title={this.props.language.reject}
+                  onPress={() => action === 'Sent' ? this.showQuoteDialog(true, false) : this.acceptQuote(false)}
+                  type="outline"
+                />
+              </View>
+            ) : null}
           </View>
           <Dialog
             title="Responder cotización"
@@ -221,11 +251,11 @@ class QuoteDetails extends Component {
             isVisible={this.state.showQuoteDialog}
             height={this.state.modalHeight}
             buttons={[{
-              title: 'Salir',
-              onPress: () => this.showQuoteDialog(false),
+              title: this.props.language.get_out,
+              onPress: () => this.showQuoteDialog(false, false),
               style: { paddingHorizontal: 15, marginRight: 10, backgroundColor: appColors.primary },
             }, {
-              title: 'Enviar',
+              title: this.props.language.send,
               onPress: this.onSendInfo,
               style: { paddingHorizontal: 15, marginRight: 10, backgroundColor: appColors.secondary },
             }]}

@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
-import { View, Alert, ToastAndroid, TextInput, ScrollView } from 'react-native';
+import { View, Alert, ToastAndroid, TextInput, ScrollView, Keyboard } from 'react-native';
 import { Button } from 'react-native-elements';
 import { Container, Text } from 'native-base';
 import ImagePicker from 'react-native-image-picker';
@@ -15,6 +15,7 @@ import { commonStyles } from '../../styles/commonStyles';
 import { quoteStyles } from '../../styles/quoteStyles';
 import { appColors } from '../../styles/colors';
 import QuoteCarousel from './components/QuoteCarousel';
+import BackButton from '../../components/custom/BackButton';
 
 class Quote extends Component {
   state = {
@@ -62,7 +63,7 @@ class Quote extends Component {
   };
 
   handleMediaFromGallery = (isImage) => {
-    const options = { mediaType: isImage ? 'image' : 'video', noData: true };
+    const options = { mediaType: isImage ? 'image' : 'video', noData: true, videoQuality: 'medium' };
     this.showLoader(true);
     ImagePicker.launchImageLibrary(options, (response) => {
       this.showLoader(false);
@@ -103,7 +104,7 @@ class Quote extends Component {
             [{ text: 'OK', onPress: () => this.props.navigation.navigate('Home') }],
             { cancelable: false });
         }
-      }).catch(() => {
+      }).catch((e) => {
         this.showLoader(false);
         ToastAndroid.show('Error 011', ToastAndroid.LONG);
       });
@@ -113,8 +114,8 @@ class Quote extends Component {
     const { formData, media } = this.state;
     const quoteMedia = media.map(x => ({
       uri: x.uri,
-      type: x.type,
-      name: x.fileName,
+      type: x.type ? x.type : 'image/jpeg',
+      name: x.fileName ? x.fileName : (new Date().valueOf()).toString(),
     }));
     formData.quoteMedia = quoteMedia;
     return formData;
@@ -131,6 +132,7 @@ class Quote extends Component {
   }
 
   showHideDateTimePicker = (show) => {
+    Keyboard.dismiss();
     this.setState({ showTimePicker: show });
   };
 
@@ -158,13 +160,19 @@ class Quote extends Component {
           contentContainerStyle={{ flexGrow: 1 }}
           automaticallyAdjustContentInsets={false}
         >
+          <BackButton
+            onPress={() => this.props.navigation.goBack()}
+            icon="arrow-left"
+            color={appColors.primary}
+            type="material-community"
+          />
           <Loader show={this.state.showLoader} />
           <View style={{ ...commonStyles.titleContainer, ...{ paddingBottom: 5 } }}>
             <Text style={{ ...commonStyles.title, fontWeight: 'bold' }} h1>COTIZAR</Text>
           </View>
           <View style={commonStyles.inputContainer}>
             <TextInputIcon
-              iconName="calendar-alt"
+              iconName="calendar"
               placeholder="service_datetime"
               value={this.state.formData.dateTime}
               onChangeText={() => {}}
@@ -187,15 +195,13 @@ class Quote extends Component {
               onChangeText={text => this.inputChangeHandler('description', text)}
               multiline
               numberOfLines={4}
-              returnKeyType="Sig"
-              onSubmitEditing={() => { this.locationInput.focus(); }}
             />
             <Text style={quoteStyles.textCounter}>
               {`${this.state.textCounter}/500 ${this.props.language['chars']}`}
             </Text>
             <TextInputIcon
               ref={(c) => { this.locationInput = c; }}
-              iconName="map-marker-alt"
+              iconName="map-marker"
               placeholder="location"
               value={this.state.formData.location}
               onChangeText={text => this.inputChangeHandler('location', text)}
@@ -208,12 +214,12 @@ class Quote extends Component {
                 buttonStyle={quoteStyles.imagePickerBtnStyles}
                 onPress={() => this.handleMediaFromGallery(true)}
               />
-              <Button
+              {/* <Button
                 type="outline"
                 icon={{ type: 'material-community', name: 'video', size: 50, color: appColors.secondary }}
                 buttonStyle={quoteStyles.imagePickerBtnStyles}
                 onPress={() => this.handleMediaFromGallery(false)}
-              />
+              /> */}
             </View>
             {this.state.media.length ? (
               <View style={{ marginTop: 15, height: 170 }}>

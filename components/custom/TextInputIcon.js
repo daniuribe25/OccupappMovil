@@ -2,7 +2,7 @@
 /* eslint-disable react/require-default-props */
 import React, { Component } from 'react';
 import { TextInput, View } from 'react-native';
-import { Icon } from 'native-base';
+import { Icon } from 'react-native-elements';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { commonStyles } from '../../styles/commonStyles';
@@ -20,27 +20,29 @@ class TextInputIcon extends Component {
   };
 
   render() {
+    const { iconType, iconColor, iconName, iconSize, onFocus, value, secureTextEntry, keyboardType,
+      onChangeText, placeholder, textPadding, language } = this.props;
     return (
       <View style={commonStyles.textInputContainer}>
-        {this.props.iconName ? (
+        {iconName ? (
           <Icon
             style={commonStyles.textInputIcon}
-            name={this.props.iconName}
-            size={20}
-            color="red"
-            type="FontAwesome5"
+            name={iconName}
+            size={iconSize}
+            color={iconColor}
+            type={iconType}
           />
         ) : null}
         <TextInput
-          ref={(c) => { if (this.props.ref) { this.props.ref(c) } }}
-          style={{ ...this.state.style, paddingStart: this.props.textPadding }}
-          placeholder={this.props.language[this.props.placeholder]}
-          onChangeText={text => this.props.onChangeText(text)}
-          onFocus={() => { this.props.onFocus ? this.props.onFocus() : this.onFocusTextInput(); }}
+          ref={(c) => { if (this.props.ref) { this.props.ref(c); } }}
+          style={{ ...this.state.style, paddingStart: textPadding }}
+          placeholder={language[placeholder]}
+          onChangeText={text => onChangeText(text)}
+          onFocus={() => { onFocus ? onFocus() : this.onFocusTextInput(); }}
           onBlur={() => { this.onBlurTextInput(); }}
-          value={this.props.value}
-          secureTextEntry={this.props.secureTextEntry}
-          keyboardType={this.props.keyboardType}
+          value={value}
+          secureTextEntry={secureTextEntry}
+          keyboardType={keyboardType}
           maxLength={30}
         />
       </View>
@@ -54,6 +56,9 @@ TextInputIcon.defaultProps = {
   textPadding: 10,
   value: '',
   keyboardType: 'default',
+  iconType: 'font-awesome',
+  iconSize: 20,
+  iconColor: appColors.grey,
 };
 
 TextInputIcon.propTypes = {
@@ -67,6 +72,9 @@ TextInputIcon.propTypes = {
   onFocus: PropTypes.func,
   language: PropTypes.objectOf(PropTypes.instanceOf({})).isRequired,
   ref: PropTypes.func,
+  iconType: PropTypes.string,
+  iconColor: PropTypes.string,
+  iconSize: PropTypes.number,
 };
 
 const mapStateToProps = state => ({

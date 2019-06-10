@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import { DatePicker, Icon } from 'native-base';
+import { DatePicker } from 'native-base';
+import { Icon } from 'react-native-elements';
 import PropTypes from 'prop-types';
 import { commonStyles } from '../../styles/commonStyles';
 import { appColors } from '../../styles/colors';
@@ -11,10 +12,11 @@ class DatePickerIcon extends Component {
       <View style={commonStyles.pickerContainer}>
         {this.props.iconName ? (
           <Icon
-            style={{ ...commonStyles.textInputIcon, marginTop: 10, marginEnd: 5 }}
+            iconStyle={{ ...commonStyles.textInputIcon, marginTop: 17 }}
             name={this.props.iconName}
             size={20}
-            color="#000"
+            color={appColors.grey}
+            type="font-awesome"
           />
         ) : null}
         <DatePicker

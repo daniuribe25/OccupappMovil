@@ -1,11 +1,13 @@
 import React from 'react';
 import { createBottomTabNavigator } from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import homeNavigator from './homeNavigator';
 import Profile from '../screens/profile/ProfileScreen';
 import { appColors } from '../styles/colors';
 import TabBar from './components/TabBar';
 import ServiceList from '../screens/services/ServiceListScreen';
+import Wallet from '../screens/wallet/WalletScreen';
 
 const TabsNavigator = createBottomTabNavigator({
   Home: {
@@ -33,12 +35,24 @@ const TabsNavigator = createBottomTabNavigator({
     },
   },
   Wallet: {
-    screen: Profile,
+    screen: Wallet,
     navigationOptions: {
       tabBarIcon: ({ focused }) => (
         <Icon
           name="wallet"
           size={20}
+          color={focused ? appColors.primary : appColors.grey}
+        />
+      ),
+    },
+  },
+  Chat: {
+    screen: Profile,
+    navigationOptions: {
+      tabBarIcon: ({ focused }) => (
+        <FontAwesome
+          name="wechat"
+          size={22}
           color={focused ? appColors.primary : appColors.grey}
         />
       ),

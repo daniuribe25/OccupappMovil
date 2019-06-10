@@ -5,7 +5,7 @@ export const appColors = {
   borderBottom: '#ededed',
   placeHolder: '#a8a6a6',
   white: '#ffffff',
-  checked: '#70bf16',
+  checked: '#589e07',
   wrong: '#e51635',
   grey: '#827878',
   mediumGrey: '#bababa',

@@ -37,13 +37,13 @@ export const quoteStyles = StyleSheet.create({
     justifyContent: 'flex-start',
     marginTop: 20,
     marginRight: 'auto',
-    marginHorizontal: 40,
+    marginHorizontal: 30,
   },
   imagePickerBtnStyles: {
     height: 70,
     width: 70,
     borderRadius: 10,
-    elevation: 1,
+    elevation: 0.5,
     marginStart: 15,
   },
   titleText: {
@@ -53,5 +53,21 @@ export const quoteStyles = StyleSheet.create({
     textAlign: 'left',
     width: sliderWidth - 40,
     marginVertical: 10,
+  },
+  statusText: {
+    fontSize: 20,
+    fontWeight: '500',
+    color: appColors.primary,
+    textAlign: 'center',
+    marginVertical: 10,
+  },
+  statusBox: {
+    borderRadius: 5,
+    marginHorizontal: 15,
+    marginVertical: 5,
+    elevation: 1,
+    backgroundColor: appColors.lightGrey,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
   },
 });

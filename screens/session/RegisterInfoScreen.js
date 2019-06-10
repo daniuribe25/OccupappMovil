@@ -150,14 +150,14 @@ class RegisterInfo extends Component {
           {this.state.registerType === 'CL' && (
             <React.Fragment>
               <TextInputIcon
-                iconName="person"
+                iconName="user"
                 placeholder="name"
                 value={this.state.formData.name}
                 onChangeText={text => this.inputChangeHandler('name', text)}
                 textContentType="givenName"
               />
               <TextInputIcon
-                iconName="person"
+                iconName="user"
                 placeholder="last_name"
                 value={this.state.formData.lastName}
                 onChangeText={text => this.inputChangeHandler('lastName', text)}
@@ -174,7 +174,8 @@ class RegisterInfo extends Component {
             defaultDate={this.setDefaultDate()}
           />
           <TextInputIcon
-            iconName="call"
+            iconName="cellphone"
+            iconType="material-community"
             placeholder="cel"
             value={this.state.formData.cel}
             onChangeText={text => this.inputChangeHandler('cel', text)}

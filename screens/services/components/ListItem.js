@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import { View, Text, TouchableHighlight } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import PropTypes from 'prop-types';
@@ -23,7 +24,10 @@ class ListItem extends Component {
         onPress={() => onPressItem(data, type)}
         underlayColor="white"
       >
-        <View style={serviceListStyles.itemContainer}>
+        <LinearGradient
+          colors={[appColors.white, '#f4f4f4']}
+          style={serviceListStyles.itemContainer}
+        >
           <View style={serviceListStyles.textSection}>
             <Text style={serviceListStyles.itemTitle}>{data.service.name}</Text>
             <View style={serviceListStyles.subTitleContainer}>
@@ -34,16 +38,15 @@ class ListItem extends Component {
               />
               <Text style={serviceListStyles.itemSubTitle}>{this.setDateTime(data.dateTime)}</Text>
             </View>
-            
           </View>
           <View style={serviceListStyles.iconSection}>
-            <Icon
+            <FontAwesome
               name="angle-right"
               size={20}
               color={appColors.grey}
             />
           </View>
-        </View>
+        </LinearGradient>
       </TouchableHighlight>
     );
   }

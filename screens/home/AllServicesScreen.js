@@ -108,6 +108,9 @@ class AllServices extends Component {
         <BackButton
           style={style.backButton}
           onPress={() => this.props.navigation.goBack()}
+          icon="arrow-left"
+          color={appColors.primary}
+          type="material-community"
         />
         {+this.state.type ? (
           <View style={commonStyles.titleContainer}>

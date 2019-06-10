@@ -16,7 +16,7 @@ class BackButton extends Component {
           onPress={() => this.props.onPress()}
         >
           <Icon
-            type="font-awesome"
+            type={this.props.type}
             name={this.props.icon}
             style={commonStyles.backBtnIcon}
             color={this.props.color}
@@ -30,6 +30,7 @@ class BackButton extends Component {
 
 BackButton.defaultProps = {
   icon: 'arrow-circle-left',
+  type: 'font-awesome',
   color: appColors.primary,
   style: {},
 };
@@ -39,6 +40,7 @@ BackButton.propTypes = {
   icon: PropTypes.string,
   color: PropTypes.string,
   style: PropTypes.instanceOf({}),
+  type: PropTypes.string,
 };
 
 export default BackButton;

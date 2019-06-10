@@ -46,3 +46,81 @@ export const serviceListStyles = StyleSheet.create({
     color: appColors.secondary,
   },
 });
+
+export const paymentListStyles = StyleSheet.create({
+  itemTitle: {
+    fontSize: 18,
+    paddingTop: 5,
+    color: appColors.secondary,
+  },
+  itemDate: {
+    fontSize: 16,
+    paddingTop: 3,
+  },
+  statusText: {
+    fontSize: 20,
+    fontWeight: '500',
+    paddingTop: 3,
+    paddingBottom: 5,
+    fontStyle: 'italic',
+  },
+  textSection: {
+    flex: 5,
+  },
+  priceSection: {
+    width: 100,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+  priceText: {
+    fontSize: 20,
+    fontWeight: '500',
+    paddingTop: 5,
+    paddingStart: 10,
+    paddingBottom: 5,
+    fontStyle: 'italic',
+  },
+  totalContainer: {
+    height: 40,
+    width: '100%',
+    position: 'relative',
+    bottom: 0,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 30,
+  },
+  totalText: {
+    fontSize: 26,
+    fontWeight: '500',
+    marginTop: 2,
+    alignSelf: 'flex-start',
+    color: appColors.grey,
+    fontStyle: 'italic',
+  },
+  totalValue: {
+    fontSize: 26,
+    fontWeight: '500',
+    marginBottom: 3,
+    alignSelf: 'flex-end',
+    color: appColors.primary,
+    fontStyle: 'italic',
+  },
+  billBtnIconContainer: {
+    position: 'absolute',
+    top: -11,
+    right: 23,
+    zIndex: 1000,
+  },
+  daviBtnIconContainer: {
+    position: 'absolute',
+    top: -11,
+    left: 23,
+    zIndex: 1000,
+  },
+  daviBtnIcon: {
+    height: 25,
+    width: 25,
+  },
+});

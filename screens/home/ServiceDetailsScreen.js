@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, Dimensions, Alert, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Image, Dimensions, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Lightbox from 'react-native-lightbox';
 import Carousel from 'react-native-looped-carousel';
@@ -11,7 +11,6 @@ import { appColors } from '../../styles/colors';
 import BackButton from '../../components/custom/BackButton';
 import BigButtonIcon from '../../components/custom/BigButtonIcon';
 import FloatIcon from '../../components/custom/FloatIcon';
-import { commonStyles } from '../../styles/commonStyles';
 
 const sliderWidth = Dimensions.get('window').width;
 const styles = StyleSheet.create({
@@ -93,6 +92,7 @@ class ServiceDetails extends Component {
         icon="arrow-left"
         color={appColors.white}
         style={{ top: 5 }}
+        type="material-community"
       />
       {this.renderServicio()}
     </ScrollView>

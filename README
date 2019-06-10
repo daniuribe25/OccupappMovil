@@ -90,3 +90,4 @@ ERROR LIST
 011 => Quote/onSendInfo
 012 => pushNotificationConfig/onIds
 013 => QuoteDetails/onSendInfo
+014 => QuoteDetails/acceptQuote

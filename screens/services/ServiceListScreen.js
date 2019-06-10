@@ -1,13 +1,13 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
-import { View, FlatList } from 'react-native';
+import { View, FlatList, Image } from 'react-native';
 import { Container, Text } from 'native-base';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ListItem from './components/ListItem';
 import { getUserQuotes } from '../../services/quoteServices';
 import { commonStyles } from '../../styles/commonStyles';
-import { quoteStates } from '../../constants/appConstants';
+import { quoteStatus } from '../../constants/appConstants';
 import { serviceListStyles } from '../../styles/serviceListStyles';
 import Loader from '../../components/custom/Loader';
 
@@ -17,9 +17,11 @@ class ServiceList extends Component {
     quotes: [],
   };
 
-  constructor(props) {
-    super(props);
-    this.fetchUserServices();
+  componentDidMount() {
+    this.props.navigation.addListener(
+      'didFocus',
+      () => this.fetchUserServices(),
+    );
   }
 
   fetchUserServices = () => {
@@ -31,7 +33,7 @@ class ServiceList extends Component {
         if (resp.success) {
           this.setState(prevState => ({
             ...prevState,
-            quotes: resp.output.filter(q => q.state === quoteStates.QUOTE_STATE_SENT),
+            quotes: resp.output.filter(q => q.status === quoteStatus.QUOTE_STATE_SENT),
           }));
         }
       })
@@ -42,7 +44,7 @@ class ServiceList extends Component {
   }
 
   onPressItem = (quote, type) => {
-    this.props.navigation.navigate('QuoteDetails', { quote, type });
+    this.props.navigation.navigate('QuoteDetails', { quote, type, action: 'Sent' });
   }
 
   showLoader = (show) => {
@@ -67,7 +69,17 @@ class ServiceList extends Component {
               renderItem={data => <ListItem data={data.item} onPressItem={this.onPressItem} type="quote" />}
             />
           </React.Fragment>
-        ) : null
+        ) : (
+          <View style={commonStyles.alertFullImageContainer}>
+            <Image
+              source={require('../../assets/images/no-records.png')}
+              style={commonStyles.alertFullImage}
+            />
+            <Text h1 style={commonStyles.alertFullImageText}>
+              No hay actividad a mostrar
+            </Text>
+          </View>
+        )
         }
       </Container>
     );

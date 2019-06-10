@@ -1,4 +1,4 @@
-export const quoteStates = {
-  // Quote state
-  QUOTE_STATE_SENT: 'Sent',
+export const quoteStatus = {
+  // Quote status
+  QUOTE_STATUS_SENT: 'Sent',
 };

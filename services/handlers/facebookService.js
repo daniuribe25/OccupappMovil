@@ -31,7 +31,7 @@ class FacebookButton extends PureComponent {
       (error, result) => {
         if (result) {
           const profile = result;
-          profile.profileImage = `https://graph.facebook.com/${result.id}/picture?type=large'`;
+          profile.profileImage = `https://graph.facebook.com/${result.id}/picture?type=large`;
           resolve(profile);
         } else {
           reject(error);
