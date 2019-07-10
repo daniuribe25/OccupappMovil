@@ -3,9 +3,10 @@ import { appColors } from './colors';
 
 export const sessionStyles = StyleSheet.create({
   welcomeBtnsContainer: {
-    flexDirection: 'column',
-    marginTop: '60%',
-    flex: 1,
+    position: 'absolute',
+    bottom: 50,
+    left: 0,
+    right: 0,
   },
   welcomeBtnsContent: {
     flexDirection: 'row',
@@ -61,8 +62,7 @@ export const sessionStyles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: '30%',
-    marginBottom: 3,
+    marginBottom: 6,
   },
   continueWithText: {
     color: appColors.grey,

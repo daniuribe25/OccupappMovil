@@ -165,19 +165,20 @@ export const commonStyles = StyleSheet.create({
   },
   alertFullImageContainer: {
     width: sliderWidth,
+    marginTop: '16%',
     padding: 30,
     height: '100%',
     alignItems: 'center',
     justifyContent: 'center',
   },
   alertFullImage: {
-    width: sliderWidth - 100,
+    width: sliderWidth - 130,
     justifyContent: 'center',
     alignItems: 'center',
-    height: 220,
+    height: sliderWidth - 180,
   },
   alertFullImageText: {
-    fontSize: 20,
+    fontSize: 16,
     color: appColors.grey,
     padding: 30,
   },

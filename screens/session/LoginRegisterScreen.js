@@ -82,7 +82,7 @@ class LoginRegister extends Component {
         if (!resp.success) {
           this.redirectToRegister('FB', user);
         } else {
-          storeLocally('user-data', user);
+          storeLocally('user-data', resp.output);
           this.props.navigation.navigate('TabsNavigator');
         }
       })
@@ -200,12 +200,14 @@ class LoginRegister extends Component {
             </Text>
           </View>
         )}
-        <View style={sessionStyles.continueWith}>
-          <Text style={sessionStyles.continueWithText}>
-            {this.props.language[+this.state.formData.type ? 'register_with' : 'continue_with']}
-          </Text>
+        <View style={{ ...sessionStyles.welcomeBtnsContainer, ...{ bottom: 30 } }}>
+          <View style={sessionStyles.continueWith}>
+            <Text style={sessionStyles.continueWithText}>
+              {this.props.language[+this.state.formData.type ? 'register_with' : 'continue_with']}
+            </Text>
+          </View>
+          <FacebookButton login={this.facebookLogin} />
         </View>
-        <FacebookButton login={this.facebookLogin} />
       </Container>
     );
   }

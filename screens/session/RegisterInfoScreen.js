@@ -111,7 +111,7 @@ class RegisterInfo extends Component {
           Alert.alert('Error', resp.message);
           return;
         }
-        storeLocally('user-data', data);
+        storeLocally('user-data', resp.output);
         this.props.navigation.navigate('TabsNavigator');
       }).catch(() => {
         this.showLoader(false);

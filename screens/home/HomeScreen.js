@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Container } from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { View, Text, ScrollView, TextInput, ToastAndroid, Button } from 'react-native';
+import { View, Text, ScrollView, TextInput, ToastAndroid, Button, RefreshControl } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Modal from 'react-native-modal';
@@ -152,7 +152,15 @@ class Home extends Component {
   render = () => (
     <Container style={commonStyles.container}>
       <Loader show={this.state.showLoader} />
-      <ScrollView>
+      <ScrollView
+        refreshControl={(
+          <RefreshControl
+            refreshing={this.state.showLoader}
+            onRefresh={this.getUserServices}
+            colors={[appColors.primary, appColors.secondary]}
+          />
+        )}
+      >
         <View style={commonStyles.titleContainer}>
           <Text style={{ ...commonStyles.title, fontWeight: 'bold' }} h1>OCCUPAPP</Text>
           {this.searchInput()}

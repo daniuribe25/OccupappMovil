@@ -6,8 +6,9 @@ const sliderWidth = Dimensions.get('window').width;
 export const profileStyles = StyleSheet.create({
   profileImageNameContainer: {
     width: sliderWidth,
-    marginVertical: 15,
-    height: 160,
+    marginTop: 15,
+    marginBottom: 25,
+    height: 190,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -31,5 +32,24 @@ export const profileStyles = StyleSheet.create({
     fontSize: 20,
     color: appColors.grey,
     padding: 10,
+  },
+  addServiceBtn: {
+    position: 'absolute',
+    bottom: 6,
+    right: 12,
+  },
+  ratingStyles: {
+    alignItems: 'flex-start',
+    marginRight: 6,
+    marginTop: 4,
+  },
+  ratingText: {
+    color: '#f1c40f',
+    fontSize: 16,
+    fontWeight: '600',
+    marginBottom: 10,
+  },
+  optionsSection: {
+    width: 70,
   },
 });

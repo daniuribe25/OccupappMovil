@@ -22,6 +22,8 @@ class ListItem extends Component {
         return 'En Billetera';
       case 'Disbursed':
         return 'Desembolsado';
+      case 'PayPending':
+        return 'Pendiente de Pago';
       default:
         return '';
     }
@@ -39,7 +41,8 @@ class ListItem extends Component {
           <Text style={paymentListStyles.itemDate}>{this.setDateTime(data.dateTime)}</Text>
           <Text style={{
             ...paymentListStyles.statusText,
-            ...{ color: data.status === 'OnWallet' ? appColors.checked : appColors.mediumGrey } }}
+            ...{ color: data.status === 'OnWallet' ? appColors.checked
+              : (data.status === 'PayPending' ? appColors.secondary : appColors.mediumGrey) } }}
           >
             {this.setStatus(data.status)}
           </Text>
@@ -47,7 +50,8 @@ class ListItem extends Component {
         <View style={paymentListStyles.priceSection}>
           <Text style={{
             ...paymentListStyles.priceText,
-            ...{ color: data.status === 'OnWallet' ? appColors.checked : appColors.mediumGrey } }}
+            ...{ color: data.status === 'OnWallet' ? appColors.checked
+              : (data.status === 'PayPending' ? appColors.secondary : appColors.mediumGrey) } }}
           >
             {`$ ${data.value}`}
           </Text>

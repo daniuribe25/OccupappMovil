@@ -115,7 +115,7 @@ export const paymentListStyles = StyleSheet.create({
   },
   daviBtnIconContainer: {
     position: 'absolute',
-    top: -11,
+    top: 0,
     left: 23,
     zIndex: 1000,
   },

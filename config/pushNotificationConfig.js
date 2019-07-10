@@ -7,7 +7,7 @@ const onIds = async (device) => {
   const user = JSON.parse(await getFromStorage('user-data'));
   const token = JSON.parse(await getFromStorage('token'));
   if (token) {
-    if (token.email === user.email) return;
+    if (token.email === user.email && token.token === device.userId) return;
   }
   registerNotificationToken({ token: device.userId, userId: user._id, platform: Platform.OS })
     .then(req => req.json())

@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import homeNavigator from './homeNavigator';
-import Profile from '../screens/profile/ProfileScreen';
+import profileNavigator from './profileNavigator';
 import { appColors } from '../styles/colors';
 import TabBar from './components/TabBar';
 import ServiceList from '../screens/services/ServiceListScreen';
@@ -47,7 +47,7 @@ const TabsNavigator = createBottomTabNavigator({
     },
   },
   Chat: {
-    screen: Profile,
+    screen: profileNavigator,
     navigationOptions: {
       tabBarIcon: ({ focused }) => (
         <FontAwesome
@@ -59,7 +59,7 @@ const TabsNavigator = createBottomTabNavigator({
     },
   },
   Profile: {
-    screen: Profile,
+    screen: profileNavigator,
     navigationOptions: {
       tabBarIcon: ({ focused }) => (
         <Icon

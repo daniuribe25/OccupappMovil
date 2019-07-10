@@ -1,31 +1,80 @@
 import React, { Component } from 'react';
-import { Text, Container, Button } from 'native-base';
-import { View, Image } from 'react-native';
+import { Text, Container } from 'native-base';
+import { Button, Icon } from 'react-native-elements';
+import { View, Image, FlatList, Alert, ToastAndroid } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { sessionStyles } from '../../styles/sessionStyles';
 import { commonStyles } from '../../styles/commonStyles';
 import { removeFromStorage, getFromStorage } from '../../services/handlers/commonServices';
 import { appColors } from '../../styles/colors';
 import { profileStyles } from '../../styles/profileStyles';
+import { serviceListStyles } from '../../styles/serviceListStyles';
+import DropDownMenu from '../../components/custom/DropDownMenu';
+import { getUserServices, disableService } from '../../services/userServicesServices';
+import ListItem from './components/ListItem';
+import Loader from '../../components/custom/Loader';
 
 class Profile extends Component {
   state = {
     name: '',
     profileImage: '',
+    user: {},
+    myServices: [],
+    showLoader: false,
   }
 
   componentDidMount = () => {
-    this.getUser();
+    this.props.navigation.addListener(
+      'didFocus',
+      () => { this.getUser(); },
+    );
   }
 
   getUser = async () => {
     const userData = JSON.parse(await getFromStorage('user-data'));
     this.setState(prevState => ({
       ...prevState,
-      name: `${userData.name} ${userData.lastName}`,
-      profileImage: userData.profileImage,
+      user: userData,
     }));
+    this.getMyServices();
+  }
+
+  getMyServices = () => {
+    this.showLoader(true);
+    getUserServices(this.state.user._id)
+      .then(req => req.json())
+      .then((resp) => {
+        this.showLoader(false);
+        if (resp.output.length) {
+          this.setState(prevState => ({
+            ...prevState,
+            myServices: resp.output,
+          }));
+        }
+      }).catch(() => {
+        ToastAndroid.show('Error 018', ToastAndroid.LONG);
+      });
+  }
+
+  disableService = (service) => {
+    this.showLoader(true);
+    disableService(service)
+      .then(req => req.json())
+      .then((resp) => {
+        this.showLoader(false);
+        const myServices = this.state.myServices.map((x) => {
+          if (x._id === service.id) {
+            x.isActive = service.isActive;
+          }
+          return x;
+        });
+        if (resp.success) {
+          Alert.alert('Info', `Servicio ${service.isActive ? '' : 'des'}activado.`);
+          this.setState(prevState => ({ ...prevState, myServices }));
+        }
+      }).catch(() => {
+        ToastAndroid.show('Error 019', ToastAndroid.LONG);
+      });
   }
 
   logOut = () => {
@@ -33,37 +82,70 @@ class Profile extends Component {
     this.props.navigation.navigate('LoginNavigator');
   }
 
+  getSettingOptions = () => {
+    const options = [];
+    if (this.state.user && this.state.user.loginType === 'CL') {
+      options.push({ text: 'Cambiar Contraseña', onPress: () => this.props.navigation.navigate('ChangePassword', { user: this.state.user }) });
+    }
+    options.push({ text: 'Cerrar Sesión', onPress: this.logOut });
+    return options;
+  }
+
+  showLoader = (show) => {
+    this.setState(prevState => ({ ...prevState, showLoader: show }));
+  }
+
   render() {
     return (
       <Container style={commonStyles.container}>
+        <DropDownMenu options={this.getSettingOptions()} />
+        <Loader show={this.state.showLoader} />
         <View style={commonStyles.titleContainer}>
-          <Text style={{ ...commonStyles.title, fontWeight: 'bold' }} h1>PROFILE</Text>
+          <Text style={{ ...commonStyles.title, fontWeight: 'bold' }} h1>PERFIL</Text>
         </View>
 
         <View style={profileStyles.profileImageNameContainer}>
           <View style={profileStyles.profileImageContainer}>
             <Image
-              source={{ uri: this.state.profileImage }}
+              source={{ uri: this.state.user ? this.state.user.profileImage : '' }}
               style={profileStyles.profileImage}
             />
           </View>
-          <Text h1 style={profileStyles.profileImageName}>
-            {this.state.name}
-          </Text>
+          {this.state.user && (
+            <Text h1 style={profileStyles.profileImageName}>
+              {`${this.state.user.name} ${this.state.user.lastName}`}
+            </Text>
+          )}
+          <Button
+            rightIcon={{ name: 'code' }}
+            title="Editar perfil"
+            type="outline"
+            buttonStyle={{ borderWidth: 2, borderColor: appColors.primary, height: 32 }}
+            titleStyle={{ color: appColors.primary }}
+            onPress={() => { this.props.navigation.navigate('EditProfile', { user: this.state.user }); }}
+          />
         </View>
 
-        <Button
-          bordered
-          style={sessionStyles.joinBtn}
-          onPress={() => this.logOut()}
-        >
-          <Text
-            style={sessionStyles.joinBtnText}
-            uppercase={false}
-          >
-            {this.props.language['get_out']}
+        <React.Fragment>
+          <Text style={serviceListStyles.listTitle} h1>
+            {this.props.language.my_services}
           </Text>
-        </Button>
+          <FlatList
+            data={this.state.myServices}
+            renderItem={data => <ListItem data={data.item} disableService={this.disableService} />}
+          />
+        </React.Fragment>
+
+        <View style={profileStyles.addServiceBtn}>
+          <Icon
+            reverse
+            name="plus"
+            type="font-awesome"
+            color={appColors.secondary}
+            raised
+            onPress={() => this.props.navigation.navigate('NewUserService')}
+          />
+        </View>
       </Container>
     );
   }
@@ -71,10 +153,6 @@ class Profile extends Component {
 
 Profile.propTypes = {
   language: PropTypes.objectOf(PropTypes.string).isRequired,
-};
-
-// Maps states and dispatches to props
-const mapDispachToProps = {
 };
 
 const mapStateToProps = state => ({

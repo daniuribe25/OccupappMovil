@@ -251,7 +251,7 @@ class QuoteDetails extends Component {
             isVisible={this.state.showQuoteDialog}
             height={this.state.modalHeight}
             buttons={[{
-              title: this.props.language.get_out,
+              title: this.props.language.close_sesion,
               onPress: () => this.showQuoteDialog(false, false),
               style: { paddingHorizontal: 15, marginRight: 10, backgroundColor: appColors.primary },
             }, {

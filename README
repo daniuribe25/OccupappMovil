@@ -91,3 +91,9 @@ ERROR LIST
 012 => pushNotificationConfig/onIds
 013 => QuoteDetails/onSendInfo
 014 => QuoteDetails/acceptQuote
+015 => EditProfile/onSendInfo
+016 => Wallet/onLinkDaviplata
+017 => Wallet/onDisburs
+018 => Profile/getMyServices
+019 => ListItem/modifyState
+021 => NewUserService/onSendInfo

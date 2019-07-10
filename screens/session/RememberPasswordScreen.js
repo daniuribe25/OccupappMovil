@@ -8,6 +8,8 @@ import { recoverPassword } from '../../services/loginServices';
 import BigButtonIcon from '../../components/custom/BigButtonIcon';
 import Loader from '../../components/custom/Loader';
 import { commonStyles } from '../../styles/commonStyles';
+import BackButton from '../../components/custom/BackButton';
+import { appColors } from '../../styles/colors';
 
 class RememberPassword extends Component {
   state = {
@@ -69,7 +71,13 @@ class RememberPassword extends Component {
     return (
       <Container style={commonStyles.container}>
         <Loader show={this.state.showLoader} />
-        <View style={{ ...commonStyles.titleContainer, ...{ marginTop: 20 } }}>
+        <BackButton
+          onPress={() => this.props.navigation.goBack()}
+          icon="arrow-left"
+          color={appColors.primary}
+          type="material-community"
+        />
+        <View style={commonStyles.titleContainer}>
           <Text style={{ ...commonStyles.title, fontWeight: 'bold' }} h1>{this.props.language['recover_pass']}</Text>
         </View>
 
