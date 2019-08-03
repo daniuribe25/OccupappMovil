@@ -29,7 +29,7 @@ class ServiceCarousel extends Component {
             onPress={() => this.props.navigation.navigate('ServiceDetails', { service: item })}
           >
             <Image
-              source={{ uri: media[0] }}
+              source={{ uri: media[0].url }}
               style={carouselStyles.image}
             />
           </TouchableHighlight>

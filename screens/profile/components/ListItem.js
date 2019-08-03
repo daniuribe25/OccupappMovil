@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
-import { View, Text, Switch, Alert } from 'react-native';
+import { View, Text, Switch, Alert, TouchableHighlight } from 'react-native';
 import { Rating } from 'react-native-elements';
 import LinearGradient from 'react-native-linear-gradient';
 import { serviceListStyles, paymentListStyles } from '../../../styles/serviceListStyles';
@@ -25,33 +25,35 @@ class ListItem extends Component {
   render() {
     const { data } = this.props;
     return (
-      <LinearGradient
-        colors={[appColors.white, '#f4f4f4']}
-        style={{ ...serviceListStyles.itemContainer, ...{ marginVertical: 2 } }}
-      >
-        <View style={paymentListStyles.textSection}>
-          <Text style={paymentListStyles.itemTitle}>{data.service}</Text>
-          <View style={{ flexDirection: 'row' }}>
-            <Rating
-              ratingCount={5}
-              readonly
-              fractions={2}
-              startingValue={+data.rating}
-              style={profileStyles.ratingStyles}
-              imageSize={15}
-              ratingColor={appColors.primary}
-            />
-            <Text style={profileStyles.ratingText}>{+data.rating}</Text>
+      <TouchableHighlight underlayColor={appColors.white} onPress={() => this.props.navigation.navigate('NewUserService', { service: data })}>
+        <LinearGradient
+          colors={[appColors.white, '#f4f4f4']}
+          style={{ ...serviceListStyles.itemContainer, ...{ marginVertical: 2 } }}
+        >
+          <View style={paymentListStyles.textSection}>
+            <Text style={paymentListStyles.itemTitle}>{data.service}</Text>
+            <View style={{ flexDirection: 'row' }}>
+              <Rating
+                ratingCount={5}
+                readonly
+                fractions={2}
+                startingValue={+data.rating}
+                style={profileStyles.ratingStyles}
+                imageSize={15}
+                ratingColor={appColors.primary}
+              />
+              <Text style={profileStyles.ratingText}>{+data.rating}</Text>
+            </View>
           </View>
-        </View>
-        <View style={profileStyles.optionsSection}>
-          <Switch
-            style={{ top: 15 }}
-            value={data.isActive}
-            onValueChange={value => this.disableUserService(value)}
-          />
-        </View>
-      </LinearGradient>
+          <View style={profileStyles.optionsSection}>
+            <Switch
+              style={{ top: 15 }}
+              value={data.isActive}
+              onValueChange={value => this.disableUserService(value)}
+            />
+          </View>
+        </LinearGradient>
+      </TouchableHighlight>
     );
   }
 }

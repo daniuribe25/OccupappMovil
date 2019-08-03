@@ -67,7 +67,7 @@ class Home extends Component {
       .then(req => req.json())
       .then((resp) => {
         this.showLoader(false);
-        if (!resp.success) {
+        if (!resp.output.length) {
           this.setState(prevState => ({ ...prevState, noFound: true }));
         } else {
           const servicesCategories = resp.output.reduce((r, a) => {
@@ -78,6 +78,7 @@ class Home extends Component {
           this.setState(prevState => ({
             ...prevState,
             servicesCategories,
+            noFound: false,
           }));
         }
       })

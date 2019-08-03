@@ -25,19 +25,40 @@ class NewUserService extends Component {
     },
     showLoader: false,
     media: [],
+    showMedia: [],
     categories: [],
     services: [],
     textCounter: 0,
   }
 
   componentDidMount = () => {
+    const commingService = this.props.navigation.getParam('service');
+    let ser = {};
+    if (commingService) {
+      ser = {
+        service: commingService.serviceId,
+        category: commingService.categoryId,
+        description: commingService.description,
+        _id: commingService._id,
+      };
+      this.fetchServices(ser.category);
+    }
+    const media = commingService ? commingService.media.map(x => ({
+      uri: x.url,
+      publicId: x.publicId,
+      isSaved: true,
+    })) : [];
     this.fetchCategories();
     this.setState(prevState => ({
       ...prevState,
       formData: {
         ...prevState.formData,
+        ...ser,
         user: this.props.loginInfo._id,
       },
+      isSave: !commingService,
+      media,
+      showMedia: [...media],
     }));
   }
 
@@ -91,9 +112,10 @@ class NewUserService extends Component {
     ImagePicker.launchImageLibrary(options, (response) => {
       this.showLoader(false);
       if (response.uri) {
-        const { media } = this.state;
+        const { media, showMedia } = this.state;
         media.push(response);
-        this.setState(prevState => ({ ...prevState, media }));
+        showMedia.push(response);
+        this.setState(prevState => ({ ...prevState, media, showMedia }));
       }
     });
   }
@@ -106,6 +128,10 @@ class NewUserService extends Component {
       errorMessages.push('Todos los campos son requeridos.');
       isValid = false;
     }
+    if (!this.state.showMedia.length) {
+      errorMessages.push('Debes cargar al menos una imagen.');
+      isValid = false;
+    }
     errorMessages.forEach(x => Alert.alert('Error', x));
     return isValid;
   }
@@ -115,7 +141,7 @@ class NewUserService extends Component {
 
     const data = this.getFormatData();
     this.showLoader(true);
-    registerService(data)
+    registerService(data, this.state.isSave)
       .then(req => req.json())
       .then((resp) => {
         this.showLoader(false);
@@ -123,7 +149,7 @@ class NewUserService extends Component {
           Alert.alert('Error', resp.message);
         } else {
           Alert.alert('Info',
-            'Servicio creado exitosamente.',
+            `Servicio ${this.state.isSave ? 'creado' : 'actualizado'} exitosamente.`,
             [{ text: 'OK', onPress: () => this.props.navigation.navigate('Profile') }],
             { cancelable: false });
         }
@@ -135,17 +161,27 @@ class NewUserService extends Component {
 
   getFormatData = () => {
     const { formData, media } = this.state;
-    const serviceMedia = media.map(x => ({
+    formData.serviceMedia = media.filter(x => !x.isSaved).map(x => ({
       uri: x.uri,
       type: x.type ? x.type : 'image/jpeg',
       name: x.fileName ? x.fileName : (new Date().valueOf()).toString(),
     }));
-    formData.serviceMedia = serviceMedia;
+    formData.mediaToRemove = JSON.stringify(media.filter(x => x.isRemoved).map(x => x.publicId));
     return formData;
   };
 
   showLoader = (show) => {
     this.setState(prevState => ({ ...prevState, showLoader: show }));
+  }
+
+  onRemoveImage = (uri) => {
+    let media = this.state.media.map((x) => {
+      if (x.uri === uri && x.isSaved) x.isRemoved = true;
+      return x;
+    });
+    media = media.filter(x => x.uri !== uri || x.isSaved);
+    const showMedia = this.state.showMedia.filter(x => x.uri !== uri);
+    this.setState(prevState => ({ ...prevState, media, showMedia }));
   }
 
   render() {
@@ -215,9 +251,9 @@ class NewUserService extends Component {
                 onPress={() => this.handleMediaFromGallery(true)}
               />
             </View>
-            {this.state.media.length ? (
+            {this.state.showMedia.length ? (
               <View style={{ marginTop: 15, height: 170 }}>
-                <QuoteCarousel media={this.state.media} />
+                <QuoteCarousel media={this.state.showMedia} onRemove={this.onRemoveImage} />
               </View>
             ) : null}
             <View style={{ marginVertical: 0, height: 100 }}>

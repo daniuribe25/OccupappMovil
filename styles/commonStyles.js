@@ -181,6 +181,7 @@ export const commonStyles = StyleSheet.create({
     fontSize: 16,
     color: appColors.grey,
     padding: 30,
+    textAlign: 'center',
   },
 });
 

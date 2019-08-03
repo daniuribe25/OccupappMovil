@@ -14,6 +14,8 @@ import { getUserServices, disableService } from '../../services/userServicesServ
 import ListItem from './components/ListItem';
 import Loader from '../../components/custom/Loader';
 
+const nrImage = require('../../assets/images/no-records.png');
+
 class Profile extends Component {
   state = {
     name: '',
@@ -130,10 +132,18 @@ class Profile extends Component {
           <Text style={serviceListStyles.listTitle} h1>
             {this.props.language.my_services}
           </Text>
-          <FlatList
-            data={this.state.myServices}
-            renderItem={data => <ListItem data={data.item} disableService={this.disableService} />}
-          />
+          {this.state.myServices.length ? (
+            <FlatList
+              data={this.state.myServices}
+              renderItem={data => <ListItem data={data.item} navigation={this.props.navigation} disableService={this.disableService} />}
+            />
+          ) : (
+            <View style={{ ...commonStyles.alertFullImageContainer, ...{ marginTop: 0, height: '40%' } }}>
+              <Text h1 style={commonStyles.alertFullImageText}>
+                Aún no tienes servicios configurados, configura tu primer servicio desde el botón de la parte inferior derecha de tu pantalla.
+              </Text>
+            </View>
+          )}
         </React.Fragment>
 
         <View style={profileStyles.addServiceBtn}>

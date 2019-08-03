@@ -27,7 +27,7 @@ class ServiceDetails extends Component {
     const { media } = this.state.service;
     return (
       <Carousel style={{ width: sliderWidth, height: sliderWidth }}>
-        {media.map(x => <Image style={{ flex: 1 }} resizeMode="contain" source={{ uri: x }} />)}
+        {media.map(x => <Image style={{ flex: 1 }} resizeMode="contain" source={{ uri: x.url }} />)}
       </Carousel>
     );
   };
@@ -35,7 +35,7 @@ class ServiceDetails extends Component {
   renderImage = media => (
     <Lightbox springConfig={{ tension: 15, friction: 7 }} swipeToDismiss={false} renderContent={this.renderGalleryCarousel}>
       <Image
-        source={{ uri: media[0] }}
+        source={{ uri: media[0].url }}
         style={servicesStyles.image}
       />
     </Lightbox>
