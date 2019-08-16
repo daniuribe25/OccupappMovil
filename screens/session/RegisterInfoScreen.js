@@ -5,6 +5,7 @@ import { View, Image, Alert, ToastAndroid } from 'react-native';
 import { Container, Text, Button } from 'native-base';
 import ImagePicker from 'react-native-image-picker';
 import PropTypes from 'prop-types';
+import firebase from 'firebase';
 import { storeLocally } from '../../services/handlers/commonServices';
 import { registerUserInfo } from '../../redux/actions/session/loginActions';
 import { commonStyles } from '../../styles/commonStyles';
@@ -13,6 +14,7 @@ import DatePickerIcon from '../../components/custom/DatePickerIcon';
 import BigButtonIcon from '../../components/custom/BigButtonIcon';
 import Loader from '../../components/custom/Loader';
 import { appColors } from '../../styles/colors';
+import Fire from '../../config/Fire';
 
 class RegisterInfo extends Component {
   state = {
@@ -112,6 +114,7 @@ class RegisterInfo extends Component {
           return;
         }
         storeLocally('user-data', resp.output);
+        Fire.shared.createAccount(resp.output.email, '921225');
         this.props.navigation.navigate('TabsNavigator');
       }).catch(() => {
         this.showLoader(false);

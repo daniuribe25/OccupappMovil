@@ -14,7 +14,7 @@ import { appColors } from '../../styles/colors';
 import QuoteCarousel from '../quote/components/QuoteCarousel';
 import BackButton from '../../components/custom/BackButton';
 import { fetchCategories, fetchServicesByCategory } from '../../services/serviceCategoriesServices';
-import { registerService } from '../../services/userServicesServices';
+import { registerService, registerServiceMedia } from '../../services/userServicesServices';
 
 class NewUserService extends Component {
   state = {
@@ -136,27 +136,32 @@ class NewUserService extends Component {
     return isValid;
   }
 
-  onSendInfo = () => {
+  onSendInfo = async () => {
     if (!this.validateForm(this.state.formData)) return;
-
-    const data = this.getFormatData();
     this.showLoader(true);
-    registerService(data, this.state.isSave)
-      .then(req => req.json())
-      .then((resp) => {
+    try {
+      const req = await registerService(this.state.formData, this.state.isSave)
+      const resp = await req.json();
+    
+      this.showLoader(false);
+      // const resp = req.json();
+      if (!resp.success) {
+        Alert.alert('Error', resp.message);
+      } else {
+        const data = this.getFormatData();
+        data._id = resp.output._id;
+        const reqMedia = await registerServiceMedia(data, this.state.isSave);
         this.showLoader(false);
-        if (!resp.success) {
-          Alert.alert('Error', resp.message);
-        } else {
-          Alert.alert('Info',
-            `Servicio ${this.state.isSave ? 'creado' : 'actualizado'} exitosamente.`,
-            [{ text: 'OK', onPress: () => this.props.navigation.navigate('Profile') }],
-            { cancelable: false });
-        }
-      }).catch(() => {
-        this.showLoader(false);
-        ToastAndroid.show('Error 021', ToastAndroid.LONG);
-      });
+        const respMedia = reqMedia.json();
+        Alert.alert('Info',
+          `Servicio ${this.state.isSave ? 'creado' : 'actualizado'} exitosamente.`,
+          [{ text: 'OK', onPress: () => this.props.navigation.navigate('Profile') }],
+          { cancelable: false });
+      }
+    } catch (error) {
+      this.showLoader(false);
+      ToastAndroid.show('Error 021', ToastAndroid.LONG);
+    }
   }
 
   getFormatData = () => {

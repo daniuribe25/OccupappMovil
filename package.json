@@ -3,13 +3,14 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "start": "sudo react-native run-android",
     "test": "jest",
     "add-locale": "npx lingui add-locale",
     "extract": "npx lingui extract",
     "compile": "npx lingui compile"
   },
   "dependencies": {
+    "firebase": "^6.3.4",
     "native-base": "^2.12.0",
     "prop-types": "^15.7.2",
     "react": "16.8.3",
@@ -19,6 +20,7 @@
     "react-native-enhanced-popup-menu": "^0.6.1",
     "react-native-fbsdk": "0.8.0",
     "react-native-gesture-handler": "^1.1.0",
+    "react-native-gifted-chat": "^0.9.11",
     "react-native-image-picker": "^0.28.1",
     "react-native-image-view": "^2.1.4",
     "react-native-keyboard-aware-scroll-view": "^0.8.0",

@@ -45,6 +45,11 @@ Ctrl * F12 and debug
 Move keystore file to android/app/ then
 cd android && ./gradlew assembleRelease
 
+// ************Debug From Device***********
+$ adb devices
+$ adb -s <device name> reverse tcp:3000 tcp:3000
+
+
 //************************ERRORS*****************************
 
 PROBLEM:
