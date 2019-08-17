@@ -5,7 +5,7 @@ import { Container, Text, Button } from 'native-base';
 import ImagePicker from 'react-native-image-picker';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { storeLocally } from '../../services/handlers/commonServices';
+import { storeLocally, compressImage } from '../../services/handlers/commonServices';
 import { registerUser } from '../../services/loginServices';
 import { commonStyles } from '../../styles/commonStyles';
 import TextInputIcon from '../../components/custom/TextInputIcon';
@@ -46,9 +46,10 @@ class EditProfile extends Component {
   handleImageFromGallery = () => {
     const options = {};
     this.showLoader(true);
-    ImagePicker.launchImageLibrary(options, (response) => {
+    ImagePicker.launchImageLibrary(options, async (response) => {
       this.showLoader(false);
       if (response.uri) {
+        response.uri = await compressImage(response.uri, 480, 400, 80);
         this.setState(prevState => (
           { ...prevState,
             imagePicked: true,
@@ -88,7 +89,7 @@ class EditProfile extends Component {
         }
         storeLocally('user-data', resp.output);
         Alert.alert('Info', 'Se ha actualizado tu información correctamente',
-          [{ text: 'OK', onPress: () => this.props.navigation.navigate('Profile') }],
+          [{ text: 'OK', onPress: () => this.props.navigation.navigate('Profile', { refresh: true }) }],
           { cancelable: false });
       }).catch(() => {
         ToastAndroid.show('Error 015', ToastAndroid.LONG);
@@ -105,7 +106,7 @@ class EditProfile extends Component {
       <Container style={commonStyles.container}>
         <Loader show={showLoader} />
         <BackButton
-          onPress={() => this.props.navigation.goBack()}
+          onPress={() => this.props.navigation.navigate('Profile', { refresh: false })}
           icon="arrow-left"
           color={appColors.primary}
           type="material-community"
@@ -150,7 +151,7 @@ class EditProfile extends Component {
                 {this.props.language.pick_profile_image}
               </Text>
             </Button>
-            { formData.profileImage && (
+            { formData.profileImage !== '' && formData.profileImage !== undefined && (
               <View style={commonStyles.imagePickerShowedContainer}>
                 <Image
                   style={commonStyles.imagePickerShowed}

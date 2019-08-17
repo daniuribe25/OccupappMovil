@@ -13,7 +13,7 @@ export const registerUser = (userInfo, isUpdate) => {
   });
 
   return fetch('https://occupapp.herokuapp.com/api/users', {
-  // return fetch('http://10.0.2.2:3000/api/users', {
+  // return fetch('http://127.0.0.1:3000/api/users', {
     method: isUpdate ? 'PATCH' : 'POST',
     body: formData,
     headers: { accept: '*/*' },
@@ -22,7 +22,7 @@ export const registerUser = (userInfo, isUpdate) => {
 
 export const updatePassword = (passwords) => {
   return fetch('https://occupapp.herokuapp.com/api/updatePass', {
-  // return fetch('http://10.0.2.2:3000/api/updatePass', {
+  // return fetch('http://127.0.0.1:3000/api/updatePass', {
     method: 'POST',
     body: JSON.stringify(passwords),
     headers: { 'Content-Type': 'application/json' },
@@ -32,7 +32,7 @@ export const updatePassword = (passwords) => {
 
 export const authUser = (credentials) => {
   return fetch('https://occupapp.herokuapp.com/api/authUser', {
-  // return fetch('http://10.0.2.2:3000/api/authUser', {
+  // return fetch('http://127.0.0.1:3000/api/authUser', {
     method: 'POST',
     body: JSON.stringify(credentials),
     headers: { 'Content-Type': 'application/json' },
@@ -47,14 +47,14 @@ export const getUserByEmail = (email) => {
 
 export const recoverPassword = (email) => {
   return fetch(`https://occupapp.herokuapp.com/api/recoverPassword/${email}`, {
-  // return fetch(`http://10.0.2.2:3000/api/recoverPassword/${email}`, {
+  // return fetch(`http://127.0.0.1:3000/api/recoverPassword/${email}`, {
     method: 'GET',
   });
 };
 
 export const linkDaviplata = (dp) => {
   return fetch('https://occupapp.herokuapp.com/api/linkDaviplata', {
-  // return fetch('http://10.0.2.2:3000/api/linkDaviplata', {
+  // return fetch('http://127.0.0.1:3000/api/linkDaviplata', {
     method: 'POST',
     body: JSON.stringify(dp),
     headers: { 'Content-Type': 'application/json' },

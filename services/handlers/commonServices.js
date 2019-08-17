@@ -1,4 +1,5 @@
 import { AsyncStorage, ToastAndroid } from 'react-native';
+import CompressImage from 'react-native-compress-image';
 
 export const storeLocally = async (key, value) => {
   try {
@@ -18,4 +19,14 @@ export const removeFromStorage = (key) => {
   try {
     AsyncStorage.removeItem(key);
   } catch (error) { ToastAndroid.show('Error 004', ToastAndroid.LONG); }
+};
+
+export const compressImage = async (uri, maxWidth, maxHeight, quality) => {
+  let response = null;
+  try {
+    response = await CompressImage.createCustomCompressedImage(uri, 'Compress/Images', maxWidth, maxHeight, quality);
+    return response.uri;
+  } catch (err) {
+    console.log(err);
+  }
 };
