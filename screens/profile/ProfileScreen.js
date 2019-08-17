@@ -14,7 +14,7 @@ import { getUserServices, disableService } from '../../services/userServicesServ
 import ListItem from './components/ListItem';
 import Loader from '../../components/custom/Loader';
 
-const nrImage = require('../../assets/images/no-records.png');
+const defaultAvatar = require('../../assets/images/default-avatar.png');
 
 class Profile extends Component {
   state = {
@@ -26,9 +26,15 @@ class Profile extends Component {
   }
 
   componentDidMount = () => {
+    this.getUser();
     this.props.navigation.addListener(
       'didFocus',
-      () => { this.getUser(); },
+      () => {
+        const refresh = this.props.navigation.getParam('refresh');
+        if (refresh) {
+          this.getUser();
+        }
+      },
     );
   }
 
@@ -109,7 +115,7 @@ class Profile extends Component {
         <View style={profileStyles.profileImageNameContainer}>
           <View style={profileStyles.profileImageContainer}>
             <Image
-              source={{ uri: this.state.user ? this.state.user.profileImage : '' }}
+              source={{ uri: this.state.user ? this.state.user.profileImage : defaultAvatar }}
               style={profileStyles.profileImage}
             />
           </View>
@@ -153,7 +159,7 @@ class Profile extends Component {
             type="font-awesome"
             color={appColors.secondary}
             raised
-            onPress={() => this.props.navigation.navigate('NewUserService')}
+            onPress={() => this.props.navigation.navigate('NewUserService', { user: this.state.user })}
           />
         </View>
       </Container>
@@ -163,6 +169,7 @@ class Profile extends Component {
 
 Profile.propTypes = {
   language: PropTypes.objectOf(PropTypes.string).isRequired,
+  navigation: PropTypes.shape.isRequired,
 };
 
 const mapStateToProps = state => ({

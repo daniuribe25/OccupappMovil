@@ -31,7 +31,7 @@ class Chat extends Component {
     });
 
     const userData = JSON.parse(await getFromStorage('user-data'));
-    Fire.shared.observeAuth(userData.email, pass);
+    Fire.shared.observeAuth(userData.email, 'password');
   }
 
   componentWillUnmount() {

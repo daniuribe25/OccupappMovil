@@ -15,6 +15,7 @@ import QuoteCarousel from '../quote/components/QuoteCarousel';
 import BackButton from '../../components/custom/BackButton';
 import { fetchCategories, fetchServicesByCategory } from '../../services/serviceCategoriesServices';
 import { registerService, registerServiceMedia } from '../../services/userServicesServices';
+import { compressImage } from '../../services/handlers/commonServices';
 
 class NewUserService extends Component {
   state = {
@@ -33,6 +34,7 @@ class NewUserService extends Component {
 
   componentDidMount = () => {
     const commingService = this.props.navigation.getParam('service');
+    const user = this.props.navigation.getParam('user');
     let ser = {};
     if (commingService) {
       ser = {
@@ -54,7 +56,7 @@ class NewUserService extends Component {
       formData: {
         ...prevState.formData,
         ...ser,
-        user: this.props.loginInfo._id,
+        user: ser._id || user,
       },
       isSave: !commingService,
       media,
@@ -106,13 +108,14 @@ class NewUserService extends Component {
     }));
   };
 
-  handleMediaFromGallery = (isImage) => {
+  handleMediaFromGallery = async (isImage) => {
     const options = { mediaType: isImage ? 'image' : 'video', noData: true, videoQuality: 'medium' };
     this.showLoader(true);
-    ImagePicker.launchImageLibrary(options, (response) => {
+    ImagePicker.launchImageLibrary(options, async (response) => {
       this.showLoader(false);
       if (response.uri) {
         const { media, showMedia } = this.state;
+        response.uri = await compressImage(response.uri, 480, 400, 70);
         media.push(response);
         showMedia.push(response);
         this.setState(prevState => ({ ...prevState, media, showMedia }));
@@ -140,23 +143,20 @@ class NewUserService extends Component {
     if (!this.validateForm(this.state.formData)) return;
     this.showLoader(true);
     try {
-      const req = await registerService(this.state.formData, this.state.isSave)
+      const req = await registerService(this.state.formData, this.state.isSave);
       const resp = await req.json();
-    
       this.showLoader(false);
-      // const resp = req.json();
       if (!resp.success) {
         Alert.alert('Error', resp.message);
       } else {
-        const data = this.getFormatData();
-        data._id = resp.output._id;
-        const reqMedia = await registerServiceMedia(data, this.state.isSave);
-        this.showLoader(false);
-        const respMedia = reqMedia.json();
         Alert.alert('Info',
           `Servicio ${this.state.isSave ? 'creado' : 'actualizado'} exitosamente.`,
-          [{ text: 'OK', onPress: () => this.props.navigation.navigate('Profile') }],
+          [{ text: 'OK', onPress: () => this.props.navigation.navigate('Profile', { refresh: true }) }],
           { cancelable: false });
+        const data = this.getFormatData();
+        data._id = this.state.isSave ? resp.output._id : data._id;
+        await registerServiceMedia(data, this.state.isSave);
+        this.showLoader(false);
       }
     } catch (error) {
       this.showLoader(false);
@@ -197,7 +197,7 @@ class NewUserService extends Component {
           automaticallyAdjustContentInsets={false}
         >
           <BackButton
-            onPress={() => this.props.navigation.goBack()}
+            onPress={() => this.props.navigation.navigate('Profile', { refresh: false })}
             icon="arrow-left"
             color={appColors.primary}
             type="material-community"

@@ -36,7 +36,6 @@ class ChangePassword extends Component {
         ));
       },
     );
-    
   }
 
   inputChangeHandler = (name, value) => {
@@ -80,7 +79,7 @@ class ChangePassword extends Component {
           return;
         }
         Alert.alert('Info', 'Se ha actualizado tu contraseña correctamente',
-          [{ text: 'OK', onPress: () => this.props.navigation.navigate('Profile') }],
+          [{ text: 'OK', onPress: () => this.props.navigation.navigate('Profile', { refresh: false }) }],
           { cancelable: false });
       }).catch(() => {
         this.showLoader(false);
@@ -97,7 +96,7 @@ class ChangePassword extends Component {
       <Container style={commonStyles.container}>
         <Loader show={this.state.showLoader} />
         <BackButton
-          onPress={() => this.props.navigation.goBack()}
+          onPress={() => this.props.navigation.navigate('Profile', { refresh: false })}
           icon="arrow-left"
           color={appColors.primary}
           type="material-community"

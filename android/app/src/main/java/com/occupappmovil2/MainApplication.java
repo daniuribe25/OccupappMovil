@@ -3,6 +3,7 @@ package com.occupappmovil2;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.emekalites.react.compress.image.ImageCompressPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.geektime.rnonesignalandroid.ReactNativeOneSignalPackage;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
@@ -34,6 +35,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new ImageCompressPackage(),
             new LinearGradientPackage(),
             new ReactNativeOneSignalPackage(),
             new FBSDKPackage(mCallbackManager),
