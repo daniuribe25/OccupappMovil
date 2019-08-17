@@ -44,6 +44,7 @@ Ctrl * F12 and debug
 // GENERATE APK
 Move keystore file to android/app/ then
 cd android && ./gradlew assembleRelease
+cd android && ./gradlew assembleDebug
 
 // ************Debug From Device***********
 $ adb devices

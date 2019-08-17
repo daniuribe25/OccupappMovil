@@ -4,13 +4,13 @@ import { appColors } from './colors';
 export const carouselStyles = StyleSheet.create({
   slide: {
     paddingHorizontal: -25,
-    borderRadius: 3,
-    marginTop: 2,
+    borderRadius: 7,
+    marginTop: 5,
     marginBottom: 20,
   },
   seeAllSlide: {
     marginTop: 2,
-    marginBottom: 20,
+    marginBottom: 30,
   },
   slideInnerContainer: {
     flex: 1,
@@ -18,7 +18,7 @@ export const carouselStyles = StyleSheet.create({
   image: {
     width: '100%',
     height: 170,
-    borderRadius: 3,
+    borderRadius: 7,
   },
   descriptionContainer: {
     display: 'flex',
@@ -72,7 +72,7 @@ export const carouselStyles = StyleSheet.create({
     color: appColors.black,
     alignItems: 'flex-start',
     flexBasis: '70%',
-    marginTop: -14,
+    marginTop: -20,
   },
   seeAllLink: {
     fontSize: 16,
@@ -80,5 +80,6 @@ export const carouselStyles = StyleSheet.create({
     color: appColors.primary,
     alignItems: 'flex-end',
     flexBasis: '30%',
+    marginTop: -8,
   },
 });

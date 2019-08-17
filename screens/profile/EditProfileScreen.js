@@ -49,7 +49,7 @@ class EditProfile extends Component {
     ImagePicker.launchImageLibrary(options, async (response) => {
       this.showLoader(false);
       if (response.uri) {
-        response.uri = await compressImage(response.uri, 480, 400, 80);
+        response.uri = await compressImage(response.uri, 500, 420, 80);
         this.setState(prevState => (
           { ...prevState,
             imagePicked: true,

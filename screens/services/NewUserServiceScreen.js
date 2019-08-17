@@ -115,7 +115,7 @@ class NewUserService extends Component {
       this.showLoader(false);
       if (response.uri) {
         const { media, showMedia } = this.state;
-        response.uri = await compressImage(response.uri, 480, 400, 70);
+        response.uri = await compressImage(response.uri, 500, 420, 75);
         media.push(response);
         showMedia.push(response);
         this.setState(prevState => ({ ...prevState, media, showMedia }));
