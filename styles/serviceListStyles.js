@@ -2,20 +2,24 @@ import { StyleSheet } from 'react-native';
 import { appColors } from './colors';
 
 export const serviceListStyles = StyleSheet.create({
+  serviceSection: {
+    marginBottom: 30,
+  },
   listTitle: {
     fontSize: 18,
     fontWeight: '500',
-    paddingVertical: 5,
-    marginHorizontal: 20,
+    marginTop: 5,
+    marginBottom: 2,
+    marginHorizontal: 40,
     color: appColors.primary,
   },
   itemContainer: {
-    borderRadius: 5,
-    marginHorizontal: 15,
+    borderRadius: 10,
+    marginHorizontal: 30,
     marginVertical: 5,
     elevation: 1,
     backgroundColor: appColors.lightGrey,
-    paddingHorizontal: 20,
+    paddingHorizontal: 30,
     paddingVertical: 10,
     display: 'flex',
     flexDirection: 'row',
@@ -44,6 +48,14 @@ export const serviceListStyles = StyleSheet.create({
     paddingStart: 10,
     paddingBottom: 8,
     color: appColors.secondary,
+    top: -6,
+  },
+  status: {
+    padding: 3,
+    paddingHorizontal: 12,
+    borderRadius: 10,
+    alignSelf: 'flex-start',
+    opacity: 0.7,
   },
 });
 

@@ -16,6 +16,7 @@ import { quoteStyles } from '../../styles/quoteStyles';
 import { appColors } from '../../styles/colors';
 import QuoteCarousel from './components/QuoteCarousel';
 import BackButton from '../../components/custom/BackButton';
+import { compressImage } from '../../services/handlers/commonServices';
 
 class Quote extends Component {
   state = {
@@ -65,10 +66,11 @@ class Quote extends Component {
   handleMediaFromGallery = (isImage) => {
     const options = { mediaType: isImage ? 'image' : 'video', noData: true, videoQuality: 'medium' };
     this.showLoader(true);
-    ImagePicker.launchImageLibrary(options, (response) => {
+    ImagePicker.launchImageLibrary(options, async (response) => {
       this.showLoader(false);
       if (response.uri) {
         const { media } = this.state;
+        response.uri = await compressImage(response.uri, 500, 420, 75);
         media.push(response);
         this.setState(prevState => ({ ...prevState, media }));
       }
@@ -104,7 +106,7 @@ class Quote extends Component {
             [{ text: 'OK', onPress: () => this.props.navigation.navigate('Home') }],
             { cancelable: false });
         }
-      }).catch((e) => {
+      }).catch(() => {
         this.showLoader(false);
         ToastAndroid.show('Error 011', ToastAndroid.LONG);
       });

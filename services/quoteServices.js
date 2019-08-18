@@ -20,7 +20,7 @@ export const registerQuote = (quote) => {
 
 export const getUserQuotes = (userId) => {
   return fetch(`https://occupapp.herokuapp.com/api/user_quote/${userId}`, {
-  // return fetch('http://10.0.2.2:3000/api/user_services', {
+  // return fetch(`http://10.0.2.2:3000/api/user_quote/${userId}`, {
     method: 'GET',
   });
 };

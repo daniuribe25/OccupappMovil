@@ -17,11 +17,40 @@ class ListItem extends Component {
     return `${date[2]}/${date[1]}/${date[0]} ${time}`;
   }
 
+  setStatus = (status) => {
+    let st = '';
+    switch (status) {
+      case 'Sent':
+        st = { text: 'Por responder', color: 'yellow', textColor: appColors.grey };
+        break;
+      case 'Answered':
+        st = { text: 'Respondida', color: 'yellow', textColor: appColors.grey };
+        break;
+      case 'Accepted':
+        st = { text: 'Agendada', color: appColors.checked, textColor: appColors.white };
+        break;
+      case 'NoAccepted':
+        st = { text: 'Tarifa no aceptada', color: appColors.grey, textColor: appColors.white };
+        break;
+      case 'Rejected':
+        st = { text: 'Rechazada', color: appColors.grey, textColor: appColors.white };
+        break;
+      case 'Finished':
+        st = { text: 'Completado', color: appColors.checked, textColor: appColors.white };
+        break;
+      default:
+        st = '';
+        break;
+    }
+    return st;
+  }
+
   render() {
-    const { data, onPressItem, type } = this.props;
+    const { data, onPressItem, type, action } = this.props;
+    const st = this.setStatus(data.status);
     return (
       <TouchableHighlight
-        onPress={() => onPressItem(data, type)}
+        onPress={() => onPressItem(data, type, action)}
         underlayColor="white"
       >
         <LinearGradient
@@ -37,6 +66,11 @@ class ListItem extends Component {
                 color={appColors.grey}
               />
               <Text style={serviceListStyles.itemSubTitle}>{this.setDateTime(data.dateTime)}</Text>
+            </View>
+            <View style={serviceListStyles.statusSection}>
+              <View style={{ ...serviceListStyles.status, ...{ backgroundColor: st.color } }}>
+                <Text style={{ color: st.textColor }}>{st.text}</Text>
+              </View>
             </View>
           </View>
           <View style={serviceListStyles.iconSection}>

@@ -27,6 +27,9 @@ export const setQuoteMessage = (action, language, price) => {
     case 'NoAccepted':
       text = language.no_accepted_description;
       break;
+    case 'Mine':
+      text = language.my_quote_description;
+      break;
     default:
       return null;
   }

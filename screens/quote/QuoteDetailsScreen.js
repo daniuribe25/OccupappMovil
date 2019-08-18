@@ -43,6 +43,7 @@ class QuoteDetails extends Component {
       const time = dt[1].substring(0, 8);
       return `${date[2]}/${date[1]}/${date[0]} ${time}`;
     }
+    return '';
   }
 
   fetchQuote = () => {
@@ -92,14 +93,15 @@ class QuoteDetails extends Component {
     return isValid;
   }
 
-  onSendInfo = () => {
+  onSendInfo = (accept) => {
     if (!this.validateForm(this.state.formData)) return;
 
     const data = this.state.formData;
-    data.status = this.setFormState();
+    data.status = this.setFormState(accept);
+    data.accept = accept;
 
     this.showLoader(true);
-    answerQuote(this.state.formData)
+    answerQuote(data)
       .then(req => req.json())
       .then((resp) => {
         this.showLoader(false);
@@ -117,16 +119,16 @@ class QuoteDetails extends Component {
   acceptQuote = (accept) => {
     this.setState(prevState => ({ ...prevState,
       formData: { ...prevState.formData, accept },
-    }));
-    this.onSendInfo();
+    }), this.onSendInfo(accept));
   }
 
-  setFormState = () => {
-    const { action, formData } = this.state;
-    if (action === 'Sent' && formData.accept) return 'Answered';
-    if (action === 'Sent' && !formData.accept) return 'Rejected';
-    if (action !== 'Sent' && formData.accept) return 'Accepted';
-    if (action !== 'Sent' && !formData.accept) return 'NoAccepted';
+  setFormState = (accept) => {
+    const { action } = this.state;
+    if (action === 'Sent' && accept) return 'Answered';
+    if (action === 'Sent' && !accept) return 'Rejected';
+    if (action !== 'Sent' && accept) return 'Accepted';
+    if (action !== 'Sent' && !accept) return 'NoAccepted';
+    return 'NoAccepted';
   }
 
   showLoader = (show) => {
@@ -251,12 +253,12 @@ class QuoteDetails extends Component {
             isVisible={this.state.showQuoteDialog}
             height={this.state.modalHeight}
             buttons={[{
-              title: this.props.language.close_sesion,
+              title: this.props.language.close,
               onPress: () => this.showQuoteDialog(false, false),
               style: { paddingHorizontal: 15, marginRight: 10, backgroundColor: appColors.primary },
             }, {
               title: this.props.language.send,
-              onPress: this.onSendInfo,
+              onPress: () => this.onSendInfo(true),
               style: { paddingHorizontal: 15, marginRight: 10, backgroundColor: appColors.secondary },
             }]}
           />
