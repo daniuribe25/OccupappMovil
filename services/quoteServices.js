@@ -33,8 +33,8 @@ export const getQuote = (id) => {
 };
 
 export const answerQuote = (quote) => {
-  return fetch('https://occupapp.herokuapp.com/api/quote', {
-  // return fetch('http://10.0.2.2:3000/api/quote', {
+  // return fetch('https://occupapp.herokuapp.com/api/quote', {
+  return fetch('http://10.0.2.2:3000/api/quote', {
     method: 'PATCH',
     body: JSON.stringify(quote),
     headers: { 'Content-Type': 'application/json' },

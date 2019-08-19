@@ -66,7 +66,7 @@ class QuoteDetails extends Component {
     });
     this.setState(prevState => ({ ...prevState,
       quote,
-      action: this.props.navigation.getParam('action'),
+      action: quote.status,
       formData: { ...prevState.formData,
         id: quote._id,
         sentBy: quote.sentBy._id,

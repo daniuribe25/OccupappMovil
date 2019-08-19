@@ -1,68 +1,72 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Image, TouchableHighlight } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import PropTypes from 'prop-types';
-import { serviceListStyles, paymentListStyles } from '../../../styles/serviceListStyles';
+import { chatStyles } from '../../../styles/chatStyles';
 import { appColors } from '../../../styles/colors';
 
-const months = ['Ene', 'Feb', 'Mar', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+const defaultAvatar = require('../../../assets/images/default-avatar.png');
 
 class ListItem extends Component {
 
-  setDateTime = (dateTime) => {
-    const dt = dateTime.split('T');
-    const date = dt[0].split('-');
-    return `${date[2]} ${months[+date[1] - 1]}, ${date[0]}`;
+  setDateTime = (ts) => {
+    const dt = new Date(ts);
+    if (dt.getDate() !== new Date().getDate()) {
+      let year = dt.getFullYear();
+      year = year.toString().substring(2, 3);
+      return `${dt.getDate()}/${dt.getMonth()}/${year}`;
+    }
+    const amPm = dt.getHours() > 0 && dt.getHours() < 12 ? 'AM' : 'PM';
+    return `${dt.getHours()}:${dt.getMinutes()} ${amPm}`;
   }
 
-  setStatus = (status) => {
-    switch (status) {
-      case 'OnWallet':
-        return 'En Billetera';
-      case 'Disbursed':
-        return 'Desembolsado';
-      case 'PayPending':
-        return 'Pendiente de Pago';
-      default:
-        return '';
-    }
+  setLastMessage = (m) => {
+    if (!m.length) return { text: '', date: '' };
+
+    const last = m[m.length - 1];
+    return {
+      text: last.text.length > 35 ? `${last.text}...` : last.text,
+      date: this.setDateTime(last.timestamp),
+    };
   }
 
   render() {
-    const { data } = this.props;
+    const { data, onPressItem } = this.props;
+    const last = this.setLastMessage(data.messages);
     return (
-      <LinearGradient
-        colors={[appColors.white, '#f4f4f4']}
-        style={serviceListStyles.itemContainer}
+      <TouchableHighlight
+        onPress={() => onPressItem(data)}
+        underlayColor="white"
       >
-        <View style={paymentListStyles.textSection}>
-          <Text style={paymentListStyles.itemTitle}>{data.service.name}</Text>
-          <Text style={paymentListStyles.itemDate}>{this.setDateTime(data.dateTime)}</Text>
-          <Text style={{
-            ...paymentListStyles.statusText,
-            ...{ color: data.status === 'OnWallet' ? appColors.checked
-              : (data.status === 'PayPending' ? appColors.secondary : appColors.mediumGrey) } }}
-          >
-            {this.setStatus(data.status)}
-          </Text>
-        </View>
-        <View style={paymentListStyles.priceSection}>
-          <Text style={{
-            ...paymentListStyles.priceText,
-            ...{ color: data.status === 'OnWallet' ? appColors.checked
-              : (data.status === 'PayPending' ? appColors.secondary : appColors.mediumGrey) } }}
-          >
-            {`$ ${data.value}`}
-          </Text>
-        </View>
-      </LinearGradient>
+        <LinearGradient
+          colors={[appColors.white, '#f4f4f4']}
+          style={chatStyles.itemContainer}
+        >
+          <View style={chatStyles.avatarSection}>
+            <View style={chatStyles.avatarContainer}>
+              <Image
+                source={{ uri: data.user2.profileImage ? data.user2.profileImage : defaultAvatar }}
+                style={chatStyles.avatarImage}
+              />
+            </View>
+          </View>
+          <View style={chatStyles.nameSection}>
+            <Text style={chatStyles.nameText}>{`${data.user2.name} ${data.user2.lastName}`}</Text>
+            <Text style={chatStyles.messageText}>Este es un último mensaje</Text>
+          </View>
+          <View style={chatStyles.dateSection}>
+            <Text style={chatStyles.dateText}>8/20/19</Text>
+            {/* <Text style={chatStyles.dateText}>{last.date}</Text> */}
+          </View>
+        </LinearGradient>
+      </TouchableHighlight>
     );
   }
 }
 
 ListItem.propTypes = {
-  language: PropTypes.objectOf({}).isRequired,
+  language: PropTypes.shape({}).isRequired,
 };
 
 export default ListItem;

@@ -48,12 +48,29 @@ class ServiceList extends Component {
   }
 
   setList = (quotes, id) => {
-    const toAnswer = quotes.filter(q => (
+    quotes = quotes.map((x) => {
+      x.statusToShow = x.status;
+      return x;
+    });
+
+    let toAnswer = quotes.filter(q => (
       (q.status === quoteStatus.QUOTE_STATUS_SENT && q.receivedById === id)
       || (q.status === quoteStatus.QUOTE_STATUS_ANSWERED && q.sentById === id)));
 
-    const sent = quotes.filter(q => (
+    toAnswer = toAnswer.map((x) => {
+      if (x.status === quoteStatus.QUOTE_STATUS_ANSWERED && x.sentById === id) {
+        x.statusToShow = 'Quoted';
+      }
+      return x;
+    });
+
+    let sent = quotes.filter(q => (
       q.status === quoteStatus.QUOTE_STATUS_SENT && q.sentById === id));
+
+    sent = sent.map((x) => {
+      x.statusToShow = 'Waiting';
+      return x;
+    });
 
     const finished = quotes.filter(q => (
       ([quoteStatus.QUOTE_STATUS_FINISHED, quoteStatus.QUOTE_STATUS_REJECTED].indexOf(q.status) !== -1)
@@ -105,11 +122,11 @@ class ServiceList extends Component {
           <View style={{ ...commonStyles.titleContainer, ...{ paddingBottom: 5 } }}>
             <Text style={{ ...commonStyles.title, fontWeight: 'bold' }} h1>OCCUPAPP</Text>
           </View>
-          {scheduled.length ? this.renderList(scheduled, this.props.language.scheduled, 'Mine') : null}
           {toAnswer.length ? this.renderList(toAnswer, this.props.language.answer_pending, 'Sent') : null}
+          {scheduled.length ? this.renderList(scheduled, this.props.language.scheduled, 'Mine') : null}
           {sent.length ? this.renderList(sent, this.props.language.my_quotes, 'Mine') : null}
           {finished.length ? this.renderList(finished, this.props.language.finished, 'Mine') : null}
-          {!toAnswer.length && !sent.length ? (
+          {!toAnswer.length && !sent.length && !scheduled.length && !finished.length ? (
             <View style={commonStyles.alertFullImageContainer}>
               <Image
                 source={noRecordImage}

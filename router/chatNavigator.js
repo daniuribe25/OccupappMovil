@@ -6,7 +6,7 @@ const chatNavigator = createStackNavigator({
   Chat,
   ChatList,
 }, {
-  initialRouteName: 'Chat',
+  initialRouteName: 'ChatList',
   defaultNavigationOptions: {
     header: null,
   },

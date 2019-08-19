@@ -2,11 +2,11 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableHighlight } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import Icon from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import PropTypes from 'prop-types';
 import { serviceListStyles } from '../../../styles/serviceListStyles';
 import { appColors } from '../../../styles/colors';
+import { quoteStatus } from '../../../constants/appConstants';
 
 class ListItem extends Component {
 
@@ -20,23 +20,29 @@ class ListItem extends Component {
   setStatus = (status) => {
     let st = '';
     switch (status) {
-      case 'Sent':
-        st = { text: 'Por responder', color: 'yellow', textColor: appColors.grey };
+      case quoteStatus.QUOTE_STATUS_SENT:
+        st = { text: 'Por responder', color: '#e8cd02', textColor: appColors.grey };
         break;
-      case 'Answered':
-        st = { text: 'Respondida', color: 'yellow', textColor: appColors.grey };
+      case quoteStatus.QUOTE_STATUS_ANSWERED:
+        st = { text: 'Respondida', color: '#e8cd02', textColor: appColors.grey };
         break;
-      case 'Accepted':
+      case quoteStatus.QUOTE_STATUS_ACCEPTED:
         st = { text: 'Agendada', color: appColors.checked, textColor: appColors.white };
         break;
-      case 'NoAccepted':
+      case quoteStatus.QUOTE_STATUS_NO_ACCEPTED:
         st = { text: 'Tarifa no aceptada', color: appColors.grey, textColor: appColors.white };
         break;
-      case 'Rejected':
+      case quoteStatus.QUOTE_STATUS_REJECTED:
         st = { text: 'Rechazada', color: appColors.grey, textColor: appColors.white };
         break;
-      case 'Finished':
+      case quoteStatus.QUOTE_STATUS_FINISHED:
         st = { text: 'Completado', color: appColors.checked, textColor: appColors.white };
+        break;
+      case 'Waiting':
+        st = { text: 'Espera de respuesta', color: '#e8cd02', textColor: appColors.grey };
+        break;
+      case 'Quoted':
+        st = { text: 'Cotizado', color: '#e8cd02', textColor: appColors.grey };
         break;
       default:
         st = '';
@@ -47,7 +53,7 @@ class ListItem extends Component {
 
   render() {
     const { data, onPressItem, type, action } = this.props;
-    const st = this.setStatus(data.status);
+    const st = this.setStatus(data.statusToShow);
     return (
       <TouchableHighlight
         onPress={() => onPressItem(data, type, action)}

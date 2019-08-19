@@ -2,55 +2,74 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { View } from 'react-native';
+import { Container, Text } from 'native-base';
 import PropTypes from 'prop-types';
 import { GiftedChat } from 'react-native-gifted-chat';
-import Fire from '../../config/Fire';
-import { getFromStorage } from '../../services/handlers/commonServices';
-
-const pass = '921225';
+// import { getFromStorage } from '../../services/handlers/commonServices';
+import Loader from '../../components/custom/Loader';
+import { commonStyles } from '../../styles/commonStyles';
 
 class Chat extends Component {
-  static navigationOptions = ({ navigation }) => ({
-    title: 'Chat!',
-  });
-
   state = {
+    showLoader: false,
     messages: [],
-    user: {
-      name: 'Daniel',
-      _id: Fire.shared.uid,
-    },
+    user: {},
   };
 
   componentDidMount = async () => {
-    Fire.shared.on((message) => {
-      this.setState(prevState => ({
-        ...prevState,
-        messages: GiftedChat.append(prevState.messages, message),
-      }));
-    });
-
-    const userData = JSON.parse(await getFromStorage('user-data'));
-    Fire.shared.observeAuth(userData.email, 'password');
+    this.setInitialMessages();
   }
 
-  componentWillUnmount() {
-    Fire.shared.off();
+  setInitialMessages = () => {
+    const { navigation, loginInfo } = this.props;
+    const data = navigation.getParam('data');
+    const messages = data.messages.map(x => ({
+      _id: x._id,
+      text: x.text,
+      createdAt: new Date(x.timestamp),
+      user: {
+        _id: x.user._id,
+        name: `${x.user.name} ${x.user.lastName}`,
+        avatar: x.user.profileImage,
+      },
+    }));
+    this.setState(prev => ({ ...prev,
+      messages,
+      user: {
+        _id: loginInfo._id,
+        name: `${loginInfo.name} ${loginInfo.lastName}`,
+      },
+    }));
+  }
+
+  send = (m) => {
+    console.log(m);
+  }
+
+  showLoader = (show) => {
+    this.setState(prevState => ({ ...prevState, showLoader: show }));
   }
 
   render() {
     return (
-      <GiftedChat
-        messages={this.state.messages}
-        onSend={Fire.shared.send}
-        user={this.state.user}
-      />
+      <Container style={{ ...commonStyles.container, ...{ flex: 1, paddingBottom: 0 } }}>
+        <Loader show={this.state.showLoader} />
+        <View style={{ ...commonStyles.titleContainer, ...{ paddingBottom: 25 } }}>
+          <Text style={{ ...commonStyles.title, fontWeight: 'bold' }} h1>CHAT</Text>
+        </View>
+        <GiftedChat
+          messages={this.state.messages}
+          onSend={this.send}
+          user={this.state.user}
+        />
+      </Container>
     );
   }
 }
 
 Chat.propTypes = {
-  language: PropTypes.objectOf({}).isRequired,
+  language: PropTypes.shape({}).isRequired,
 };
 
 const mapStateToProps = state => ({
