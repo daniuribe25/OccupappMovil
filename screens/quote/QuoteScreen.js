@@ -70,7 +70,7 @@ class Quote extends Component {
       this.showLoader(false);
       if (response.uri) {
         const { media } = this.state;
-        response.uri = await compressImage(response.uri, 500, 420, 75);
+        response = await compressImage(response.uri, 500, 420, 75);
         media.push(response);
         this.setState(prevState => ({ ...prevState, media }));
       }

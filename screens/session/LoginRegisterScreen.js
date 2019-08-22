@@ -63,7 +63,7 @@ class LoginRegister extends Component {
             Alert.alert('Error', resp.message);
             return;
           }
-          storeLocally('user-data', this.state.formData);
+          storeLocally('user-data', resp.output);
           this.props.navigation.navigate('TabsNavigator');
         }).catch(() => {
           ToastAndroid.show('Error 003', ToastAndroid.LONG);
@@ -214,9 +214,9 @@ class LoginRegister extends Component {
 }
 
 LoginRegister.propTypes = {
-  language: PropTypes.objectOf(PropTypes.string).isRequired,
-  loginInfo: PropTypes.objectOf(PropTypes.any).isRequired,
-  navigation: PropTypes.objectOf(PropTypes.any).isRequired,
+  language: PropTypes.shape(PropTypes.string).isRequired,
+  loginInfo: PropTypes.shape(PropTypes.any).isRequired,
+  navigation: PropTypes.shape(PropTypes.any).isRequired,
   authenticateUser: PropTypes.func.isRequired,
   storeLoginInfo: PropTypes.func.isRequired,
 };

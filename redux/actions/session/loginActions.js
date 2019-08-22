@@ -1,4 +1,4 @@
-import loginTypes from '../../reduxConstants';
+import { loginTypes } from '../../reduxConstants';
 import { registerUser, authUser } from '../../../services/loginServices';
 
 export const authenticateUser = loginInfo => (dispach) => {

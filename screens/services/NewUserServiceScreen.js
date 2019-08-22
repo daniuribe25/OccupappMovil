@@ -115,7 +115,7 @@ class NewUserService extends Component {
       this.showLoader(false);
       if (response.uri) {
         const { media, showMedia } = this.state;
-        response.uri = await compressImage(response.uri, 500, 420, 75);
+        response = await compressImage(response.uri, 500, 420, 75);
         media.push(response);
         showMedia.push(response);
         this.setState(prevState => ({ ...prevState, media, showMedia }));
@@ -149,14 +149,14 @@ class NewUserService extends Component {
       if (!resp.success) {
         Alert.alert('Error', resp.message);
       } else {
+        this.showLoader(false);
         Alert.alert('Info',
           `Servicio ${this.state.isSave ? 'creado' : 'actualizado'} exitosamente.`,
           [{ text: 'OK', onPress: () => this.props.navigation.navigate('Profile', { refresh: true }) }],
           { cancelable: false });
         const data = this.getFormatData();
         data._id = this.state.isSave ? resp.output._id : data._id;
-        await registerServiceMedia(data, this.state.isSave);
-        this.showLoader(false);
+        registerServiceMedia(data, this.state.isSave);
       }
     } catch (error) {
       this.showLoader(false);
@@ -277,7 +277,7 @@ class NewUserService extends Component {
 }
 
 NewUserService.propTypes = {
-  language: PropTypes.objectOf({}).isRequired,
+  language: PropTypes.shape({}).isRequired,
 };
 
 const mapStateToProps = state => ({

@@ -71,7 +71,7 @@ class ServiceCarousel extends Component {
 }
 
 ServiceCarousel.propTypes = {
-  language: PropTypes.objectOf({}).isRequired,
+  language: PropTypes.shape({}).isRequired,
   services: PropTypes.arrayOf(PropTypes.instanceOf({})).isRequired,
 };
 

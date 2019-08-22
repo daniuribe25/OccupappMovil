@@ -7,7 +7,7 @@ export const searchBarStyles = StyleSheet.create({
     width: '85%',
     alignItems: 'center',
     marginTop: 15,
-    marginBottom: 25,
+    marginBottom: 45,
   },
   icon: {
     position: 'absolute',

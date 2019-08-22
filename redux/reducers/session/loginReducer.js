@@ -1,4 +1,4 @@
-import loginTypes from '../../reduxConstants';
+import { loginTypes } from '../../reduxConstants';
 import { language as languageSP } from '../../../I18n/spanish';
 
 const initialState = {

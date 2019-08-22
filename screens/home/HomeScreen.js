@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import { View, Text, ScrollView, TextInput, ToastAndroid, Button, RefreshControl } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import io from 'socket.io-client';
 import Modal from 'react-native-modal';
 import ServiceCarousel from './components/ServiceCarousel';
 import Loader from '../../components/custom/Loader';
@@ -15,7 +16,12 @@ import { getFromStorage, storeLocally } from '../../services/handlers/commonServ
 import { pushNotificationConfig } from '../../config/pushNotificationConfig';
 import { getUserByEmail } from '../../services/loginServices';
 import { storeLoginInfo } from '../../redux/actions/session/loginActions';
+import { storeSocket } from '../../redux/actions/session/homeActions';
 import { appColors } from '../../styles/colors';
+import { setNewMessage } from '../chat/ChatSocket';
+
+// global.socketChat = io('http://10.0.2.2:3000');
+const socketChat = io('https://occupapp.herokuapp.com');
 
 class Home extends Component {
   state = {
@@ -43,6 +49,17 @@ class Home extends Component {
     }
   }
 
+  initSocket = (userId) => {
+    socketChat.connect();
+    socketChat.emit('setId', userId);
+    socketChat.on('incomingMessage', async (resp) => {
+      if (resp.messageResp.success) {
+        await setNewMessage(resp);
+      }
+    });
+    this.props.storeSocket(socketChat);
+  }
+
   getUser = async () => {
     const userData = JSON.parse(await getFromStorage('user-data'));
     if (!userData.profileImage || !userData._id) {
@@ -52,12 +69,14 @@ class Home extends Component {
           if (resp.success) {
             this.props.storeLoginInfo(userData);
             storeLocally('user-data', resp.output);
+            this.initSocket(resp.output._id);
           }
         }).catch(() => {
           ToastAndroid.show('Error 010', ToastAndroid.LONG);
         });
     } else {
       this.props.storeLoginInfo(userData);
+      this.initSocket(userData._id);
     }
   }
 
@@ -116,6 +135,7 @@ class Home extends Component {
           services={servicesCategories[x]}
           navigation={this.props.navigation}
         />
+        <View style={{ height: 15 }} />
       </React.Fragment>
     ));
   }
@@ -146,7 +166,8 @@ class Home extends Component {
         maxLength={30}
         onFocus={() => this.goToServices('', true)}
       />
-      {/* <Icon style={searchBarStyles.filterIcon} name="filter" size={20} onPress={this.toggleModal} /> */}
+      {/* <Icon style={searchBarStyles.filterIcon} name="filter"
+      size={20} onPress={this.toggleModal} /> */}
     </View>
   );
 
@@ -206,8 +227,13 @@ class Home extends Component {
 }
 
 Home.propTypes = {
-  language: PropTypes.objectOf({}).isRequired,
+  language: PropTypes.shape({
+    search: PropTypes.string.isRequired,
+    see_all: PropTypes.string.isRequired,
+  }).isRequired,
   storeLoginInfo: PropTypes.func.isRequired,
+  storeSocket: PropTypes.func.isRequired,
+  navigation: PropTypes.shape({ navigate: PropTypes.func.isRequired }).isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -216,6 +242,7 @@ const mapStateToProps = state => ({
 
 const mapDispachToProps = {
   storeLoginInfo,
+  storeSocket,
 };
 
 export default connect(mapStateToProps, mapDispachToProps)(Home);
