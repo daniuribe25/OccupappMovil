@@ -4,7 +4,9 @@ import ImageResizer from 'react-native-image-resizer/index.android';
 export const storeLocally = async (key, value) => {
   try {
     await AsyncStorage.setItem(key, JSON.stringify(value));
-  } catch (error) { ToastAndroid.show('Error 001', ToastAndroid.LONG); }
+  } catch (e) {
+    ToastAndroid.show('Error 001', ToastAndroid.LONG);
+  }
 };
 
 export const getFromStorage = async (key) => {
@@ -25,7 +27,9 @@ export const compressImage = async (uri, maxWidth, maxHeight, quality) => {
   let response = null;
   try {
     response = await ImageResizer.createResizedImage(uri, maxWidth, maxHeight, 'JPEG', quality);
-    return response.uri;
+    response.type = 'image/jpeg';
+    response.fileName = response.name;
+    return response;
   } catch (err) {
     console.log(err);
     return uri;

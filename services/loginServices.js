@@ -13,7 +13,7 @@ export const registerUser = (userInfo, isUpdate) => {
   });
 
   return fetch('https://occupapp.herokuapp.com/api/users', {
-  // return fetch('http://127.0.0.1:3000/api/users', {
+  // return fetch('http://10.0.2.2:3000/api/users', {
     method: isUpdate ? 'PATCH' : 'POST',
     body: formData,
     headers: { accept: '*/*' },

@@ -7,7 +7,7 @@ export const registerService = async (ser, isSave) => {
   });
 };
 
-export const registerServiceMedia = async (ser, isSave) => {
+export const registerServiceMedia = (ser, isSave) => {
   const formData = new FormData();
   Object.keys(ser).forEach((key) => {
     if (key === 'serviceMedia') {

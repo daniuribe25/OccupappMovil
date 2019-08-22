@@ -10,7 +10,6 @@
     "compile": "npx lingui compile"
   },
   "dependencies": {
-    "firebase": "^6.3.4",
     "native-base": "^2.12.0",
     "prop-types": "^15.7.2",
     "react": "16.8.3",
@@ -38,7 +37,9 @@
     "react-navigation-tabs": "^2.1.2",
     "react-redux": "^6.0.1",
     "redux": "^4.0.1",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "socket.io": "^2.2.0",
+    "socket.io-client": "^2.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.3.3",
