@@ -13,7 +13,7 @@ import { carouselStyles } from '../../styles/carouselStyles';
 import { searchBarStyles } from '../../styles/searchInputStyles';
 import { getUserServicesWithCategories } from '../../services/userServicesServices';
 import { getFromStorage, storeLocally } from '../../services/handlers/commonServices';
-import { pushNotificationConfig } from '../../config/pushNotificationConfig';
+import { pushNotificationConfig, showNotification } from '../../config/pushNotificationConfig';
 import { getUserByEmail } from '../../services/loginServices';
 import { storeLoginInfo } from '../../redux/actions/session/loginActions';
 import { storeSocket } from '../../redux/actions/session/homeActions';
@@ -36,7 +36,7 @@ class Home extends Component {
   componentDidMount = () => {
     this.getUserServices();
     this.getUser();
-    pushNotificationConfig(null, this.onOpenNotification);
+    pushNotificationConfig(/* showNotification */ null, this.onOpenNotification);
   }
 
   onOpenNotification = (not) => {

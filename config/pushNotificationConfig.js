@@ -1,7 +1,13 @@
 import OneSignal from 'react-native-onesignal';
+import PushNotification from 'react-native-push-notification';
 import { Platform, ToastAndroid } from 'react-native';
 import { storeLocally, getFromStorage } from '../services/handlers/commonServices';
 import { registerNotificationToken } from '../services/notificationTokenServices';
+import { appColors } from '../styles/colors';
+
+PushNotification.configure({
+  onNotification: (notification) => { console.log(notification) },
+});
 
 const onIds = async (device) => {
   const user = JSON.parse(await getFromStorage('user-data'));
@@ -26,4 +32,18 @@ export const pushNotificationConfig = (onReceive, onOpened) => {
   OneSignal.addEventListener('ids', onIds);
   OneSignal.inFocusDisplaying(2);
   OneSignal.configure();
+};
+
+export const showNotification = (not) => {
+  PushNotification.localNotification({
+    id: '1234',
+    largeIcon: 'ic_launcher',
+    smallIcon: 'ic_notification',
+    bigText: 'My big text that will be shown when notification is expanded',
+    subText: 'This is a subText',
+    color: appColors.primary,
+    vibration: 300,
+    title: not.payload.title,
+    message: not.payload.body,
+  });
 };
