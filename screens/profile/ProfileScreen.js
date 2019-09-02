@@ -5,7 +5,7 @@ import { View, Image, FlatList, Alert, ToastAndroid } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { commonStyles } from '../../styles/commonStyles';
-import { removeFromStorage, getFromStorage } from '../../services/handlers/commonServices';
+import { removeFromStorage, getFromStorage, handleException } from '../../services/handlers/commonServices';
 import { appColors } from '../../styles/colors';
 import { profileStyles } from '../../styles/profileStyles';
 import { serviceListStyles } from '../../styles/serviceListStyles';
@@ -47,21 +47,19 @@ class Profile extends Component {
     this.getMyServices();
   }
 
-  getMyServices = () => {
+  getMyServices = async () => {
     this.showLoader(true);
-    getUserServices(this.state.user._id)
-      .then(req => req.json())
-      .then((resp) => {
-        this.showLoader(false);
-        if (resp.output.length) {
-          this.setState(prevState => ({
-            ...prevState,
-            myServices: resp.output,
-          }));
-        }
-      }).catch(() => {
-        ToastAndroid.show('Error 018', ToastAndroid.LONG);
-      });
+    try {
+      const req = await getUserServices(this.state.user._id);
+      const resp = await req.json();
+      this.showLoader(false);
+      if (resp.output.length) {
+        this.setState(prevState => ({
+          ...prevState,
+          myServices: resp.output,
+        }));
+      }
+    } catch (err) { handleException('018', err, this); }
   }
 
   disableService = (service) => {
@@ -115,7 +113,7 @@ class Profile extends Component {
         <View style={profileStyles.profileImageNameContainer}>
           <View style={profileStyles.profileImageContainer}>
             <Image
-              source={{ uri: this.state.user ? this.state.user.profileImage : defaultAvatar }}
+              source={this.state.user && this.state.user.profileImage !== 'null' ? { uri: this.state.user.profileImage } : defaultAvatar}
               style={profileStyles.profileImage}
             />
           </View>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Alert, ToastAndroid } from 'react-native';
+import { View, Alert } from 'react-native';
 import { Container, Text } from 'native-base';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -7,6 +7,7 @@ import TextInputIcon from '../../components/custom/TextInputIcon';
 import { recoverPassword } from '../../services/loginServices';
 import BigButtonIcon from '../../components/custom/BigButtonIcon';
 import Loader from '../../components/custom/Loader';
+import { handleException } from '../../services/handlers/commonServices';
 import { commonStyles } from '../../styles/commonStyles';
 import BackButton from '../../components/custom/BackButton';
 import { appColors } from '../../styles/colors';
@@ -25,26 +26,24 @@ class RememberPassword extends Component {
     ));
   };
 
-  recoverPassword = () => {
+  recoverPassword = async () => {
     if (!this.validateForm(this.state.formData)) return;
 
     this.showLoader(true);
-    recoverPassword(this.state.formData.email)
-      .then(req => req.json())
-      .then((resp) => {
-        this.showLoader(false);
-        if (!resp.success) {
-          Alert.alert('Error', resp.message);
-        } else {
-          Alert.alert(
-            'Listo',
-            'Se ha enviado un email con tu nueva contraseña, por favor después de ingresar cambiala desde la opción de ajustes',
-            [{ text: 'OK', onPress: () => this.props.navigation.goBack() }],
-          );
-        }
-      }).catch(() => {
-        ToastAndroid.show('Error 006', ToastAndroid.LONG);
-      });
+    try {
+      const req = await recoverPassword(this.state.formData.email);
+      const resp = await req.json();
+      this.showLoader(false);
+      if (!resp.success) {
+        Alert.alert('Error', resp.message);
+      } else {
+        Alert.alert(
+          'Listo',
+          'Se ha enviado un email con tu nueva contraseña, por favor después de ingresar cambiala desde la opción de ajustes',
+          [{ text: 'OK', onPress: () => this.props.navigation.goBack() }],
+        );
+      }
+    } catch (err) { handleException('006', err, this); }
   }
 
   validateEmail = (email) => {

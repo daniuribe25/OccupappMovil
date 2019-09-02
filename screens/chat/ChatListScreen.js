@@ -5,14 +5,13 @@ import { View, FlatList, Image, ScrollView, RefreshControl } from 'react-native'
 import { Container, Text } from 'native-base';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import io from 'socket.io-client';
 import ListItem from './components/ListItem';
 import { getChats } from '../../services/chatServices';
 import Loader from '../../components/custom/Loader';
 import { commonStyles } from '../../styles/commonStyles';
 import { appColors } from '../../styles/colors';
 import { serviceListStyles } from '../../styles/serviceListStyles';
-import { storeLocally, getFromStorage } from '../../services/handlers/commonServices';
+import { getFromStorage, handleException } from '../../services/handlers/commonServices';
 
 // const socketChat = io('http://10.0.2.2:3000');
 // const socket = io('https://occupapp.herokuapp.com');
@@ -49,20 +48,16 @@ class ChatList extends Component {
     return {};
   }
 
-  fetchChats = () => {
+  fetchChats = async () => {
     this.showLoader(true);
-    getChats(this.props.loginInfo._id)
-      .then(res => res.json())
-      .then((resp) => {
-        this.showLoader(false);
-        if (resp.success) {
-          this.setChats(resp.output);
-        }
-      })
-      .catch((err) => {
-        this.showLoader(false);
-        console.log(err);
-      });
+    try {
+      const req = await getChats(this.props.loginInfo._id);
+      const resp = await req.json();
+      this.showLoader(false);
+      if (resp.success) {
+        this.setChats(resp.output);
+      }
+    } catch (err) { handleException('016', err, this); }
   }
 
   showLoader = (show) => {

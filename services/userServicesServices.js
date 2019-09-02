@@ -1,13 +1,14 @@
-export const registerService = async (ser, isSave) => {
-  return fetch('https://occupapp.herokuapp.com/api/user_services', {
-  // return fetch('http://127.0.0.1:3000/api/user_services', {
+import { appConstants } from '../constants/appConstants';
+
+export const registerService = async (ser, isSave) => (
+  fetch(`${appConstants.API_URL}user_services`, {
     method: isSave ? 'POST' : 'PATCH',
     body: JSON.stringify(ser),
     headers: { 'Content-Type': 'application/json' },
-  });
-};
+  })
+);
 
-export const registerServiceMedia = (ser, isSave) => {
+export const registerServiceMedia = async (ser, isSave) => {
   const formData = new FormData();
   Object.keys(ser).forEach((key) => {
     if (key === 'serviceMedia') {
@@ -19,34 +20,30 @@ export const registerServiceMedia = (ser, isSave) => {
       formData.append(key, ser[key]);
     }
   });
-  return fetch('https://occupapp.herokuapp.com/api/user_services_media', {
-  // return fetch('http://127.0.0.1:3000/api/user_services_media', {
+  return fetch(`${appConstants.API_URL}user_services_media`, {
     method: isSave ? 'POST' : 'PATCH',
     body: formData,
     headers: { accept: '*/*' },
   });
 };
 
-export const getUserServicesWithCategories = (limit) => {
-  return fetch(`https://occupapp.herokuapp.com/api/user_services?limit=${limit}`, {
-  // return fetch(`http://127.0.0.1:3000/api/user_services?limit=${limit}`, {
+export const getUserServicesWithCategories = async (user, limit) => (
+  fetch(`${appConstants.API_URL}except_user/${user}?limit=${limit}`, {
     method: 'GET',
-  });
-};
+  })
+);
 
-export const getUserServices = (userId) => {
-  return fetch(`https://occupapp.herokuapp.com/api/getByUser/${userId}`, {
-  // return fetch(`http://10.0.2.2:3000/api/getByUser/${userId}`, {
+export const getUserServices = async userId => (
+  fetch(`${appConstants.API_URL}getByUser/${userId}`, {
     method: 'GET',
-  });
-};
+  })
+);
 
 
-export const disableService = (service) => {
-  return fetch(`https://occupapp.herokuapp.com/api/disable_service/${service.id}`, {
-  // return fetch(`http://127.0.0.1:3000/api/disable_service/${service._id}`, {
+export const disableService = service => (
+  fetch(`${appConstants.API_URL}disable_service/${service.id}`, {
     method: 'PATCH',
     body: JSON.stringify(service),
     headers: { 'Content-Type': 'application/json' },
-  });
-};
+  })
+);

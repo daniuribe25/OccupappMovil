@@ -30,21 +30,20 @@ class ServiceList extends Component {
     );
   }
 
-  fetchUserServices = () => {
+  fetchUserServices = async () => {
     this.showLoader(true);
-    getUserQuotes(this.props.loginInfo._id)
-      .then(res => res.json())
-      .then((resp) => {
-        this.showLoader(false);
-        if (resp.success) {
-          const { loginInfo } = this.props;
-          this.setList(resp.output, loginInfo._id);
-        }
-      })
-      .catch((err) => {
-        this.showLoader(false);
-        console.log(err);
-      });
+    try {
+      const req = await getUserQuotes(this.props.loginInfo._id);
+      const resp = await req.json();
+      this.showLoader(false);
+      if (resp.success) {
+        const { loginInfo } = this.props;
+        this.setList(resp.output, loginInfo._id);
+      }
+    } catch (err) {
+      this.showLoader(false);
+      console.log(err);
+    }
   }
 
   setList = (quotes, id) => {

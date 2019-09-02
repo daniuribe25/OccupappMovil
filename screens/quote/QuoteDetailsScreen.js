@@ -15,6 +15,7 @@ import Dialog from '../../components/custom/Dialog';
 import { appColors } from '../../styles/colors';
 import { setQuoteTitle, setQuoteMessage } from './components/QuoteDescriptions';
 import BackButton from '../../components/custom/BackButton';
+import { handleException } from '../../services/handlers/commonServices';
 
 class QuoteDetails extends Component {
   state = {
@@ -46,15 +47,15 @@ class QuoteDetails extends Component {
     return '';
   }
 
-  fetchQuote = () => {
+  fetchQuote = async () => {
     const q = this.props.navigation.getParam('quote');
     this.showLoader(true);
-    getQuote(q._id)
-      .then(res => res.json())
-      .then((resp) => {
-        this.showLoader(false);
-        if (resp.success) this.setData(resp.output);
-      });
+    try {
+      const req = await getQuote(q._id);
+      const resp = await req.json();
+      this.showLoader(false);
+      if (resp.success) this.setData(resp.output);
+    } catch (err) { handleException('011', err, this); }
   }
 
   setData = (quote) => {
@@ -93,7 +94,7 @@ class QuoteDetails extends Component {
     return isValid;
   }
 
-  onSendInfo = (accept) => {
+  onSendInfo = async (accept) => {
     if (!this.validateForm(this.state.formData)) return;
 
     const data = this.state.formData;
@@ -101,19 +102,17 @@ class QuoteDetails extends Component {
     data.accept = accept;
 
     this.showLoader(true);
-    answerQuote(data)
-      .then(req => req.json())
-      .then((resp) => {
-        this.showLoader(false);
-        if (!resp.success) { Alert.alert('Error', resp.message); return; }
-        this.showQuoteDialog(false, true);
+    try {
+      const req = await answerQuote(data);
+      const resp = await req.json();
+      this.showLoader(false);
+      if (!resp.success) { Alert.alert('Error', resp.message); return; }
+      this.showQuoteDialog(false, true);
 
-        Alert.alert('Info', 'Se ha enviado tu respuesta correctamente',
-          [{ text: 'OK', onPress: () => this.props.navigation.navigate('Home') }],
-          { cancelable: false });
-      }).catch(() => {
-        ToastAndroid.show('Error 013', ToastAndroid.LONG);
-      });
+      Alert.alert('Info', 'Se ha enviado tu respuesta correctamente',
+        [{ text: 'OK', onPress: () => this.props.navigation.navigate('Home') }],
+        { cancelable: false });
+    } catch (err) { handleException('013', err, this); }
   }
 
   acceptQuote = (accept) => {

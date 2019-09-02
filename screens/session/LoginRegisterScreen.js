@@ -1,15 +1,15 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-expressions */
 import React, { Component } from 'react';
-import { View, Alert, ToastAndroid } from 'react-native';
+import { View, Alert } from 'react-native';
 import { Container, Text } from 'native-base';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { storeLocally } from '../../services/handlers/commonServices';
+import { storeLocally, handleException } from '../../services/handlers/commonServices';
 import FacebookButton from '../../services/handlers/facebookService';
 import TextInputIcon from '../../components/custom/TextInputIcon';
 import { authenticateUser, storeLoginInfo } from '../../redux/actions/session/loginActions';
-import { getUserByEmail } from '../../services/loginServices';
+import { getUserByEmail, authUser } from '../../services/loginServices';
 import BigButtonIcon from '../../components/custom/BigButtonIcon';
 import Loader from '../../components/custom/Loader';
 import { commonStyles } from '../../styles/commonStyles';
@@ -47,49 +47,46 @@ class LoginRegister extends Component {
     this.setState(prevState => ({ ...prevState, showLoader: show }));
   }
 
-  loginRegister = () => {
+  loginRegister = async () => {
     if (!this.validateForm(this.state.formData)) return;
 
     if (!+this.state.formData.type) {
-      this.showLoader(true);
-      this.props.authenticateUser({
-        email: this.state.formData.email,
-        password: this.state.formData.password,
-        loginType: 'CL' })
-        .then(req => req.json())
-        .then((resp) => {
-          this.showLoader(false);
-          if (!resp.success) {
-            Alert.alert('Error', resp.message);
-            return;
-          }
-          storeLocally('user-data', resp.output);
-          this.props.navigation.navigate('TabsNavigator');
-        }).catch(() => {
-          ToastAndroid.show('Error 003', ToastAndroid.LONG);
-        });
+      try {
+        this.showLoader(true);
+        const loginInfo = {
+          email: this.state.formData.email,
+          password: this.state.formData.password,
+          loginType: 'CL',
+        };
+        const req = await authUser(loginInfo);
+        const resp = await req.json();
+        this.showLoader(false);
+        if (!resp.success) {
+          Alert.alert('Error', resp.message);
+          return;
+        }
+        this.props.authenticateUser(loginInfo);
+        storeLocally('user-data', resp.output);
+        this.props.navigation.navigate('TabsNavigator');
+      } catch (err) { handleException('003', err, this); }
     } else {
       this.checkDuplicatedEmail();
     }
   }
 
-  facebookLogin = (user) => {
+  facebookLogin = async (user) => {
     this.showLoader(true);
-    this.props.authenticateUser(user)
-      .then(req => req.json())
-      .then((resp) => {
-        this.showLoader(false);
-        if (!resp.success) {
-          this.redirectToRegister('FB', user);
-        } else {
-          storeLocally('user-data', resp.output);
-          this.props.navigation.navigate('TabsNavigator');
-        }
-      })
-      .catch(() => {
-        this.showLoader(false);
-        ToastAndroid.show('Error 007', ToastAndroid.LONG);
-      });
+    try {
+      const req = await this.props.authenticateUser(user);
+      const resp = await req.json();
+      this.showLoader(false);
+      if (!resp.success) {
+        this.redirectToRegister('FB', user);
+      } else {
+        storeLocally('user-data', resp.output);
+        this.props.navigation.navigate('TabsNavigator');
+      }
+    } catch (err) { handleException('007', err, this); }
   }
 
   redirectToRegister = (type, loginInfo) => {
@@ -97,25 +94,22 @@ class LoginRegister extends Component {
     this.props.navigation.push('RegisterInfo', { type, loginInfo });
   }
 
-  checkDuplicatedEmail = () => {
+  checkDuplicatedEmail = async () => {
     this.showLoader(true);
-    getUserByEmail(this.state.formData.email)
-      .then(req => req.json())
-      .then((resp) => {
-        this.showLoader(false);
-        if (resp.success) {
-          let mess = '';
-          mess = resp.output.loginType === 'FB'
-            ? 'Email ya registrado en Occupapp con una cuenta de facebook, por favor intenta logandote desde esta opción'
-            : 'Email ya registrado, si no recuerdas la contraseña puedes recuperarla.';
-          Alert.alert('Información', mess);
-        } else {
-          this.redirectToRegister('CL', this.state.formData);
-        }
-      }).catch(() => {
-        this.showLoader(false);
-        ToastAndroid.show('Error 003', ToastAndroid.LONG);
-      });
+    try {
+      const req = await getUserByEmail(this.state.formData.email);
+      const resp = await req.json();
+      this.showLoader(false);
+      if (resp.success) {
+        let mess = '';
+        mess = resp.output.loginType === 'FB'
+          ? 'Email ya registrado en Occupapp con una cuenta de facebook, por favor intenta logandote desde esta opción'
+          : 'Email ya registrado, si no recuerdas la contraseña puedes recuperarla.';
+        Alert.alert('Información', mess);
+      } else {
+        this.redirectToRegister('CL', this.state.formData);
+      }
+    } catch (err) { handleException('003', err, this); }
   }
 
   validateEmail = (email) => {

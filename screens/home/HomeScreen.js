@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Container } from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { View, Text, ScrollView, TextInput, ToastAndroid, Button, RefreshControl } from 'react-native';
+import { View, Text, ScrollView, TextInput, Button, RefreshControl } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import io from 'socket.io-client';
@@ -12,16 +12,16 @@ import { commonStyles } from '../../styles/commonStyles';
 import { carouselStyles } from '../../styles/carouselStyles';
 import { searchBarStyles } from '../../styles/searchInputStyles';
 import { getUserServicesWithCategories } from '../../services/userServicesServices';
-import { getFromStorage, storeLocally } from '../../services/handlers/commonServices';
+import { getFromStorage, storeLocally, handleException } from '../../services/handlers/commonServices';
 import { pushNotificationConfig, showNotification } from '../../config/pushNotificationConfig';
 import { getUserByEmail } from '../../services/loginServices';
 import { storeLoginInfo } from '../../redux/actions/session/loginActions';
 import { storeSocket } from '../../redux/actions/session/homeActions';
 import { appColors } from '../../styles/colors';
 import { setNewMessage } from '../chat/ChatSocket';
+import { appConstants } from '../../constants/appConstants';
 
-// global.socketChat = io('http://10.0.2.2:3000');
-const socketChat = io('https://occupapp.herokuapp.com');
+const socketChat = io(appConstants.API_URL);
 
 class Home extends Component {
   state = {
@@ -34,7 +34,6 @@ class Home extends Component {
   }
 
   componentDidMount = () => {
-    this.getUserServices();
     this.getUser();
     pushNotificationConfig(/* showNotification */ null, this.onOpenNotification);
   }
@@ -63,48 +62,48 @@ class Home extends Component {
   getUser = async () => {
     const userData = JSON.parse(await getFromStorage('user-data'));
     if (!userData.profileImage || !userData._id) {
-      getUserByEmail(userData.email)
-        .then(req => req.json())
-        .then((resp) => {
-          if (resp.success) {
-            this.props.storeLoginInfo(userData);
-            storeLocally('user-data', resp.output);
-            this.initSocket(resp.output._id);
-          }
-        }).catch(() => {
-          ToastAndroid.show('Error 010', ToastAndroid.LONG);
-        });
+      try {
+        const req = await getUserByEmail(userData.email);
+        const resp = await req.json();
+        if (resp.success) {
+          this.props.storeLoginInfo(userData);
+          storeLocally('user-data', resp.output);
+          this.idObtained(resp.output._id);
+        }
+      } catch (err) { handleException('010', err, this); }
     } else {
       this.props.storeLoginInfo(userData);
-      this.initSocket(userData._id);
+      this.idObtained(userData._id);
     }
   }
 
-  getUserServices = () => {
-    this.showLoader(true);
-    getUserServicesWithCategories(0)
-      .then(req => req.json())
-      .then((resp) => {
-        this.showLoader(false);
-        if (!resp.output.length) {
-          this.setState(prevState => ({ ...prevState, noFound: true }));
-        } else {
-          const servicesCategories = resp.output.reduce((r, a) => {
-            r[a.category] = r[a.category] || [];
-            r[a.category].push(a);
-            return r;
-          }, Object.create(null));
-          this.setState(prevState => ({
-            ...prevState,
-            servicesCategories,
-            noFound: false,
-          }));
-        }
-      })
-      .catch(() => {
-        this.showLoader(false);
-        ToastAndroid.show('Error 009', ToastAndroid.LONG);
-      });
+  idObtained = (id) => {
+    this.getUserServices(id);
+    this.initSocket(id);
+    this.setState(prev => ({ ...prev, user: { _id: id } }));
+  }
+
+  getUserServices = async (userId) => {
+    try {
+      this.showLoader(true);
+      const req = await getUserServicesWithCategories(userId, 0);
+      const resp = await req.json();
+      this.showLoader(false);
+      if (!resp.output.length) {
+        this.setState(prevState => ({ ...prevState, noFound: true }));
+      } else {
+        const servicesCategories = resp.output.reduce((r, a) => {
+          r[a.category] = r[a.category] || [];
+          r[a.category].push(a);
+          return r;
+        }, Object.create(null));
+        this.setState(prevState => ({
+          ...prevState,
+          servicesCategories,
+          noFound: false,
+        }));
+      }
+    } catch (err) { handleException('009', err, this); }
   }
 
   showLoader = (show) => {
@@ -178,7 +177,7 @@ class Home extends Component {
         refreshControl={(
           <RefreshControl
             refreshing={this.state.showLoader}
-            onRefresh={this.getUserServices}
+            onRefresh={() => this.getUserServices(this.state.user._id)}
             colors={[appColors.primary, appColors.secondary]}
           />
         )}

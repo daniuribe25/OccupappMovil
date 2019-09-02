@@ -95,8 +95,8 @@ export const paymentListStyles = StyleSheet.create({
   totalContainer: {
     height: 40,
     width: '100%',
-    position: 'relative',
-    bottom: 0,
+    position: 'absolute',
+    bottom: 100,
     flexDirection: 'row',
     flexWrap: 'wrap',
     alignItems: 'center',

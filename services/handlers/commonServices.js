@@ -35,3 +35,9 @@ export const compressImage = async (uri, maxWidth, maxHeight, quality) => {
     return uri;
   }
 };
+
+export const handleException = (code, err, comp) => {
+  comp.showLoader(false);
+  console.log(err);
+  ToastAndroid.show(code, ToastAndroid.LONG);
+};

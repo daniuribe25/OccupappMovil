@@ -1,4 +1,6 @@
-export const registerQuote = (quote) => {
+import { appConstants } from '../constants/appConstants';
+
+export const registerQuote = async (quote) => {
   const formData = new FormData();
   Object.keys(quote).forEach((key) => {
     if (key === 'quoteMedia') {
@@ -10,33 +12,29 @@ export const registerQuote = (quote) => {
       formData.append(key, quote[key]);
     }
   });
-  return fetch('https://occupapp.herokuapp.com/api/quote', {
-  // return fetch('http://10.0.2.2:3000/api/quote', {
+  return fetch(`${appConstants.API_URL}quote`, {
     method: 'POST',
     body: formData,
     headers: { accept: '*/*' },
   });
 };
 
-export const getUserQuotes = (userId) => {
-  return fetch(`https://occupapp.herokuapp.com/api/user_quote/${userId}`, {
-  // return fetch(`http://10.0.2.2:3000/api/user_quote/${userId}`, {
+export const getUserQuotes = async userId => (
+  fetch(`${appConstants.API_URL}user_quote/${userId}`, {
     method: 'GET',
-  });
-};
+  })
+);
 
-export const getQuote = (id) => {
-  return fetch(`https://occupapp.herokuapp.com/api/quote/${id}`, {
-  // return fetch('http://10.0.2.2:3000/api/user_services', {
+export const getQuote = async id => (
+  fetch(`${appConstants.API_URL}quote/${id}`, {
     method: 'GET',
-  });
-};
+  })
+);
 
-export const answerQuote = (quote) => {
-  return fetch('https://occupapp.herokuapp.com/api/quote', {
-  // return fetch('http://10.0.2.2:3000/api/quote', {
+export const answerQuote = async quote => (
+  fetch(`${appConstants.API_URL}quote`, {
     method: 'PATCH',
     body: JSON.stringify(quote),
     headers: { 'Content-Type': 'application/json' },
-  });
-};
+  })
+);

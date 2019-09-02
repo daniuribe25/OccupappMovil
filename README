@@ -48,7 +48,7 @@ cd android && ./gradlew assembleDebug
 
 // ************Debug From Device***********
 $ adb devices
-$ adb -s <device name> reverse tcp:3000 tcp:3000
+$ adb -s ce12171ca2c35d1103 reverse tcp:3000 tcp:3000
 
 
 //************************ERRORS*****************************

@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
-import { View, Alert, ToastAndroid, TextInput, ScrollView, Keyboard } from 'react-native';
+import { View, Alert, TextInput, ScrollView, Keyboard } from 'react-native';
 import { Button } from 'react-native-elements';
 import { Container, Text } from 'native-base';
 import ImagePicker from 'react-native-image-picker';
@@ -16,7 +16,7 @@ import { quoteStyles } from '../../styles/quoteStyles';
 import { appColors } from '../../styles/colors';
 import QuoteCarousel from './components/QuoteCarousel';
 import BackButton from '../../components/custom/BackButton';
-import { compressImage } from '../../services/handlers/commonServices';
+import { compressImage, handleException } from '../../services/handlers/commonServices';
 
 class Quote extends Component {
   state = {
@@ -89,27 +89,24 @@ class Quote extends Component {
     return isValid;
   }
 
-  onSendInfo = () => {
+  onSendInfo = async () => {
     if (!this.validateForm(this.state.formData)) return;
 
     const data = this.getFormatData();
     this.showLoader(true);
-    registerQuote(data)
-      .then(req => req.json())
-      .then((resp) => {
-        this.showLoader(false);
-        if (!resp.success) {
-          Alert.alert('Error', resp.message);
-        } else {
-          Alert.alert('Info',
-            'Tu cotización se ha enviado exitosamente, te dejaremos saber tan pronto sea respondida.',
-            [{ text: 'OK', onPress: () => this.props.navigation.navigate('Home') }],
-            { cancelable: false });
-        }
-      }).catch(() => {
-        this.showLoader(false);
-        ToastAndroid.show('Error 011', ToastAndroid.LONG);
-      });
+    try {
+      const req = await registerQuote(data);
+      const resp = await req.json();
+      this.showLoader(false);
+      if (!resp.success) {
+        Alert.alert('Error', resp.message);
+      } else {
+        Alert.alert('Info',
+          'Tu cotización se ha enviado exitosamente, te dejaremos saber tan pronto sea respondida.',
+          [{ text: 'OK', onPress: () => this.props.navigation.navigate('Home') }],
+          { cancelable: false });
+      }
+    } catch (err) { handleException('011', err, this); }
   }
 
   getFormatData = () => {
