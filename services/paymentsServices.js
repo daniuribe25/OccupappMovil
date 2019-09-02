@@ -1,22 +1,29 @@
-export const registerPayment = (payment) => {
-  return fetch('https://occupapp.herokuapp.com/api/payments', {
-  // return fetch('http://10.0.2.2:3000/api/payment', {
+import { appConstants } from '../constants/appConstants';
+
+export const registerPayment = async payment => (
+  fetch(`${appConstants.API_URL}payments`, {
     method: 'POST',
     body: JSON.stringify(payment),
     headers: { 'Content-Type': 'application/json' },
-  });
-};
+  })
+);
 
-export const getUserPayments = (userId) => {
-  return fetch(`https://occupapp.herokuapp.com/api/user_payments/${userId}`, {
-  // return fetch('http://10.0.2.2:3000/api/user_services', {
+export const getUserPayments = async userId => (
+  fetch(`${appConstants.API_URL}user_payments/${userId}`, {
     method: 'GET',
-  });
-};
+  })
+);
 
-export const disbursPayments = (id) => {
-  return fetch(`https://occupapp.herokuapp.com/api/disbursPayments/${id}`, {
-  // return fetch(`http://10.0.2.2:3000/api/disbursPayments/${id}`, {
+export const disbursPayments = async id => (
+  fetch(`${appConstants.API_URL}disbursPayments/${id}`, {
     method: 'GET',
-  });
-};
+  })
+);
+
+export const getPaymentUrl = async preferences => (
+  fetch(`${appConstants.API_URL}setPaymentPreferences`, {
+    method: 'POST',
+    body: JSON.stringify(preferences),
+    headers: { 'Content-Type': 'application/json' },
+  })
+);

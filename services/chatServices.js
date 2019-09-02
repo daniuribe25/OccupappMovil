@@ -1,6 +1,7 @@
-export const getChats = (user) => {
-  return fetch(`https://occupapp.herokuapp.com/api/chats/${user}`, {
-  // return fetch(`http://10.0.2.2:3000/api/chats/${user}`, {
+import { appConstants } from '../constants/appConstants';
+
+export const getChats = async user => (
+  fetch(`${appConstants.API_URL}chats/${user}`, {
     method: 'GET',
-  });
-};
+  })
+);

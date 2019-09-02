@@ -36,6 +36,7 @@
         "no-param-reassign": "off",
         "react/forbid-prop-types": "off",
         "react/sort-comp": "off",
-        "no-nested-ternary": "off"
+        "no-nested-ternary": "off",
+        "max-len": "off"
     }
 }

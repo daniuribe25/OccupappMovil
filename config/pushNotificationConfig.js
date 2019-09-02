@@ -1,12 +1,12 @@
 import OneSignal from 'react-native-onesignal';
 import PushNotification from 'react-native-push-notification';
-import { Platform, ToastAndroid } from 'react-native';
-import { storeLocally, getFromStorage } from '../services/handlers/commonServices';
+import { Platform } from 'react-native';
+import { storeLocally, getFromStorage, handleException } from '../services/handlers/commonServices';
 import { registerNotificationToken } from '../services/notificationTokenServices';
 import { appColors } from '../styles/colors';
 
 PushNotification.configure({
-  onNotification: (notification) => { console.log(notification) },
+  onNotification: (notification) => { console.log(notification); },
 });
 
 const onIds = async (device) => {
@@ -15,13 +15,13 @@ const onIds = async (device) => {
   if (token) {
     if (token.email === user.email && token.token === device.userId) return;
   }
-  registerNotificationToken({ token: device.userId, userId: user._id, platform: Platform.OS })
-    .then(req => req.json())
-    .then((resp) => {
-      if (resp.success) {
-        storeLocally('token', { token: device.userId, email: user.email });
-      }
-    }).catch(() => { ToastAndroid.show('Error 008', ToastAndroid.LONG); });
+  try {
+    const req = await registerNotificationToken({ token: device.userId, userId: user._id, platform: Platform.OS });
+    const resp = await req.json();
+    if (resp.success) {
+      storeLocally('token', { token: device.userId, email: user.email });
+    }
+  } catch (err) { handleException('016', err, this); }
 };
 
 export const pushNotificationConfig = (onReceive, onOpened) => {

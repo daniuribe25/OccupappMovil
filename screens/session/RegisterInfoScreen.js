@@ -1,11 +1,11 @@
 /* eslint-disable camelcase */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Image, Alert, ToastAndroid } from 'react-native';
+import { View, Image, Alert } from 'react-native';
 import { Container, Text, Button } from 'native-base';
 import ImagePicker from 'react-native-image-picker';
 import PropTypes from 'prop-types';
-import { storeLocally } from '../../services/handlers/commonServices';
+import { storeLocally, handleException, compressImage } from '../../services/handlers/commonServices';
 import { registerUserInfo } from '../../redux/actions/session/loginActions';
 import { commonStyles } from '../../styles/commonStyles';
 import TextInputIcon from '../../components/custom/TextInputIcon';
@@ -13,6 +13,7 @@ import DatePickerIcon from '../../components/custom/DatePickerIcon';
 import BigButtonIcon from '../../components/custom/BigButtonIcon';
 import Loader from '../../components/custom/Loader';
 import { appColors } from '../../styles/colors';
+import { registerUser } from '../../services/loginServices';
 
 class RegisterInfo extends Component {
   state = {
@@ -20,7 +21,7 @@ class RegisterInfo extends Component {
       ...{
         name: '',
         lastName: '',
-        birthday: new Date(),
+        birthday: new Date(1900, 0, 1),
         cel: undefined,
         profileImage: null,
         loginType: 'CL', // common login
@@ -34,8 +35,8 @@ class RegisterInfo extends Component {
     registerType: this.props.navigation.getParam('type'),
   }
 
-  setDate(newDate) {
-    this.setState(prevState => (
+  setDate = (th, newDate) => {
+    th.setState(prevState => (
       { ...prevState,
         formData: { ...prevState.formData, birthday: newDate },
       }
@@ -63,10 +64,10 @@ class RegisterInfo extends Component {
     const options = {};
     const { checked } = appColors;
     this.showLoader(true);
-    ImagePicker.launchImageLibrary(options, (response) => {
+    ImagePicker.launchImageLibrary(options, async (response) => {
       this.showLoader(false);
       if (response.uri) {
-        console.log(response);
+        response = await compressImage(response.uri, 500, 420, 75);
         this.setState(prevState => (
           { ...prevState,
             imagePickerBtnStyles: {
@@ -87,7 +88,7 @@ class RegisterInfo extends Component {
     const errorMessages = [];
 
     if (((!data.name || !data.lastName) && this.state.registerType === 'CL')
-    || !data.birthday || !data.cel) {
+    || data.birthday.getTime() === (new Date(1900, 0, 1)).getTime() || !data.cel) {
       errorMessages.push('Todos los campos son requeridos.');
       isValid = false;
     } else if (data.cel.length < 10 || !(/^\d+$/.test(data.cel))) {
@@ -98,25 +99,23 @@ class RegisterInfo extends Component {
     return isValid;
   }
 
-  onSendInfo = () => {
+  onSendInfo = async () => {
     if (!this.validateForm(this.state.formData)) return;
 
     const data = this.getFormatData();
-    this.showLoader(true);
-    this.props.registerUserInfo(data, false)
-      .then(req => req.json())
-      .then((resp) => {
-        this.showLoader(false);
-        if (!resp.success) {
-          Alert.alert('Error', resp.message);
-          return;
-        }
-        storeLocally('user-data', resp.output);
-        this.props.navigation.navigate('TabsNavigator');
-      }).catch(() => {
-        this.showLoader(false);
-        ToastAndroid.show('Error 008', ToastAndroid.LONG);
-      });
+    try {
+      this.showLoader(true);
+      const req = await registerUser(data);
+      const resp = await req.json();
+      this.showLoader(false);
+      this.props.registerUserInfo(data);
+      if (!resp.success) {
+        Alert.alert('Error', resp.message);
+        return;
+      }
+      storeLocally('user-data', resp.output);
+      this.props.navigation.navigate('TabsNavigator');
+    } catch (err) { handleException('008', err, this); }
   }
 
   getFormatData = () => {
@@ -166,7 +165,7 @@ class RegisterInfo extends Component {
             </React.Fragment>
           )}
           <DatePickerIcon
-            onDateChange={this.setDate}
+            onDateChange={newDate => this.setDate(this, newDate)}
             placeHolder={this.props.language.birthday}
             iconName="calendar"
             locale="es"

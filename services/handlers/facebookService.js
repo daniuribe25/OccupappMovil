@@ -3,13 +3,11 @@ import FBSDK from 'react-native-fbsdk';
 import { Text, Button, Icon } from 'native-base';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-// import { Icon } from 'react-native-elements';
 import { View, ToastAndroid } from 'react-native';
 import { sessionStyles } from '../../styles/sessionStyles';
 import { appColors } from '../../styles/colors';
 
 const { LoginButton, AccessToken, GraphRequest, GraphRequestManager, LoginManager } = FBSDK;
-
 
 class FacebookButton extends PureComponent {
   constructor() {
@@ -125,16 +123,12 @@ export default connect(mapStateToProps, null)(FacebookButton);
 
 
 class FacebookService {
-  
-
-  makeLogoutButton = (callback) => {
-    return (
-      <LoginButton onLogoutFinished={() => {
-        callback();
-      }}
-      />
-    );
-  }
+  makeLogoutButton = callback => (
+    <LoginButton onLogoutFinished={() => {
+      callback();
+    }}
+    />
+  );
 }
 
 export const facebookService = new FacebookService();

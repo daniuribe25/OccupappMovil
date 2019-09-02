@@ -1,11 +1,11 @@
 /* eslint-disable camelcase */
 import React, { Component } from 'react';
-import { View, Image, Alert, ToastAndroid } from 'react-native';
+import { View, Image, Alert } from 'react-native';
 import { Container, Text, Button } from 'native-base';
 import ImagePicker from 'react-native-image-picker';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { storeLocally, compressImage } from '../../services/handlers/commonServices';
+import { storeLocally, compressImage, handleException } from '../../services/handlers/commonServices';
 import { registerUser } from '../../services/loginServices';
 import { commonStyles } from '../../styles/commonStyles';
 import TextInputIcon from '../../components/custom/TextInputIcon';
@@ -75,25 +75,22 @@ class EditProfile extends Component {
     return isValid;
   }
 
-  onSendInfo = () => {
+  onSendInfo = async () => {
     if (!this.validateForm(this.state.formData)) return;
-
-    this.showLoader(true);
-    registerUser(this.state.formData, true)
-      .then(req => req.json())
-      .then((resp) => {
-        this.showLoader(false);
-        if (!resp.success) {
-          Alert.alert('Error', resp.message);
-          return;
-        }
-        storeLocally('user-data', resp.output);
-        Alert.alert('Info', 'Se ha actualizado tu información correctamente',
-          [{ text: 'OK', onPress: () => this.props.navigation.navigate('Profile', { refresh: true }) }],
-          { cancelable: false });
-      }).catch(() => {
-        ToastAndroid.show('Error 015', ToastAndroid.LONG);
-      });
+    try {
+      this.showLoader(true);
+      const req = await registerUser(this.state.formData, true);
+      const resp = await req.json();
+      this.showLoader(false);
+      if (!resp.success) {
+        Alert.alert('Error', resp.message);
+        return;
+      }
+      storeLocally('user-data', resp.output);
+      Alert.alert('Info', 'Se ha actualizado tu información correctamente',
+        [{ text: 'OK', onPress: () => this.props.navigation.navigate('Profile', { refresh: true }) }],
+        { cancelable: false });
+    } catch (err) { handleException('015', err, this); }
   }
 
   showLoader = (show) => {

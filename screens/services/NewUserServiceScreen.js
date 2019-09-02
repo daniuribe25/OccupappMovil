@@ -15,7 +15,7 @@ import QuoteCarousel from '../quote/components/QuoteCarousel';
 import BackButton from '../../components/custom/BackButton';
 import { fetchCategories, fetchServicesByCategory } from '../../services/serviceCategoriesServices';
 import { registerService, registerServiceMedia } from '../../services/userServicesServices';
-import { compressImage } from '../../services/handlers/commonServices';
+import { compressImage, handleException } from '../../services/handlers/commonServices';
 
 class NewUserService extends Component {
   state = {
@@ -64,39 +64,33 @@ class NewUserService extends Component {
     }));
   }
 
-  fetchCategories = () => {
+  fetchCategories = async () => {
     this.showLoader(true);
-    fetchCategories()
-      .then(req => req.json())
-      .then((resp) => {
-        this.showLoader(false);
-        if (resp.success) {
-          this.setState(prevState => ({
-            ...prevState,
-            categories: resp.output }));
-        }
-      }).catch(() => {
-        this.showLoader(false);
-        ToastAndroid.show('Error 020', ToastAndroid.LONG);
-      });
+    try {
+      const req = await fetchCategories();
+      const resp = await req.json();
+      this.showLoader(false);
+      if (resp.success) {
+        this.setState(prevState => ({
+          ...prevState,
+          categories: resp.output }));
+      }
+    } catch (err) { handleException('020', err, this); }
   }
 
-  fetchServices = (cat) => {
+  fetchServices = async (cat) => {
     this.showLoader(true);
-    fetchServicesByCategory(cat)
-      .then(req => req.json())
-      .then((resp) => {
-        this.showLoader(false);
-        if (resp.success) {
-          this.setState(prevState => ({
-            ...prevState,
-            formData: { ...prevState.formData, category: cat },
-            services: resp.output }));
-        }
-      }).catch(() => {
-        this.showLoader(false);
-        ToastAndroid.show('Error 020', ToastAndroid.LONG);
-      });
+    try {
+      const req = await fetchServicesByCategory(cat);
+      const resp = await req.json();
+      this.showLoader(false);
+      if (resp.success) {
+        this.setState(prevState => ({
+          ...prevState,
+          formData: { ...prevState.formData, category: cat },
+          services: resp.output }));
+      }
+    } catch (err) { handleException('020', err, this); }
   }
 
   inputChangeHandler = (name, value) => {
@@ -158,10 +152,7 @@ class NewUserService extends Component {
         data._id = this.state.isSave ? resp.output._id : data._id;
         registerServiceMedia(data, this.state.isSave);
       }
-    } catch (error) {
-      this.showLoader(false);
-      ToastAndroid.show('Error 021', ToastAndroid.LONG);
-    }
+    } catch (err) { handleException('021', err, this); }
   }
 
   getFormatData = () => {

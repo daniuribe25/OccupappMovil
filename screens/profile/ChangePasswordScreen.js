@@ -1,15 +1,13 @@
 /* eslint-disable camelcase */
 import React, { Component } from 'react';
-import { View, Image, Alert, ToastAndroid } from 'react-native';
-import { Container, Text, Button } from 'native-base';
-import ImagePicker from 'react-native-image-picker';
+import { View, Alert } from 'react-native';
+import { Container, Text } from 'native-base';
 import PropTypes from 'prop-types';
-import { storeLocally } from '../../services/handlers/commonServices';
-import { updatePassword } from '../../services/loginServices';
 import { connect } from 'react-redux';
+import { handleException } from '../../services/handlers/commonServices';
+import { updatePassword } from '../../services/loginServices';
 import { commonStyles } from '../../styles/commonStyles';
 import TextInputIcon from '../../components/custom/TextInputIcon';
-import DatePickerIcon from '../../components/custom/DatePickerIcon';
 import BigButtonIcon from '../../components/custom/BigButtonIcon';
 import Loader from '../../components/custom/Loader';
 import { appColors } from '../../styles/colors';
@@ -26,7 +24,7 @@ class ChangePassword extends Component {
 
   componentDidMount = () => {
     this.props.navigation.addListener(
-      'didFocus', 
+      'didFocus',
       () => {
         const user = this.props.navigation.getParam('user');
         user.password = '';
@@ -64,27 +62,24 @@ class ChangePassword extends Component {
     return isValid;
   }
 
-  onSendInfo = () => {
+  onSendInfo = async () => {
     if (!this.validateForm(this.state.formData)) return;
 
     const data = (({ email, password, old_password }) => (
       { email, password, old_password }))(this.state.formData);
     this.showLoader(true);
-    updatePassword(data, false)
-      .then(req => req.json())
-      .then((resp) => {
-        this.showLoader(false);
-        if (!resp.success) {
-          Alert.alert('Error', resp.message);
-          return;
-        }
-        Alert.alert('Info', 'Se ha actualizado tu contraseña correctamente',
-          [{ text: 'OK', onPress: () => this.props.navigation.navigate('Profile', { refresh: false }) }],
-          { cancelable: false });
-      }).catch(() => {
-        this.showLoader(false);
-        ToastAndroid.show('Error 015', ToastAndroid.LONG);
-      });
+    try {
+      const req = await updatePassword(data, false);
+      const resp = await req.json();
+      this.showLoader(false);
+      if (!resp.success) {
+        Alert.alert('Error', resp.message);
+        return;
+      }
+      Alert.alert('Info', 'Se ha actualizado tu contraseña correctamente',
+        [{ text: 'OK', onPress: () => this.props.navigation.navigate('Profile', { refresh: false }) }],
+        { cancelable: false });
+    } catch (err) { handleException('015', err, this); }
   }
 
   showLoader = (show) => {

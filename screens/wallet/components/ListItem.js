@@ -37,7 +37,7 @@ class ListItem extends Component {
         style={serviceListStyles.itemContainer}
       >
         <View style={paymentListStyles.textSection}>
-          <Text style={paymentListStyles.itemTitle}>{data.service.name}</Text>
+          <Text style={paymentListStyles.itemTitle}>{data.service ? data.service.name : data.paymentStatus}</Text>
           <Text style={paymentListStyles.itemDate}>{this.setDateTime(data.dateTime)}</Text>
           <Text style={{
             ...paymentListStyles.statusText,
@@ -53,7 +53,7 @@ class ListItem extends Component {
             ...{ color: data.status === 'OnWallet' ? appColors.checked
               : (data.status === 'PayPending' ? appColors.secondary : appColors.mediumGrey) } }}
           >
-            {`$ ${data.value}`}
+            {`$ ${data.amount}`}
           </Text>
         </View>
       </LinearGradient>
