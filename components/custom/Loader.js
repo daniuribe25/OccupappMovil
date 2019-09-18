@@ -1,14 +1,15 @@
 import React from 'react';
-import { ActivityIndicator, StatusBar, View, Text } from 'react-native';
+import { ActivityIndicator, StatusBar, View } from 'react-native';
 import PropTypes from 'prop-types';
 import { loaderStyles } from '../../styles/commonStyles';
 import { appColors } from '../../styles/colors';
+import TextF from './TextF';
 
 const Loader = ({ show, text }) => show && (
   <React.Fragment>
     {text ? (
       <View style={loaderStyles.textContainer}>
-        <Text style={loaderStyles.text}>{text}</Text>
+        <TextF style={loaderStyles.text}>{text}</TextF>
       </View>
     ) : null}
     <View style={loaderStyles.container} />

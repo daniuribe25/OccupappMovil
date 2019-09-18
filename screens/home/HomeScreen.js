@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Container } from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { View, Text, ScrollView, TextInput, Button, RefreshControl } from 'react-native';
+import { View, ScrollView, TextInput, Button, RefreshControl } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import io from 'socket.io-client';
@@ -20,6 +20,7 @@ import { storeSocket } from '../../redux/actions/session/homeActions';
 import { appColors } from '../../styles/colors';
 import { setNewMessage } from '../chat/ChatSocket';
 import { appConstants } from '../../constants/appConstants';
+import TextF from '../../components/custom/TextF';
 
 const socketChat = io(appConstants.SOCKET_EP);
 
@@ -123,13 +124,13 @@ class Home extends Component {
     return Object.keys(servicesCategories).map((x, i) => (
       <React.Fragment key={i}>
         <View style={carouselStyles.header}>
-          <Text style={carouselStyles.category}>{x}</Text>
-          <Text
+          <TextF style={carouselStyles.category}>{x}</TextF>
+          <TextF
             style={carouselStyles.seeAllLink}
             onPress={() => this.goToServices(x, false)}
           >
             {this.props.language['see_all']}
-          </Text>
+          </TextF>
         </View>
         <ServiceCarousel
           services={servicesCategories[x]}
@@ -183,13 +184,14 @@ class Home extends Component {
           />
         )}
       >
+       
         <View style={commonStyles.titleContainer}>
-          <Text style={{ ...commonStyles.title, fontWeight: 'bold' }} h1>OCCUPAPP</Text>
+          <TextF style={{ ...commonStyles.title, fontWeight: 'bold' }} h1>OCCUPAPP</TextF>
           {this.searchInput()}
           {this.state.noFound ? (
-            <Text style={commonStyles.noRecordsFound}>
+            <TextF style={commonStyles.noRecordsFound}>
               No se encontraron servicios
-            </Text>
+            </TextF>
           ) : null}
           {this.createCarousels()}
         </View>
@@ -212,10 +214,10 @@ class Home extends Component {
         }}
         >
           <View style={{ height: 40 }}>
-            <Text style={{ fontWeight: '500', fontSize: 22, color: appColors.primary }}>Felicidades!</Text>
+            <TextF style={{ fontWeight: '500', fontSize: 22, color: appColors.primary }}>Felicidades!</TextF>
           </View>
           <View style={{ height: 40 }}>
-            <Text style={{ fontSize: 17 }}>Tienes una nueva cotización.</Text>
+            <TextF style={{ fontSize: 17 }}>Tienes una nueva cotización.</TextF>
           </View>
           <View style={{ height: 50, alignItems: 'flex-end', alignSelf: 'flex-end' }}>
             <Button title="Ir a Cotizaciones" onPress={this.toggleModal} color={appColors.secondary} />

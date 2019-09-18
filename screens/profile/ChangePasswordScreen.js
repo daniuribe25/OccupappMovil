@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import React, { Component } from 'react';
 import { View, Alert } from 'react-native';
-import { Container, Text } from 'native-base';
+import { Container } from 'native-base';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { handleException } from '../../services/handlers/commonServices';
@@ -12,6 +12,7 @@ import BigButtonIcon from '../../components/custom/BigButtonIcon';
 import Loader from '../../components/custom/Loader';
 import { appColors } from '../../styles/colors';
 import BackButton from '../../components/custom/BackButton';
+import TextF from '../../components/custom/TextF';
 
 class ChangePassword extends Component {
   state = {
@@ -97,7 +98,7 @@ class ChangePassword extends Component {
           type="material-community"
         />
         <View style={commonStyles.titleContainer}>
-          <Text style={{ ...commonStyles.title, fontWeight: 'bold', fontSize: 15 }}>CAMBIAR CONTRASEÑA</Text>
+          <TextF style={{ ...commonStyles.title, fontWeight: 'bold', fontSize: 15 }}>CAMBIAR CONTRASEÑA</TextF>
         </View>
         <View style={commonStyles.inputContainer}>
           <TextInputIcon

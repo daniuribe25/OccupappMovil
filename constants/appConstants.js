@@ -16,3 +16,10 @@ export const appConstants = {
   // SOCKET_EP: 'http://10.0.2.2:3000',
   PRICE_FARE: 0.2,
 };
+
+export const appGlobalStyles = {
+  FONT_FAMILY: 'notoserif',
+  // FONT_FAMILY: 'normal',
+  // FONT_FAMILY: 'sans-serif-medium',
+  // FONT_FAMILY: 'Roboto',
+};

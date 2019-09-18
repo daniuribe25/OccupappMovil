@@ -1,11 +1,12 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
-import { View, Text, Switch, Alert, TouchableHighlight } from 'react-native';
+import { View, Switch, Alert, TouchableHighlight } from 'react-native';
 import { Rating } from 'react-native-elements';
 import LinearGradient from 'react-native-linear-gradient';
 import { serviceListStyles, paymentListStyles } from '../../../styles/serviceListStyles';
 import { appColors } from '../../../styles/colors';
 import { profileStyles } from '../../../styles/profileStyles';
+import TextF from '../../../components/custom/TextF';
 
 class ListItem extends Component {
 
@@ -31,7 +32,7 @@ class ListItem extends Component {
           style={{ ...serviceListStyles.itemContainer, ...{ marginVertical: 2 } }}
         >
           <View style={paymentListStyles.textSection}>
-            <Text style={paymentListStyles.itemTitle}>{data.service}</Text>
+            <TextF style={paymentListStyles.itemTitle}>{data.service}</TextF>
             <View style={{ flexDirection: 'row' }}>
               <Rating
                 ratingCount={5}
@@ -42,7 +43,7 @@ class ListItem extends Component {
                 imageSize={15}
                 ratingColor={appColors.primary}
               />
-              <Text style={profileStyles.ratingText}>{+data.rating}</Text>
+              <TextF style={profileStyles.ratingText}>{+data.rating}</TextF>
             </View>
           </View>
           <View style={profileStyles.optionsSection}>

@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import { View, Alert, TextInput, ScrollView, ToastAndroid } from 'react-native';
-import { Container, Text } from 'native-base';
+import { Container } from 'native-base';
 import { Button, Rating } from 'react-native-elements';
 import { connect } from 'react-redux';
 import ImageView from 'react-native-image-view';
@@ -18,6 +18,7 @@ import { setQuoteTitle, setQuoteMessage } from './components/QuoteDescriptions';
 import BackButton from '../../components/custom/BackButton';
 import { handleException } from '../../services/handlers/commonServices';
 import { appConstants } from '../../constants/appConstants';
+import TextF from '../../components/custom/TextF';
 
 class QuoteDetails extends Component {
   state = {
@@ -278,44 +279,44 @@ class QuoteDetails extends Component {
             type="material-community"
           />
           <View style={{ ...commonStyles.titleContainer, ...{ paddingBottom: 5 } }}>
-            <Text style={{ ...commonStyles.title, fontWeight: 'bold' }} h1>COTIZACIÓN</Text>
+            <TextF style={{ ...commonStyles.title, fontWeight: 'bold' }} h1>COTIZACIÓN</TextF>
           </View>
           <View style={commonStyles.inputContainer}>
             {setQuoteTitle(action, this.props.language)}
             {setQuoteMessage(action, this.props.language, formData.price, user._id, formData.sentBy)}
             {quote.observation && quote.observation !== '' ? (
               <View>
-                <Text style={{ ...quoteStyles.descriptionText, ...{ textAlign: 'left' } }}>
-                  <Text style={{ ...quoteStyles.titleText, color: appColors.primary }}>
+                <TextF style={{ ...quoteStyles.descriptionText, ...{ textAlign: 'left' } }}>
+                  <TextF style={{ ...quoteStyles.titleText, color: appColors.primary }}>
                     {this.props.language.observations}
-                  </Text>
+                  </TextF>
                   {quote.observation}
-                </Text>
+                </TextF>
               </View>
             ) : null}
             <View>
-              <Text style={{ ...quoteStyles.descriptionText, ...{ textAlign: 'left' } }}>
-                <Text style={quoteStyles.titleText}>
+              <TextF style={{ ...quoteStyles.descriptionText, ...{ textAlign: 'left' } }}>
+                <TextF style={quoteStyles.titleText}>
                   {this.props.language.datetime_label}
-                </Text>
+                </TextF>
                 {this.setDateTime(quote.dateTime)}
-              </Text>
+              </TextF>
             </View>
             <View>
-              <Text style={{ ...quoteStyles.descriptionText, ...{ textAlign: 'left' } }}>
-                <Text style={quoteStyles.titleText}>
+              <TextF style={{ ...quoteStyles.descriptionText, ...{ textAlign: 'left' } }}>
+                <TextF style={quoteStyles.titleText}>
                   {this.props.language.description_label}
-                </Text>
+                </TextF>
                 {quote.description}
-              </Text>
+              </TextF>
             </View>
             <View>
-              <Text style={{ ...quoteStyles.descriptionText, ...{ textAlign: 'left' } }}>
-                <Text style={quoteStyles.titleText}>
+              <TextF style={{ ...quoteStyles.descriptionText, ...{ textAlign: 'left' } }}>
+                <TextF style={quoteStyles.titleText}>
                   {this.props.language.location_label}
-                </Text>
+                </TextF>
                 {quote.location}
-              </Text>
+              </TextF>
             </View>
             {quote.quoteMedia.length ? (
               <View style={{ marginTop: 15, height: 170 }}>
@@ -349,7 +350,7 @@ class QuoteDetails extends Component {
             {action === 'Finished' ? (
               <View style={{ flexDirection: 'column' }}>
                 <View style={quoteStyles.statusBox}>
-                  <Text style={quoteStyles.descriptionText}>Califíca tu satisfacción con el servicio</Text>
+                  <TextF style={quoteStyles.descriptionText}>Califíca tu satisfacción con el servicio</TextF>
                 </View>
                 <Rating
                   ratingCount={5}

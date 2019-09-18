@@ -3,10 +3,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Menu, { MenuItem, MenuDivider, Position } from 'react-native-enhanced-popup-menu';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { commonStyles } from '../../styles/commonStyles';
 import { appColors } from '../../styles/colors';
+import TextF from './TextF';
 
 const DropDownMenu = (props) => {
   const textRef = React.createRef();
@@ -16,16 +17,16 @@ const DropDownMenu = (props) => {
   const hideMenu = () => menuRef.hide();
   const showMenu = () => { menuRef.show(textRef.current, stickTo = Position.BOTTOM_LEFT); };
 
-  const onPress = () => showMenu(); 
+  const onPress = () => showMenu();
 
   return (
     <View style={{ position: 'absolute', top: 12, right: 20 }}>
-      <Text
+      <TextF
         ref={textRef}
-        style={{ ...commonStyles.backBtnIconContainer, ...{ color: 'rgba(52, 52, 52, 0.1)'} }}
+        style={{ ...commonStyles.backBtnIconContainer, ...{ color: 'rgba(52, 52, 52, 0.1)' } }}
       >
           .
-      </Text>
+      </TextF>
       <Icon
         type="simple-line-icons"
         name="settings"

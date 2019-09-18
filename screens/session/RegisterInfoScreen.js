@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, Image, Alert } from 'react-native';
-import { Container, Text, Button } from 'native-base';
+import { Container, Button } from 'native-base';
 import ImagePicker from 'react-native-image-picker';
 import PropTypes from 'prop-types';
 import { storeLocally, handleException, compressImage } from '../../services/handlers/commonServices';
@@ -14,6 +14,7 @@ import BigButtonIcon from '../../components/custom/BigButtonIcon';
 import Loader from '../../components/custom/Loader';
 import { appColors } from '../../styles/colors';
 import { registerUser } from '../../services/loginServices';
+import TextF from '../../components/custom/TextF';
 
 class RegisterInfo extends Component {
   state = {
@@ -142,7 +143,7 @@ class RegisterInfo extends Component {
       <Container style={commonStyles.container}>
         <Loader show={this.state.showLoader} />
         <View style={commonStyles.titleContainer}>
-          <Text style={{ ...commonStyles.title, fontWeight: 'bold' }} h1>OCCUPAPP</Text>
+          <TextF style={{ ...commonStyles.title, fontWeight: 'bold' }} h1>OCCUPAPP</TextF>
         </View>
 
         <View style={commonStyles.inputContainer}>
@@ -189,12 +190,12 @@ class RegisterInfo extends Component {
                 style={this.state.imagePickerBtnStyles}
                 onPress={() => this.handleImageFromGallery()}
               >
-                <Text
+                <TextF
                   style={this.state.imagePickerBtnTextStyles}
                   uppercase={false}
                 >
                   {this.props.language.pick_profile_image}
-                </Text>
+                </TextF>
               </Button>
               { this.state.formData.profileImage && (
                 <View style={commonStyles.imagePickerShowedContainer}>

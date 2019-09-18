@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import Carousel from 'react-native-snap-carousel';
-import { View, Dimensions, StyleSheet, Image, TouchableHighlight, Text } from 'react-native';
+import { View, Dimensions, StyleSheet, Image, TouchableHighlight } from 'react-native';
 import PropTypes from 'prop-types';
 import { carouselStyles } from '../../../styles/carouselStyles';
 import { appColors } from '../../../styles/colors';
+import TextF from '../../../components/custom/TextF';
 
 const horizontalMargin = 0;
 
@@ -38,7 +39,7 @@ class QuoteCarousel extends Component {
               onPress={() => this.props.onRemove ? this.props.onRemove(uri) : {}}
               style={styles.removeBtn}
             >
-              <Text style={styles.removeText}>x</Text>
+              <TextF style={styles.removeText}>x</TextF>
             </TouchableHighlight>
           )}
         </View>

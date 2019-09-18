@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { Text, Button } from 'native-base';
+import { Button } from 'native-base';
 import { View, ImageBackground } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { commonStyles } from '../../styles/commonStyles';
 import { sessionStyles } from '../../styles/sessionStyles';
 import BigButtonIcon from '../../components/custom/BigButtonIcon';
+import TextF from '../../components/custom/TextF';
 
 const backgroudSource = require('../../assets/images/background.jpg');
 
@@ -15,7 +16,7 @@ class Welcome extends Component {
       <React.Fragment>
         <ImageBackground source={backgroudSource} style={{ width: '100%', height: '100%' }}>
           <View style={commonStyles.welcomeTitleContainer}>
-            <Text style={{ ...commonStyles.welcomeTitle, fontWeight: 'bold' }} h1>OCCUPAPP</Text>
+            <TextF style={{ ...commonStyles.welcomeTitle, fontWeight: 'bold' }} h1>OCCUPAPP</TextF>
           </View>
           <View style={sessionStyles.welcomeBtnsContainer}>
             <View style={sessionStyles.welcomeBtnsContent}>
@@ -32,12 +33,12 @@ class Welcome extends Component {
                   style={sessionStyles.joinBtn}
                   onPress={() => this.props.navigation.navigate('LoginRegister', { type: 1 })}
                 >
-                  <Text
+                  <TextF
                     style={sessionStyles.joinBtnText}
                     uppercase={false}
                   >
                     {this.props.language['join']}
-                  </Text>
+                  </TextF>
                 </Button>
               </View>
             </View>

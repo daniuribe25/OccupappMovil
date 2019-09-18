@@ -1,10 +1,11 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import PropTypes from 'prop-types';
 import { serviceListStyles, paymentListStyles } from '../../../styles/serviceListStyles';
 import { appColors } from '../../../styles/colors';
+import TextF from '../../../components/custom/TextF';
 
 const months = ['Ene', 'Feb', 'Mar', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
 
@@ -37,24 +38,24 @@ class ListItem extends Component {
         style={serviceListStyles.itemContainer}
       >
         <View style={paymentListStyles.textSection}>
-          <Text style={paymentListStyles.itemTitle}>{data.service ? data.service.name : data.paymentStatus}</Text>
-          <Text style={paymentListStyles.itemDate}>{this.setDateTime(data.dateTime)}</Text>
-          <Text style={{
+          <TextF style={paymentListStyles.itemTitle}>{data.service ? data.service.name : data.paymentStatus}</TextF>
+          <TextF style={paymentListStyles.itemDate}>{this.setDateTime(data.dateTime)}</TextF>
+          <TextF style={{
             ...paymentListStyles.statusText,
             ...{ color: data.status === 'OnWallet' ? appColors.checked
               : (data.status === 'PayPending' ? appColors.secondary : appColors.mediumGrey) } }}
           >
             {this.setStatus(data.status)}
-          </Text>
+          </TextF>
         </View>
         <View style={paymentListStyles.priceSection}>
-          <Text style={{
+          <TextF style={{
             ...paymentListStyles.priceText,
             ...{ color: data.status === 'OnWallet' ? appColors.checked
               : (data.status === 'PayPending' ? appColors.secondary : appColors.mediumGrey) } }}
           >
             {`$ ${data.amount}`}
-          </Text>
+          </TextF>
         </View>
       </LinearGradient>
     );

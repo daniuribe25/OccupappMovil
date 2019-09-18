@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import React, { Component } from 'react';
 import { View, Image, Alert } from 'react-native';
-import { Container, Text, Button } from 'native-base';
+import { Container, Button } from 'native-base';
 import ImagePicker from 'react-native-image-picker';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -13,6 +13,7 @@ import BigButtonIcon from '../../components/custom/BigButtonIcon';
 import Loader from '../../components/custom/Loader';
 import { appColors } from '../../styles/colors';
 import BackButton from '../../components/custom/BackButton';
+import TextF from '../../components/custom/TextF';
 
 class EditProfile extends Component {
   state = {
@@ -109,7 +110,7 @@ class EditProfile extends Component {
           type="material-community"
         />
         <View style={commonStyles.titleContainer}>
-          <Text style={{ ...commonStyles.title, fontWeight: 'bold' }} h1>EDITAR PERFIL</Text>
+          <TextF style={{ ...commonStyles.title, fontWeight: 'bold' }} h1>EDITAR PERFIL</TextF>
         </View>
         <View style={commonStyles.inputContainer}>
           <TextInputIcon
@@ -141,12 +142,12 @@ class EditProfile extends Component {
               style={{ ...this.state.imagePickerBtnStyles, ...{ marginLeft: 20 } }}
               onPress={() => this.handleImageFromGallery()}
             >
-              <Text
+              <TextF
                 style={this.state.imagePickerBtnTextStyles}
                 uppercase={false}
               >
                 {this.props.language.pick_profile_image}
-              </Text>
+              </TextF>
             </Button>
             { formData.profileImage !== '' && formData.profileImage !== undefined && (
               <View style={commonStyles.imagePickerShowedContainer}>

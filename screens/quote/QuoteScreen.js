@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { View, Alert, TextInput, ScrollView, Keyboard } from 'react-native';
 import { Button } from 'react-native-elements';
-import { Container, Text } from 'native-base';
+import { Container } from 'native-base';
 import ImagePicker from 'react-native-image-picker';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { connect } from 'react-redux';
@@ -17,6 +17,7 @@ import { appColors } from '../../styles/colors';
 import QuoteCarousel from './components/QuoteCarousel';
 import BackButton from '../../components/custom/BackButton';
 import { compressImage, handleException } from '../../services/handlers/commonServices';
+import TextF from '../../components/custom/TextF';
 
 class Quote extends Component {
   state = {
@@ -167,7 +168,7 @@ class Quote extends Component {
           />
           <Loader show={this.state.showLoader} />
           <View style={{ ...commonStyles.titleContainer, ...{ paddingBottom: 5 } }}>
-            <Text style={{ ...commonStyles.title, fontWeight: 'bold' }} h1>COTIZAR</Text>
+            <TextF style={{ ...commonStyles.title, fontWeight: 'bold' }} h1>COTIZAR</TextF>
           </View>
           <View style={commonStyles.inputContainer}>
             <TextInputIcon
@@ -177,9 +178,9 @@ class Quote extends Component {
               onChangeText={() => {}}
               onFocus={() => this.showHideDateTimePicker(true)}
             />
-            <Text style={quoteStyles.descriptionText}>
+            <TextF style={quoteStyles.descriptionText}>
               {this.props.language['quote_description_text']}
-            </Text>
+            </TextF>
             <DateTimePicker
               isVisible={this.state.showTimePicker}
               onConfirm={this.handleDatePicked}
@@ -195,9 +196,9 @@ class Quote extends Component {
               multiline
               numberOfLines={4}
             />
-            <Text style={quoteStyles.textCounter}>
+            <TextF style={quoteStyles.textCounter}>
               {`${this.state.textCounter}/500 ${this.props.language['chars']}`}
-            </Text>
+            </TextF>
             <TextInputIcon
               ref={(c) => { this.locationInput = c; }}
               iconName="map-marker"

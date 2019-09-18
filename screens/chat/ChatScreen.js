@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View } from 'react-native';
-import { Container, Text } from 'native-base';
+import { View, TouchableOpacity } from 'react-native';
+import { Container } from 'native-base';
 import PropTypes from 'prop-types';
 import { GiftedChat } from 'react-native-gifted-chat';
 import { getFromStorage, storeLocally } from '../../services/handlers/commonServices';
@@ -10,6 +10,7 @@ import Loader from '../../components/custom/Loader';
 import { commonStyles } from '../../styles/commonStyles';
 import BackButton from '../../components/custom/BackButton';
 import { appColors } from '../../styles/colors';
+import TextF from '../../components/custom/TextF';
 
 let socketChat = {};
 
@@ -108,6 +109,24 @@ class Chat extends Component {
     this.setState(prevState => ({ ...prevState, showLoader: show }));
   }
 
+  renderSend = (props) => {
+    if (props.text.trim().length > 0) {
+      return (
+        <TouchableOpacity
+          onPress={() => props.onSend({ text: props.text }, true)}
+          style={{ top: -15 }}
+        >
+          <TextF
+            style={{ color: appColors.primary, fontWeight: '500', fontSize: 18, marginRight: 15 }}
+          >
+        Enviar
+          </TextF>
+        </TouchableOpacity>
+      );
+    }
+    return null;
+  }
+
   render() {
     return (
       <Container style={{ ...commonStyles.container, ...{ flex: 1, paddingBottom: 0 } }}>
@@ -120,7 +139,7 @@ class Chat extends Component {
         />
         {this.state.user2 ? (
           <View style={{ ...commonStyles.titleContainer, ...{ paddingBottom: 5 } }}>
-            <Text style={{ ...commonStyles.title, fontWeight: 'bold' }} h1>{this.state.user2.name.toUpperCase()}</Text>
+            <TextF style={{ ...commonStyles.title, fontWeight: 'bold' }} h1>{this.state.user2.name.toUpperCase()}</TextF>
           </View>
         ) : null}
         <GiftedChat
@@ -132,6 +151,7 @@ class Chat extends Component {
           isAnimated
           showUserAvatar
           scrollToBottom
+          renderSend={this.renderSend}
         />
       </Container>
     );

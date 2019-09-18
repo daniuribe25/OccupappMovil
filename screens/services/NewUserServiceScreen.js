@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { View, Alert, ToastAndroid, TextInput, ScrollView, Picker } from 'react-native';
 import { Button } from 'react-native-elements';
-import { Container, Text } from 'native-base';
+import { Container } from 'native-base';
 import ImagePicker from 'react-native-image-picker';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -16,6 +16,7 @@ import BackButton from '../../components/custom/BackButton';
 import { fetchCategories, fetchServicesByCategory } from '../../services/serviceCategoriesServices';
 import { registerService, registerServiceMedia } from '../../services/userServicesServices';
 import { compressImage, handleException } from '../../services/handlers/commonServices';
+import TextF from '../../components/custom/TextF';
 
 class NewUserService extends Component {
   state = {
@@ -195,7 +196,7 @@ class NewUserService extends Component {
           />
           <Loader show={this.state.showLoader} />
           <View style={{ ...commonStyles.titleContainer, ...{ paddingBottom: 15 } }}>
-            <Text style={{ ...commonStyles.title, fontWeight: 'bold' }} h1>NUEVO SERVICIO</Text>
+            <TextF style={{ ...commonStyles.title, fontWeight: 'bold' }} h1>NUEVO SERVICIO</TextF>
           </View>
           <View style={commonStyles.inputContainer}>
             <Picker
@@ -222,9 +223,9 @@ class NewUserService extends Component {
                 <Picker.Item label={x.name} value={x._id} />
               ))}
             </Picker>
-            <Text style={quoteStyles.descriptionText}>
+            <TextF style={quoteStyles.descriptionText}>
               {this.props.language['user_service_description_text']}
-            </Text>
+            </TextF>
             <TextInput
               style={quoteStyles.descriptionInput}
               ref={(c) => { this.descriptionInput = c; }}
@@ -233,12 +234,12 @@ class NewUserService extends Component {
               multiline
               numberOfLines={4}
             />
-            <Text style={quoteStyles.textCounter}>
+            <TextF style={quoteStyles.textCounter}>
               {`${this.state.textCounter}/500 ${this.props.language['chars']}`}
-            </Text>
-            <Text style={quoteStyles.descriptionText}>
+            </TextF>
+            <TextF style={quoteStyles.descriptionText}>
               {this.props.language['user_service_media_text']}
-            </Text>
+            </TextF>
             <View style={{ ...quoteStyles.mediaButtonsContainer, ...{ marginTop: 5 } }}>
               <Button
                 type="outline"

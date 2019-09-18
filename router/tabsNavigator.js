@@ -1,5 +1,4 @@
 import React from 'react';
-import { Text } from 'react-native';
 import IconBadge from 'react-native-icon-badge';
 import { createBottomTabNavigator } from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -11,6 +10,7 @@ import quoteNavigator from './quoteNavigator';
 import { appColors } from '../styles/colors';
 import TabBar from './components/TabBar';
 import Wallet from '../screens/wallet/WalletScreen';
+import TextF from '../components/custom/TextF';
 
 const TabsNavigator = createBottomTabNavigator({
   Home: {
@@ -63,7 +63,7 @@ const TabsNavigator = createBottomTabNavigator({
                 color={props.focused ? appColors.primary : appColors.grey}
               />)}
             IconBadgeStyle={{ width: 22, height: 22, backgroundColor: appColors.secondary, top: -10, right: -10 }}
-            BadgeElement={<Text style={{ color: 'white' }}>{n}</Text>}
+            BadgeElement={<TextF style={{ color: 'white' }}>{n}</TextF>}
             Hidden={n === 0}
           />
         );

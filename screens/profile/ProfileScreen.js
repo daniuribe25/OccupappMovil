@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, Container } from 'native-base';
+import { Container } from 'native-base';
 import { Button, Icon } from 'react-native-elements';
 import { View, Image, FlatList, Alert, ToastAndroid } from 'react-native';
 import { connect } from 'react-redux';
@@ -13,6 +13,7 @@ import DropDownMenu from '../../components/custom/DropDownMenu';
 import { getUserServices, disableService } from '../../services/userServicesServices';
 import ListItem from './components/ListItem';
 import Loader from '../../components/custom/Loader';
+import TextF from '../../components/custom/TextF';
 
 const defaultAvatar = require('../../assets/images/default-avatar.png');
 
@@ -107,7 +108,7 @@ class Profile extends Component {
         <DropDownMenu options={this.getSettingOptions()} />
         <Loader show={this.state.showLoader} />
         <View style={commonStyles.titleContainer}>
-          <Text style={{ ...commonStyles.title, fontWeight: 'bold' }} h1>PERFIL</Text>
+          <TextF style={{ ...commonStyles.title, fontWeight: 'bold' }} h1>PERFIL</TextF>
         </View>
 
         <View style={profileStyles.profileImageNameContainer}>
@@ -118,9 +119,9 @@ class Profile extends Component {
             />
           </View>
           {this.state.user && (
-            <Text h1 style={profileStyles.profileImageName}>
+            <TextF h1 style={profileStyles.profileImageName}>
               {`${this.state.user.name} ${this.state.user.lastName}`}
-            </Text>
+            </TextF>
           )}
           <Button
             rightIcon={{ name: 'code' }}
@@ -133,9 +134,9 @@ class Profile extends Component {
         </View>
 
         <React.Fragment>
-          <Text style={serviceListStyles.listTitle} h1>
+          <TextF style={serviceListStyles.listTitle} h1>
             {this.props.language.my_services}
-          </Text>
+          </TextF>
           {this.state.myServices.length ? (
             <FlatList
               data={this.state.myServices}
@@ -143,9 +144,9 @@ class Profile extends Component {
             />
           ) : (
             <View style={{ ...commonStyles.alertFullImageContainer, ...{ marginTop: 0, height: '40%' } }}>
-              <Text h1 style={commonStyles.alertFullImageText}>
+              <TextF h1 style={commonStyles.alertFullImageText}>
                 Aún no tienes servicios configurados, configura tu primer servicio desde el botón de la parte inferior derecha de tu pantalla.
-              </Text>
+              </TextF>
             </View>
           )}
         </React.Fragment>

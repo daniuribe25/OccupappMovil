@@ -1,12 +1,13 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
-import { View, Text, TouchableHighlight } from 'react-native';
+import { View, TouchableHighlight } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import PropTypes from 'prop-types';
 import { serviceListStyles } from '../../../styles/serviceListStyles';
 import { appColors } from '../../../styles/colors';
 import { quoteStatus } from '../../../constants/appConstants';
+import TextF from '../../../components/custom/TextF';
 
 class ListItem extends Component {
 
@@ -64,18 +65,18 @@ class ListItem extends Component {
           style={serviceListStyles.itemContainer}
         >
           <View style={serviceListStyles.textSection}>
-            <Text style={serviceListStyles.itemTitle}>{data.service.name}</Text>
+            <TextF style={serviceListStyles.itemTitle}>{data.service.name}</TextF>
             <View style={serviceListStyles.subTitleContainer}>
               <FontAwesome
                 name="clock-o"
                 size={15}
                 color={appColors.grey}
               />
-              <Text style={serviceListStyles.itemSubTitle}>{this.setDateTime(data.dateTime)}</Text>
+              <TextF style={serviceListStyles.itemSubTitle}>{this.setDateTime(data.dateTime)}</TextF>
             </View>
             <View style={serviceListStyles.statusSection}>
               <View style={{ ...serviceListStyles.status, ...{ backgroundColor: st.color } }}>
-                <Text style={{ color: st.textColor }}>{st.text}</Text>
+                <TextF style={{ color: st.textColor }}>{st.text}</TextF>
               </View>
             </View>
           </View>

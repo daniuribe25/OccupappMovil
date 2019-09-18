@@ -1,9 +1,10 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
-import { View, Text, Image, TouchableHighlight } from 'react-native';
+import { View, Image, TouchableHighlight } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { chatStyles } from '../../../styles/chatStyles';
 import { appColors } from '../../../styles/colors';
+import TextF from '../../../components/custom/TextF';
 
 const defaultAvatar = require('../../../assets/images/default-avatar.png');
 
@@ -51,21 +52,21 @@ class ListItem extends Component {
             </View>
           </View>
           <View style={chatStyles.nameSection}>
-            <Text style={chatStyles.nameText}>{`${data.user2.name} ${data.user2.lastName}`}</Text>
+            <TextF style={chatStyles.nameText}>{`${data.user2.name} ${data.user2.lastName}`}</TextF>
             {last.text !== '' ? (
-              <Text style={chatStyles.messageText}>{last.text}</Text>
+              <TextF style={chatStyles.messageText}>{last.text}</TextF>
             ) : null}
           </View>
           <View style={chatStyles.dateSection}>
-            <Text style={{
+            <TextF style={{
               ...chatStyles.dateText,
               ...{ textAlignVertical: data.number ? 'top' : 'center' } }}
             >
               {last.date}
-            </Text>
+            </TextF>
             {data.number ? (
               <View style={chatStyles.numberSection}>
-                <Text style={chatStyles.number}>{23}</Text>
+                <TextF style={chatStyles.number}>{23}</TextF>
               </View>
             ) : null}
           </View>

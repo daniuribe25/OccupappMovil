@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Alert } from 'react-native';
-import { Container, Text } from 'native-base';
+import { Container } from 'native-base';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import TextInputIcon from '../../components/custom/TextInputIcon';
@@ -11,6 +11,7 @@ import { handleException } from '../../services/handlers/commonServices';
 import { commonStyles } from '../../styles/commonStyles';
 import BackButton from '../../components/custom/BackButton';
 import { appColors } from '../../styles/colors';
+import TextF from '../../components/custom/TextF';
 
 class RememberPassword extends Component {
   state = {
@@ -77,7 +78,7 @@ class RememberPassword extends Component {
           type="material-community"
         />
         <View style={commonStyles.titleContainer}>
-          <Text style={{ ...commonStyles.title, fontWeight: 'bold' }} h1>{this.props.language['recover_pass']}</Text>
+          <TextF style={{ ...commonStyles.title, fontWeight: 'bold' }} h1>{this.props.language['recover_pass']}</TextF>
         </View>
 
         <View style={commonStyles.inputContainer}>

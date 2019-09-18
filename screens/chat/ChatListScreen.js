@@ -2,7 +2,7 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import { View, FlatList, Image, ScrollView, RefreshControl } from 'react-native';
-import { Container, Text } from 'native-base';
+import { Container } from 'native-base';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ListItem from './components/ListItem';
@@ -12,6 +12,7 @@ import { commonStyles } from '../../styles/commonStyles';
 import { appColors } from '../../styles/colors';
 import { serviceListStyles } from '../../styles/serviceListStyles';
 import { getFromStorage, handleException } from '../../services/handlers/commonServices';
+import TextF from '../../components/custom/TextF';
 
 // const socketChat = io('http://10.0.2.2:3000');
 // const socket = io('https://occupapp.herokuapp.com');
@@ -92,7 +93,7 @@ class ChatList extends Component {
           )}
         >
           <View style={{ ...commonStyles.titleContainer, ...{ paddingBottom: 25 } }}>
-            <Text style={{ ...commonStyles.title, fontWeight: 'bold' }} h1>CHAT</Text>
+            <TextF style={{ ...commonStyles.title, fontWeight: 'bold' }} h1>CHAT</TextF>
           </View>
           {chats.length ? this.renderList(chats) : null}
           {!chats.length ? (
@@ -101,9 +102,9 @@ class ChatList extends Component {
                 source={noRecordImage}
                 style={commonStyles.alertFullImage}
               />
-              <Text h1 style={commonStyles.alertFullImageText}>
+              <TextF h1 style={commonStyles.alertFullImageText}>
                 El chat se activará cuando un servicio esté agendado
-              </Text>
+              </TextF>
             </View>
           ) : null}
         </ScrollView>

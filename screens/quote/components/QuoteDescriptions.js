@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import { quoteStyles } from '../../../styles/quoteStyles';
+import TextF from '../../../components/custom/TextF';
 
 export const setQuoteMessage = (action, language, price, userId, sender) => {
   let text = {};
@@ -10,12 +11,12 @@ export const setQuoteMessage = (action, language, price, userId, sender) => {
       break;
     case 'Answered':
       text = (
-        <Text>
+        <TextF>
           {language.answered_description}
-          <Text style={quoteStyles.statusText}>
+          <TextF style={quoteStyles.statusText}>
             {price ? `$${price}` : '$0'}
-          </Text>
-        </Text>
+          </TextF>
+        </TextF>
       );
       break;
     case 'Rejected':
@@ -36,7 +37,7 @@ export const setQuoteMessage = (action, language, price, userId, sender) => {
 
   return (
     <View style={quoteStyles.statusBox}>
-      <Text style={quoteStyles.descriptionText}>{text}</Text>
+      <TextF style={quoteStyles.descriptionText}>{text}</TextF>
     </View>
   );
 };
@@ -61,8 +62,8 @@ export const setQuoteTitle = (action, language) => {
       return null;
   }
   return (
-    <Text style={quoteStyles.statusText}>
+    <TextF style={quoteStyles.statusText}>
       {text}
-    </Text>
+    </TextF>
   );
 };

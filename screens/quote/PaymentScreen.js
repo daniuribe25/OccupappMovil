@@ -2,10 +2,11 @@
 import React, { PureComponent } from 'react';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 import { View, WebView, ScrollView, BackHandler } from 'react-native';
-import { Container, Text } from 'native-base';
+import { Container } from 'native-base';
 import { appColors } from '../../styles/colors';
 import { commonStyles } from '../../styles/commonStyles';
 import BackButton from '../../components/custom/BackButton';
+import TextF from '../../components/custom/TextF';
 
 class Payment extends PureComponent {
   state = {
@@ -43,7 +44,7 @@ class Payment extends PureComponent {
             type="material-community"
           />
           <View style={{ ...commonStyles.titleContainer, ...{ paddingBottom: 5 } }}>
-            <Text style={{ ...commonStyles.title, fontWeight: 'bold' }} h1>PAGOS</Text>
+            <TextF style={{ ...commonStyles.title, fontWeight: 'bold' }} h1>PAGOS</TextF>
           </View>
           <View style={{ flexGrow: 1 }}>
             {this.state.url && this.state.url !== '' ? (

@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import Carousel from 'react-native-snap-carousel';
-import { View, Dimensions, Text, StyleSheet, Image, TouchableHighlight } from 'react-native';
+import { View, Dimensions, StyleSheet, Image, TouchableHighlight } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { carouselStyles } from '../../../styles/carouselStyles';
 import { appColors } from '../../../styles/colors';
+import TextF from '../../../components/custom/TextF';
 
 const horizontalMargin = 0;
 
@@ -35,11 +36,11 @@ class ServiceCarousel extends Component {
           </TouchableHighlight>
           <View style={carouselStyles.descriptionContainer}>
             <View style={carouselStyles.serviceNamePanel}>
-              <Text style={carouselStyles.serviceText}>{ service }</Text>
-              <Text style={carouselStyles.userNameText}>{ name }</Text>
+              <TextF style={carouselStyles.serviceText}>{ service }</TextF>
+              <TextF style={carouselStyles.userNameText}>{ name }</TextF>
             </View>
             <View style={carouselStyles.ratingPanel}>
-              <Text style={carouselStyles.ratingText}>{rating}</Text>
+              <TextF style={carouselStyles.ratingText}>{rating}</TextF>
               <Icon
                 style={carouselStyles.ratingIcon}
                 name="star"

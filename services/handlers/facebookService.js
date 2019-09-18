@@ -1,11 +1,12 @@
 import React, { PureComponent } from 'react';
 import FBSDK from 'react-native-fbsdk';
-import { Text, Button, Icon } from 'native-base';
+import { Button, Icon } from 'native-base';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { View, ToastAndroid } from 'react-native';
 import { sessionStyles } from '../../styles/sessionStyles';
 import { appColors } from '../../styles/colors';
+import TextF from '../../components/custom/TextF';
 
 const { LoginButton, AccessToken, GraphRequest, GraphRequestManager, LoginManager } = FBSDK;
 
@@ -90,12 +91,12 @@ class FacebookButton extends PureComponent {
           onPress={() => this.handleFacebookLogin()}
           iconRight
         >
-          <Text
+          <TextF
             style={sessionStyles.fbBtnText}
             uppercase={false}
           >
             {this.props.language['facebook_button']}
-          </Text>
+          </TextF>
           <Icon
             name="facebook-square"
             color={appColors.fb}

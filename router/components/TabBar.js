@@ -1,6 +1,7 @@
 import React from 'react';
-import { Keyboard, Text } from 'react-native';
+import { Keyboard } from 'react-native';
 import { BottomTabBar } from 'react-navigation';
+import TextF from '../../components/custom/TextF';
 
 class TabBar extends React.Component {
   constructor(props) {
@@ -39,7 +40,7 @@ class TabBar extends React.Component {
   render = () => {
     return this.state.isVisible
       ? <BottomTabBar {...this.props} />
-      : <Text>Hide</Text>;
+      : <TextF>Hide</TextF>;
   }
 }
 

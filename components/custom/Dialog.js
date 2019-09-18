@@ -1,11 +1,12 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable react/require-default-props */
 import React, { Component } from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import { Button } from 'react-native-elements';
 import Modal from 'react-native-modal';
 import PropTypes from 'prop-types';
 import { appColors } from '../../styles/colors';
+import TextF from './TextF';
 
 class Dialog extends Component {
 
@@ -40,7 +41,7 @@ class Dialog extends Component {
         >
           {title ? (
             <View style={{ height: 40 }}>
-              <Text style={{ fontWeight: '500', fontSize: 22, color: appColors.primary }}>{title}</Text>
+              <TextF style={{ fontWeight: '500', fontSize: 22, color: appColors.primary }}>{title}</TextF>
             </View>
           ) : null}
           <View style={{ width: '100%', height }}>

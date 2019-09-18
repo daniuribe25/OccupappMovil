@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, Dimensions, ScrollView } from 'react-native';
+import { View, StyleSheet, Image, Dimensions, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Lightbox from 'react-native-lightbox';
 import Carousel from 'react-native-looped-carousel';
@@ -11,6 +11,7 @@ import { appColors } from '../../styles/colors';
 import BackButton from '../../components/custom/BackButton';
 import BigButtonIcon from '../../components/custom/BigButtonIcon';
 import FloatIcon from '../../components/custom/FloatIcon';
+import TextF from '../../components/custom/TextF';
 
 const sliderWidth = Dimensions.get('window').width;
 const styles = StyleSheet.create({
@@ -54,16 +55,16 @@ class ServiceDetails extends Component {
         />
         <View style={servicesStyles.titleContainer}>
           <View style={servicesStyles.serviceNamePanel}>
-            <Text style={{
+            <TextF style={{
               ...servicesStyles.serviceText,
               ...{ fontSize: service.length > 16 ? 25 : 30 } }}
             >
               { service }
-            </Text>
-            <Text style={servicesStyles.userNameText}>{ name }</Text>
+            </TextF>
+            <TextF style={servicesStyles.userNameText}>{ name }</TextF>
           </View>
           <View style={servicesStyles.ratingPanel}>
-            <Text style={servicesStyles.ratingText}>{rating}</Text>
+            <TextF style={servicesStyles.ratingText}>{rating}</TextF>
             <Icon
               style={servicesStyles.ratingIcon}
               name="star"
@@ -73,7 +74,7 @@ class ServiceDetails extends Component {
           </View>
         </View>
         <View style={servicesStyles.descriptionContainer}>
-          <Text style={servicesStyles.descriptionText}>{description}</Text>
+          <TextF style={servicesStyles.descriptionText}>{description}</TextF>
         </View>
         <BigButtonIcon
           text={this.props.language['quote']}

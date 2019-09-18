@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { View, FlatList, Image, ToastAndroid, TouchableHighlight,
   Alert, ScrollView, RefreshControl, Dimensions } from 'react-native';
-import { Container, Text, Button } from 'native-base';
+import { Container, Button } from 'native-base';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Icon } from 'react-native-elements';
@@ -17,6 +17,7 @@ import { getFromStorage, storeLocally, handleException } from '../../services/ha
 import Dialog from '../../components/custom/Dialog';
 import { appColors } from '../../styles/colors';
 import TextInputIcon from '../../components/custom/TextInputIcon';
+import TextF from '../../components/custom/TextF';
 
 const nrImage = require('../../assets/images/no-records.png');
 const dpImage = require('../../assets/images/dp.png');
@@ -186,14 +187,14 @@ class Wallet extends Component {
     let content = {};
     if (!this.state.isDaviplata) {
       if (this.state.user && this.state.user.daviplata) {
-        content = <Text>¿Desea desembolsar su dinero?</Text>;
+        content = <TextF>¿Desea desembolsar su dinero?</TextF>;
       } else {
-        content = <Text>Primero debes vincular tu cuenta de daviplata para poder desembolsarte</Text>;
+        content = <TextF>Primero debes vincular tu cuenta de daviplata para poder desembolsarte</TextF>;
       }
     } else {
       content = (
         <View>
-          <Text>Ingresa el número celular que tienes vinculado a tu cuenta Daviplata para así poder realizar los pagos por tus servicios</Text>
+          <TextF>Ingresa el número celular que tienes vinculado a tu cuenta Daviplata para así poder realizar los pagos por tus servicios</TextF>
           <TextInputIcon
             placeholder="cel"
             value={this.state.daviplata}
@@ -262,7 +263,7 @@ class Wallet extends Component {
           {this.daviplataDialog()}
 
           <View style={{ ...commonStyles.titleContainer, ...{ marginBottom: 10 } }}>
-            <Text style={{ ...commonStyles.title, fontWeight: 'bold' }} h1>WALLET</Text>
+            <TextF style={{ ...commonStyles.title, fontWeight: 'bold' }} h1>WALLET</TextF>
           </View>
           {!firstTime ? (
             payments.length ? (
@@ -276,9 +277,9 @@ class Wallet extends Component {
                   source={nrImage}
                   style={commonStyles.alertFullImage}
                 />
-                <Text h1 style={commonStyles.alertFullImageText}>
+                <TextF h1 style={commonStyles.alertFullImageText}>
                   Aún no tienes actividad de pagos
-                </Text>
+                </TextF>
               </View>
             )
           ) : null}
@@ -286,12 +287,12 @@ class Wallet extends Component {
         {!firstTime ? (
           payments.length ? (
             <View style={paymentListStyles.totalContainer}>
-              <Text style={paymentListStyles.totalText} h1>
+              <TextF style={paymentListStyles.totalText} h1>
                 Billetera
-              </Text>
-              <Text style={paymentListStyles.totalValue} h1>
+              </TextF>
+              <TextF style={paymentListStyles.totalValue} h1>
                 {`$ ${this.add(payments)}`}
-              </Text>
+              </TextF>
             </View>
           ) : null) : null}
       </Container>

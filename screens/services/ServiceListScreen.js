@@ -2,7 +2,7 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import { View, FlatList, Image, ScrollView, RefreshControl } from 'react-native';
-import { Container, Text } from 'native-base';
+import { Container } from 'native-base';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ListItem from './components/ListItem';
@@ -12,6 +12,7 @@ import { quoteStatus } from '../../constants/appConstants';
 import { serviceListStyles } from '../../styles/serviceListStyles';
 import Loader from '../../components/custom/Loader';
 import { appColors } from '../../styles/colors';
+import TextF from '../../components/custom/TextF';
 
 const noRecordImage = require('../../assets/images/no-records.png');
 
@@ -98,9 +99,9 @@ class ServiceList extends Component {
 
   renderList = (list, title) => (
     <View style={serviceListStyles.serviceSection}>
-      <Text style={serviceListStyles.listTitle} h1>
+      <TextF style={serviceListStyles.listTitle} h1>
         {title}
-      </Text>
+      </TextF>
       <FlatList
         data={list}
         renderItem={data => <ListItem data={data.item} onPressItem={this.onPressItem} type="quote" />}
@@ -123,7 +124,7 @@ class ServiceList extends Component {
           )}
         >
           <View style={{ ...commonStyles.titleContainer, ...{ paddingBottom: 5 } }}>
-            <Text style={{ ...commonStyles.title, fontWeight: 'bold' }} h1>OCCUPAPP</Text>
+            <TextF style={{ ...commonStyles.title, fontWeight: 'bold' }} h1>OCCUPAPP</TextF>
           </View>
             {toAnswer.length ? this.renderList(toAnswer, this.props.language.answer_pending) : null}
             {scheduled.length ? this.renderList(scheduled, this.props.language.scheduled) : null}
@@ -135,9 +136,9 @@ class ServiceList extends Component {
                   source={noRecordImage}
                   style={commonStyles.alertFullImage}
                 />
-                <Text h1 style={commonStyles.alertFullImageText}>
+                <TextF h1 style={commonStyles.alertFullImageText}>
                   No hay actividad a mostrar
-                </Text>
+                </TextF>
               </View>
             ) : null}
         </ScrollView>

@@ -14,6 +14,7 @@ import BigButtonIcon from '../../components/custom/BigButtonIcon';
 import Loader from '../../components/custom/Loader';
 import { commonStyles } from '../../styles/commonStyles';
 import { sessionStyles } from '../../styles/sessionStyles';
+import TextF from '../../components/custom/TextF';
 
 class LoginRegister extends Component {
   state = {
@@ -152,7 +153,7 @@ class LoginRegister extends Component {
       <Container style={commonStyles.container}>
         <Loader show={this.state.showLoader} />
         <View style={commonStyles.titleContainer}>
-          <Text style={{ ...commonStyles.title, fontWeight: 'bold' }} h1>OCCUAPP</Text>
+          <TextF style={{ ...commonStyles.title, fontWeight: 'bold' }} h1>OCCUAPP</TextF>
         </View>
 
         <View style={commonStyles.inputContainer}>
@@ -193,16 +194,16 @@ class LoginRegister extends Component {
         />
         {!+this.state.formData.type && (
           <View style={sessionStyles.rememberPasswordLink}>
-            <Text style={sessionStyles.rememberPasswordLinkText} onPress={() => this.rememberPass()}>
+            <TextF style={sessionStyles.rememberPasswordLinkText} onPress={() => this.rememberPass()}>
               {this.props.language['recover_pass']}
-            </Text>
+            </TextF>
           </View>
         )}
         <View style={{ ...sessionStyles.welcomeBtnsContainer, ...{ bottom: 30 } }}>
           <View style={sessionStyles.continueWith}>
-            <Text style={sessionStyles.continueWithText}>
+            <TextF style={sessionStyles.continueWithText}>
               {this.props.language[+this.state.formData.type ? 'register_with' : 'continue_with']}
-            </Text>
+            </TextF>
           </View>
           <FacebookButton login={this.facebookLogin} />
         </View>

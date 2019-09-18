@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import {
-  View, Text, StyleSheet, Image, FlatList, Dimensions, TouchableHighlight, TextInput,
+  View, StyleSheet, Image, FlatList, Dimensions, TouchableHighlight, TextInput,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { connect } from 'react-redux';
@@ -11,6 +11,7 @@ import { appColors } from '../../styles/colors';
 import { commonStyles } from '../../styles/commonStyles';
 import { searchHeaderBarStyles } from '../../styles/searchInputStyles';
 import BackButton from '../../components/custom/BackButton';
+import TextF from '../../components/custom/TextF';
 
 const sliderWidth = Dimensions.get('window').width;
 const itemWidth = sliderWidth - (sliderWidth * 0.12);
@@ -78,11 +79,11 @@ class AllServices extends Component {
           </TouchableHighlight>
           <View style={carouselStyles.descriptionContainer}>
             <View style={carouselStyles.serviceNamePanel}>
-              <Text style={carouselStyles.serviceText}>{ service }</Text>
-              <Text style={carouselStyles.userNameText}>{ name }</Text>
+              <TextF style={carouselStyles.serviceText}>{ service }</TextF>
+              <TextF style={carouselStyles.userNameText}>{ name }</TextF>
             </View>
             <View style={carouselStyles.ratingPanel}>
-              <Text style={carouselStyles.ratingText}>{rating}</Text>
+              <TextF style={carouselStyles.ratingText}>{rating}</TextF>
               <Icon
                 style={carouselStyles.ratingIcon}
                 name="star"
@@ -114,7 +115,7 @@ class AllServices extends Component {
         />
         {+this.state.type ? (
           <View style={commonStyles.titleContainer}>
-            <Text style={{ ...commonStyles.title, fontWeight: 'bold' }} h1>{title}</Text>
+            <TextF style={{ ...commonStyles.title, fontWeight: 'bold' }} h1>{title}</TextF>
           </View>
         ) : (
           this.searchBar()
