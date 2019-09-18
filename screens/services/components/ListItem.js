@@ -52,11 +52,11 @@ class ListItem extends Component {
   }
 
   render() {
-    const { data, onPressItem, type, action } = this.props;
+    const { data, onPressItem, type } = this.props;
     const st = this.setStatus(data.statusToShow);
     return (
       <TouchableHighlight
-        onPress={() => onPressItem(data, type, action)}
+        onPress={() => onPressItem(data, type)}
         underlayColor="white"
       >
         <LinearGradient

@@ -1,12 +1,13 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
-import { View, Alert, ToastAndroid, TextInput, ScrollView } from 'react-native';
+import { View, Alert, TextInput, ScrollView, ToastAndroid } from 'react-native';
 import { Container, Text } from 'native-base';
-import { Button } from 'react-native-elements';
+import { Button, Rating } from 'react-native-elements';
 import { connect } from 'react-redux';
 import ImageView from 'react-native-image-view';
 import PropTypes from 'prop-types';
-import { getQuote, answerQuote } from '../../services/quoteServices';
+import { getQuote, answerQuote, rateService } from '../../services/quoteServices';
+import { getPaymentUrl, getLastPayment, updatePayment } from '../../services/paymentsServices';
 import Loader from '../../components/custom/Loader';
 import { commonStyles } from '../../styles/commonStyles';
 import { quoteStyles } from '../../styles/quoteStyles';
@@ -16,6 +17,7 @@ import { appColors } from '../../styles/colors';
 import { setQuoteTitle, setQuoteMessage } from './components/QuoteDescriptions';
 import BackButton from '../../components/custom/BackButton';
 import { handleException } from '../../services/handlers/commonServices';
+import { appConstants } from '../../constants/appConstants';
 
 class QuoteDetails extends Component {
   state = {
@@ -31,10 +33,62 @@ class QuoteDetails extends Component {
     imageIndex: 0,
     images: [],
     modalHeight: 60,
+    user: {},
   }
 
   componentWillMount() {
-    this.fetchQuote();
+    this.props.navigation.addListener(
+      'didFocus',
+      () => {
+        const fromPayment = this.props.navigation.getParam('fromPayment');
+        if (fromPayment) {
+          this.fetchLastPayments();
+        } else {
+          this.fetchQuote();
+        }
+      },
+    );
+  }
+
+  fetchLastPayments = async () => {
+    this.showLoader(true);
+    this.getLastPayment();
+    this.setState({ paymentCont: 0 });
+  }
+
+  sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+  getLastPayment = async () => {
+    this.showLoader(true);
+    const req = await getLastPayment(this.props.loginInfo.email);
+    const res = await req.json();
+    this.setState(prev => ({ ...prev, paymentCont: prev.paymentCont + 1 }));
+    if (!res.success) {
+      if (this.state.paymentCont !== 5) {
+        await this.sleep(2500);
+        this.getLastPayment();
+      } else {
+        this.showLoader(false);
+        Alert.alert('Info', 'Lo sentimos, su pago no pudo ser procesado en el momento, intentelo más tarde',
+          [{ text: 'OK', onPress: () => this.props.navigation.navigate('ServiceList') }],
+          { cancelable: false });
+      }
+    } else {
+      this.showLoader(false);
+      this.acceptQuote(true);
+      this.updatePayment(res.output[0]._id);
+      this.fetchQuote();
+    }
+  }
+
+  updatePayment = async (pId) => {
+    const quote = this.props.navigation.getParam('quote') || {};
+    console.log(quote);
+    if (quote) {
+      const req = await updatePayment(pId, quote);
+      const res = await req.json();
+      console.log(res);
+    }
   }
 
   setDateTime = (dateTime) => {
@@ -68,10 +122,12 @@ class QuoteDetails extends Component {
     this.setState(prevState => ({ ...prevState,
       quote,
       action: quote.status,
+      user: this.props.loginInfo,
       formData: { ...prevState.formData,
         id: quote._id,
         sentBy: quote.sentBy._id,
-        receivedBy: quote.receivedBy._id },
+        receivedBy: quote.receivedBy._id,
+        price: quote.price ? Math.round(quote.price + (quote.price * appConstants.PRICE_FARE)) : 0 },
       images,
     }));
   }
@@ -86,7 +142,7 @@ class QuoteDetails extends Component {
     let isValid = true;
     const errorMessages = [];
 
-    if (data.accept && !(/^\d+$/.test(data.price))) {
+    if (data.accept && this.state.action === 'Sent' && !(/^\d+$/.test(data.price))) {
       errorMessages.push('Precio no es un valor válido');
       isValid = false;
     }
@@ -109,8 +165,10 @@ class QuoteDetails extends Component {
       if (!resp.success) { Alert.alert('Error', resp.message); return; }
       this.showQuoteDialog(false, true);
 
-      Alert.alert('Info', 'Se ha enviado tu respuesta correctamente',
-        [{ text: 'OK', onPress: () => this.props.navigation.navigate('Home') }],
+      const mess = this.props.navigation.getParam('fromPayment') && data.status === 'Accepted'
+        ? 'Se ha agendado tu servicio correctamente' : 'Se ha enviado tu respuesta correctamente';
+      Alert.alert('Info', mess,
+        [{ text: 'OK', onPress: () => this.props.navigation.navigate('ServiceList') }],
         { cancelable: false });
     } catch (err) { handleException('013', err, this); }
   }
@@ -118,7 +176,30 @@ class QuoteDetails extends Component {
   acceptQuote = (accept) => {
     this.setState(prevState => ({ ...prevState,
       formData: { ...prevState.formData, accept },
-    }), this.onSendInfo(accept));
+    }), () => this.onSendInfo(accept, false));
+  }
+
+  getPaymentUrl = async () => {
+    try {
+      this.showLoader(true);
+      const { quote, user, formData } = this.state;
+      const preferences = {
+        title: quote.service.name,
+        unit_price: Math.round(formData.price + (formData.price * appConstants.PRICE_FARE)),
+        email: user.email,
+        name: user.name,
+        surname: user.lastName,
+        phone: user.phone,
+      };
+      const req = await getPaymentUrl(preferences);
+      const resp = await req.json();
+      this.showLoader(false);
+      if (!resp.success) {
+        Alert.alert('Error', resp.message);
+      } else {
+        this.props.navigation.navigate('Payment', { paymentUrl: resp.output, quote: this.state.quote });
+      }
+    } catch (err) { handleException('011', err, this); }
   }
 
   setFormState = (accept) => {
@@ -149,6 +230,16 @@ class QuoteDetails extends Component {
       imageIndex: i }));
   }
 
+  onRating = async (r) => {
+    this.showLoader(true);
+    try {
+      const req = await rateService(r, this.state.quote._id);
+      const resp = await req.json();
+      this.showLoader(false);
+      if (resp.success) { ToastAndroid.show('Servicio calificado', ToastAndroid.LONG); }
+    } catch (err) { handleException('013', err, this); }
+  }
+
   quoteDialog = () => (
     <View style={{ width: '100%', height: this.state.modalHeight }}>
       {this.state.formData.accept ? (
@@ -172,7 +263,7 @@ class QuoteDetails extends Component {
   );
 
   render() {
-    const { quote, images, imageIndex, showImageViwer, action } = this.state;
+    const { quote, images, imageIndex, showImageViwer, action, formData, user } = this.state;
     return (
       <Container style={{ ...commonStyles.container, ...{ flex: 1, paddingBottom: 0 } }}>
         <ScrollView
@@ -191,7 +282,17 @@ class QuoteDetails extends Component {
           </View>
           <View style={commonStyles.inputContainer}>
             {setQuoteTitle(action, this.props.language)}
-            {setQuoteMessage(action, this.props.language, quote.price)}
+            {setQuoteMessage(action, this.props.language, formData.price, user._id, formData.sentBy)}
+            {quote.observation && quote.observation !== '' ? (
+              <View>
+                <Text style={{ ...quoteStyles.descriptionText, ...{ textAlign: 'left' } }}>
+                  <Text style={{ ...quoteStyles.titleText, color: appColors.primary }}>
+                    {this.props.language.observations}
+                  </Text>
+                  {quote.observation}
+                </Text>
+              </View>
+            ) : null}
             <View>
               <Text style={{ ...quoteStyles.descriptionText, ...{ textAlign: 'left' } }}>
                 <Text style={quoteStyles.titleText}>
@@ -233,7 +334,7 @@ class QuoteDetails extends Component {
                   containerStyle={{ width: '45%', marginRight: 10 }}
                   btnContainerStyle={{ paddingTop: 20, paddingBottom: 0 }}
                   title={this.props.language.accept}
-                  onPress={() => action === 'Sent' ? this.showQuoteDialog(true, true) : this.acceptQuote(true)}
+                  onPress={() => action === 'Sent' ? this.showQuoteDialog(true, true) : this.getPaymentUrl()}
                 />
                 <Button
                   buttonStyle={{ paddingVertical: 10 }}
@@ -242,6 +343,22 @@ class QuoteDetails extends Component {
                   title={this.props.language.reject}
                   onPress={() => action === 'Sent' ? this.showQuoteDialog(true, false) : this.acceptQuote(false)}
                   type="outline"
+                />
+              </View>
+            ) : null}
+            {action === 'Finished' ? (
+              <View style={{ flexDirection: 'column' }}>
+                <View style={quoteStyles.statusBox}>
+                  <Text style={quoteStyles.descriptionText}>Califíca tu satisfacción con el servicio</Text>
+                </View>
+                <Rating
+                  ratingCount={5}
+                  fractions={2}
+                  startingValue={quote.rating ? +quote.rating : 0}
+                  style={quoteStyles.ratingStyles}
+                  imageSize={40}
+                  ratingColor={appColors.primary}
+                  onFinishRating={this.onRating}
                 />
               </View>
             ) : null}
@@ -257,7 +374,7 @@ class QuoteDetails extends Component {
               style: { paddingHorizontal: 15, marginRight: 10, backgroundColor: appColors.primary },
             }, {
               title: this.props.language.send,
-              onPress: () => this.onSendInfo(true),
+              onPress: () => this.onSendInfo(true, true),
               style: { paddingHorizontal: 15, marginRight: 10, backgroundColor: appColors.secondary },
             }]}
           />

@@ -1,13 +1,15 @@
 import React from 'react';
+import { Text } from 'react-native';
+import IconBadge from 'react-native-icon-badge';
 import { createBottomTabNavigator } from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import homeNavigator from './homeNavigator';
 import profileNavigator from './profileNavigator';
 import chatNavigator from './chatNavigator';
+import quoteNavigator from './quoteNavigator';
 import { appColors } from '../styles/colors';
 import TabBar from './components/TabBar';
-import ServiceList from '../screens/services/ServiceListScreen';
 import Wallet from '../screens/wallet/WalletScreen';
 
 const TabsNavigator = createBottomTabNavigator({
@@ -24,7 +26,7 @@ const TabsNavigator = createBottomTabNavigator({
     },
   },
   ServiceList: {
-    screen: ServiceList,
+    screen: quoteNavigator,
     navigationOptions: {
       tabBarIcon: ({ focused }) => (
         <Icon
@@ -50,13 +52,22 @@ const TabsNavigator = createBottomTabNavigator({
   Chat: {
     screen: chatNavigator,
     navigationOptions: {
-      tabBarIcon: ({ focused }) => (
-        <FontAwesome
-          name="wechat"
-          size={22}
-          color={focused ? appColors.primary : appColors.grey}
-        />
-      ),
+      tabBarIcon: (props) => {
+        const n = 0;
+        return (
+          <IconBadge
+            MainElement={(
+              <FontAwesome
+                name="wechat"
+                size={22}
+                color={props.focused ? appColors.primary : appColors.grey}
+              />)}
+            IconBadgeStyle={{ width: 22, height: 22, backgroundColor: appColors.secondary, top: -10, right: -10 }}
+            BadgeElement={<Text style={{ color: 'white' }}>{n}</Text>}
+            Hidden={n === 0}
+          />
+        );
+      },
     },
   },
   Profile: {
@@ -72,7 +83,10 @@ const TabsNavigator = createBottomTabNavigator({
     },
   },
 }, {
-  tabBarComponent: props => <TabBar {...props} />,
+  tabBarComponent: (props) => {
+    const p = { ...props, chatNumber: 5 };
+    return <TabBar {...p} />;
+  },
   tabBarOptions: { showLabel: false },
 });
 

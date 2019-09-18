@@ -2,11 +2,11 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import { quoteStyles } from '../../../styles/quoteStyles';
 
-export const setQuoteMessage = (action, language, price) => {
+export const setQuoteMessage = (action, language, price, userId, sender) => {
   let text = {};
   switch (action) {
     case 'Sent':
-      text = language.quote_answer_text;
+      text = userId === sender ? language.my_quote_description : language.quote_answer_text;
       break;
     case 'Answered':
       text = (
@@ -22,13 +22,13 @@ export const setQuoteMessage = (action, language, price) => {
       text = language.rejected_description;
       break;
     case 'Accepted':
-      text = language.accepted_description;
+      text = userId === sender ? language.accepted_description_sent : language.accepted_description;
       break;
     case 'NoAccepted':
       text = language.no_accepted_description;
       break;
-    case 'Mine':
-      text = language.my_quote_description;
+    case 'Finished':
+      text = language.finished_description;
       break;
     default:
       return null;

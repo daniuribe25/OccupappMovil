@@ -21,7 +21,7 @@ class TextInputIcon extends Component {
 
   render() {
     const { iconType, iconColor, iconName, iconSize, onFocus, value, secureTextEntry, keyboardType,
-      onChangeText, placeholder, textPadding, language } = this.props;
+      onChangeText, placeholder, textPadding, language, autoCapitalize } = this.props;
     return (
       <View style={commonStyles.textInputContainer}>
         {iconName ? (
@@ -44,6 +44,7 @@ class TextInputIcon extends Component {
           secureTextEntry={secureTextEntry}
           keyboardType={keyboardType}
           maxLength={30}
+          autoCapitalize={autoCapitalize}
         />
       </View>
     );
@@ -59,6 +60,7 @@ TextInputIcon.defaultProps = {
   iconType: 'font-awesome',
   iconSize: 20,
   iconColor: appColors.grey,
+  autoCapitalize: 'sentences',
 };
 
 TextInputIcon.propTypes = {
@@ -75,6 +77,7 @@ TextInputIcon.propTypes = {
   iconType: PropTypes.string,
   iconColor: PropTypes.string,
   iconSize: PropTypes.number,
+  autoCapitalize: PropTypes.string,
 };
 
 const mapStateToProps = state => ({

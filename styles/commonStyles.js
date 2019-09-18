@@ -1,7 +1,7 @@
 import { StyleSheet, Dimensions } from 'react-native';
 import { appColors } from './colors';
 
-const sliderWidth = Dimensions.get('window').width;
+const { width, height } = Dimensions.get('window');
 
 export const commonStyles = StyleSheet.create({
   container: {
@@ -161,10 +161,10 @@ export const commonStyles = StyleSheet.create({
     fontSize: 25,
     fontWeight: '500',
     color: appColors.mediumGrey,
-    width: sliderWidth,
+    width: width,
   },
   alertFullImageContainer: {
-    width: sliderWidth,
+    width: width,
     marginTop: '16%',
     padding: 30,
     height: '100%',
@@ -172,10 +172,10 @@ export const commonStyles = StyleSheet.create({
     justifyContent: 'center',
   },
   alertFullImage: {
-    width: sliderWidth - 130,
+    width: width - 130,
     justifyContent: 'center',
     alignItems: 'center',
-    height: sliderWidth - 180,
+    height: width - 180,
   },
   alertFullImageText: {
     fontSize: 16,
@@ -196,5 +196,34 @@ export const loaderStyles = {
     backgroundColor: appColors.grey,
     opacity: 0.3,
     zIndex: 1000,
+  },
+  textContainer: {
+    position: 'absolute',
+    left: 0,
+    top: (height / 2),
+    right: 0,
+    bottom: 0,
+    zIndex: 1001,
+    flexWrap: 'wrap',
+    height: 65,
+    paddingVertical: 10,
+    paddingHorizontal: width * 0.1,
+    marginHorizontal: width * 0.08,
+    backgroundColor: appColors.white,
+    borderRadius: 8,
+  },
+  text: {
+    fontSize: 18,
+    color: appColors.secondary,
+    fontWeight: '500',
+    textAlign: 'center',
+  },
+  spinnerContainer: {
+    position: 'absolute',
+    left: 0,
+    top: (height / 2) - 50,
+    right: 0,
+    bottom: 0,
+    zIndex: 1002,
   },
 };

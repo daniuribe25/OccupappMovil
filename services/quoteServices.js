@@ -38,3 +38,11 @@ export const answerQuote = async quote => (
     headers: { 'Content-Type': 'application/json' },
   })
 );
+
+export const rateService = async (rating, quoteId) => (
+  fetch(`${appConstants.API_URL}rate_service`, {
+    method: 'PATCH',
+    body: JSON.stringify({ rating, quoteId }),
+    headers: { 'Content-Type': 'application/json' },
+  })
+);

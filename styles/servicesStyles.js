@@ -23,12 +23,12 @@ export const servicesStyles = StyleSheet.create({
     paddingTop: 5,
   },
   serviceNamePanel: {
-    flex: 4,
+    flex: 3.5,
     paddingVertical: 5,
     paddingHorizontal: 25,
   },
   serviceText: {
-    fontSize: 30,
+    fontSize: 28,
     fontWeight: '500',
     fontStyle: 'italic',
     color: appColors.grey,
@@ -51,19 +51,21 @@ export const servicesStyles = StyleSheet.create({
     paddingRight: 10,
   },
   ratingText: {
-    fontSize: 22,
+    fontSize: 19,
     fontWeight: '500',
     color: appColors.primary,
     fontStyle: 'italic',
     flex: 1,
     textAlignVertical: 'top',
     paddingBottom: 17,
+    left: 10,
   },
   ratingIcon: {
     flex: 1,
     textAlignVertical: 'top',
     paddingBottom: 20,
     marginLeft: 2,
+    left: 10,
   },
   descriptionContainer: {
     flex: 1,

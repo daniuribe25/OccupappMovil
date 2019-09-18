@@ -43,7 +43,7 @@ class ServiceCarousel extends Component {
               <Icon
                 style={carouselStyles.ratingIcon}
                 name="star"
-                size={18}
+                size={16}
                 color={appColors.primary}
               />
             </View>

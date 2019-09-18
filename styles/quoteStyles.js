@@ -62,12 +62,12 @@ export const quoteStyles = StyleSheet.create({
     marginVertical: 10,
   },
   statusBox: {
-    borderRadius: 5,
-    marginHorizontal: 15,
-    marginVertical: 5,
-    elevation: 1,
-    backgroundColor: appColors.lightGrey,
-    paddingHorizontal: 20,
-    paddingVertical: 10,
+    marginTop: 10,
+    paddingTop: 2,
+  },
+  ratingStyles: {
+    alignItems: 'center',
+    fontSize: 16,
+    fontWeight: '500',
   },
 });

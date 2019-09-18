@@ -26,7 +26,7 @@ export const carouselStyles = StyleSheet.create({
     paddingTop: 5,
   },
   serviceNamePanel: {
-    flex: 4,
+    flex: 3.5,
     paddingLeft: 5,
   },
   serviceText: {
@@ -41,25 +41,27 @@ export const carouselStyles = StyleSheet.create({
   ratingPanel: {
     flex: 1,
     alignItems: 'flex-end',
-    paddingTop: 5,
+    paddingTop: 2,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    paddingBottom: 10,
+    paddingBottom: 15,
   },
   ratingText: {
-    fontSize: 22,
+    fontSize: 19,
     fontWeight: '500',
     color: appColors.primary,
     fontStyle: 'italic',
     flex: 1,
     textAlignVertical: 'top',
+    alignSelf: 'flex-end',
+    left: 10,
   },
   ratingIcon: {
     flex: 1,
     textAlignVertical: 'top',
     paddingBottom: 4,
-    marginLeft: 2,
+    left: 5,
   },
   header: {
     display: 'flex',

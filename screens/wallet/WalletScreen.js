@@ -271,7 +271,7 @@ class Wallet extends Component {
                 renderItem={data => <ListItem data={data.item} type="quote" />}
               />
             ) : (
-              <View style={commonStyles.alertFullImageContainer}>
+              <View style={{ ...commonStyles.alertFullImageContainer, marginTop: '-16%' }}>
                 <Image
                   source={nrImage}
                   style={commonStyles.alertFullImage}
@@ -293,7 +293,7 @@ class Wallet extends Component {
                 {`$ ${this.add(payments)}`}
               </Text>
             </View>
-          ) : null ) : null}
+          ) : null) : null}
       </Container>
     );
   }

@@ -77,12 +77,13 @@ class LoginRegister extends Component {
   facebookLogin = async (user) => {
     this.showLoader(true);
     try {
-      const req = await this.props.authenticateUser(user);
+      const req = await authUser(user);
       const resp = await req.json();
       this.showLoader(false);
       if (!resp.success) {
         this.redirectToRegister('FB', user);
       } else {
+        this.props.authenticateUser(user);
         storeLocally('user-data', resp.output);
         this.props.navigation.navigate('TabsNavigator');
       }
@@ -162,6 +163,7 @@ class LoginRegister extends Component {
             onChangeText={text => this.inputChangeHandler('email', text)}
             keyboardType="email-address"
             textContentType="emailAddress"
+            autoCapitalize="none"
           />
           <TextInputIcon
             iconName="asterisk"
@@ -169,6 +171,7 @@ class LoginRegister extends Component {
             onChangeText={text => this.inputChangeHandler('password', text)}
             value={this.state.formData.password}
             secureTextEntry
+            autoCapitalize="none"
           />
           {+this.state.formData.type ? (
             <TextInputIcon
@@ -177,6 +180,7 @@ class LoginRegister extends Component {
               onChangeText={text => this.inputChangeHandler('confirmPass', text)}
               value={this.state.formData.confirmPass}
               secureTextEntry
+              autoCapitalize="none"
             />
           ) : null}
         </View>
