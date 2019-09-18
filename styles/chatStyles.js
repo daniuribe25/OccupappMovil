@@ -78,5 +78,6 @@ export const chatStyles = StyleSheet.create({
     color: appColors.white,
     fontWeight: '600',
     fontSize: 12,
+    alignSelf: 'center',
   },
 });

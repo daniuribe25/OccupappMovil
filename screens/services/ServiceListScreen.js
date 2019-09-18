@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-indent */
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import { View, FlatList, Image, ScrollView, RefreshControl } from 'react-native';
@@ -21,6 +22,7 @@ class ServiceList extends Component {
     sent: [],
     scheduled: [],
     finished: [],
+    firstTime: true,
   };
 
   componentDidMount() {
@@ -80,32 +82,34 @@ class ServiceList extends Component {
       q.status === quoteStatus.QUOTE_STATUS_ACCEPTED));
 
     this.setState(prevState => ({
-      ...prevState, toAnswer, sent, scheduled, finished,
+      ...prevState, toAnswer, sent, scheduled, finished, 
+      firstTime: false,
     }));
   }
 
-  onPressItem = (quote, type, action) => {
-    this.props.navigation.navigate('QuoteDetails', { quote, type, action });
+  onPressItem = (quote, type) => {
+    this.props.navigation.navigate('QuoteDetails',
+      { quote, type });
   }
 
   showLoader = (show) => {
     this.setState(prevState => ({ ...prevState, showLoader: show }));
   }
 
-  renderList = (list, title, action) => (
+  renderList = (list, title) => (
     <View style={serviceListStyles.serviceSection}>
       <Text style={serviceListStyles.listTitle} h1>
         {title}
       </Text>
       <FlatList
         data={list}
-        renderItem={data => <ListItem data={data.item} onPressItem={this.onPressItem} type="quote" action={action} />}
+        renderItem={data => <ListItem data={data.item} onPressItem={this.onPressItem} type="quote" />}
       />
     </View>
   )
 
   render() {
-    const { toAnswer, sent, scheduled, finished } = this.state;
+    const { toAnswer, sent, scheduled, finished, firstTime } = this.state;
     return (
       <Container style={{ ...commonStyles.container, ...{ flex: 1, paddingBottom: 0 } }}>
         <Loader show={this.state.showLoader} />
@@ -121,21 +125,21 @@ class ServiceList extends Component {
           <View style={{ ...commonStyles.titleContainer, ...{ paddingBottom: 5 } }}>
             <Text style={{ ...commonStyles.title, fontWeight: 'bold' }} h1>OCCUPAPP</Text>
           </View>
-          {toAnswer.length ? this.renderList(toAnswer, this.props.language.answer_pending, 'Sent') : null}
-          {scheduled.length ? this.renderList(scheduled, this.props.language.scheduled, 'Mine') : null}
-          {sent.length ? this.renderList(sent, this.props.language.my_quotes, 'Mine') : null}
-          {finished.length ? this.renderList(finished, this.props.language.finished, 'Mine') : null}
-          {!toAnswer.length && !sent.length && !scheduled.length && !finished.length ? (
-            <View style={commonStyles.alertFullImageContainer}>
-              <Image
-                source={noRecordImage}
-                style={commonStyles.alertFullImage}
-              />
-              <Text h1 style={commonStyles.alertFullImageText}>
-                No hay actividad a mostrar
-              </Text>
-            </View>
-          ) : null}
+            {toAnswer.length ? this.renderList(toAnswer, this.props.language.answer_pending) : null}
+            {scheduled.length ? this.renderList(scheduled, this.props.language.scheduled) : null}
+            {sent.length ? this.renderList(sent, this.props.language.my_quotes) : null}
+            {finished.length ? this.renderList(finished, this.props.language.finished) : null}
+            {!firstTime && !toAnswer.length && !sent.length && !scheduled.length && !finished.length ? (
+              <View style={commonStyles.alertFullImageContainer}>
+                <Image
+                  source={noRecordImage}
+                  style={commonStyles.alertFullImage}
+                />
+                <Text h1 style={commonStyles.alertFullImageText}>
+                  No hay actividad a mostrar
+                </Text>
+              </View>
+            ) : null}
         </ScrollView>
       </Container>
     );

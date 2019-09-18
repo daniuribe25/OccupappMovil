@@ -105,12 +105,14 @@ class ChangePassword extends Component {
             onChangeText={text => this.inputChangeHandler('old_password', text)}
             value={this.state.formData.old_password}
             secureTextEntry
+            autoCapitalize="none"
           />
           <TextInputIcon
             placeholder="new_password"
             onChangeText={text => this.inputChangeHandler('password', text)}
             value={this.state.formData.password}
             secureTextEntry
+            autoCapitalize="none"
           />
           <TextInputIcon
             placeholder="confirm_password"

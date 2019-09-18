@@ -21,7 +21,7 @@ import { appColors } from '../../styles/colors';
 import { setNewMessage } from '../chat/ChatSocket';
 import { appConstants } from '../../constants/appConstants';
 
-const socketChat = io(appConstants.API_URL);
+const socketChat = io(appConstants.SOCKET_EP);
 
 class Home extends Component {
   state = {
@@ -51,6 +51,7 @@ class Home extends Component {
   initSocket = (userId) => {
     socketChat.connect();
     socketChat.emit('setId', userId);
+    socketChat.off('incomingMessage');
     socketChat.on('incomingMessage', async (resp) => {
       if (resp.messageResp.success) {
         await setNewMessage(resp);

@@ -57,10 +57,15 @@ class ListItem extends Component {
             ) : null}
           </View>
           <View style={chatStyles.dateSection}>
-            <Text style={chatStyles.dateText}>{last.date}</Text>
+            <Text style={{
+              ...chatStyles.dateText,
+              ...{ textAlignVertical: data.number ? 'top' : 'center' } }}
+            >
+              {last.date}
+            </Text>
             {data.number ? (
               <View style={chatStyles.numberSection}>
-                <Text style={chatStyles.number}>{data.number}</Text>
+                <Text style={chatStyles.number}>{23}</Text>
               </View>
             ) : null}
           </View>

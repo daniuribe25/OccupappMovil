@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { PureComponent } from 'react';
-import KeyboardSpacer from 'react-native-keyboard-spacer'
-import { View, WebView, ScrollView } from 'react-native';
+import KeyboardSpacer from 'react-native-keyboard-spacer';
+import { View, WebView, ScrollView, BackHandler } from 'react-native';
 import { Container, Text } from 'native-base';
 import { appColors } from '../../styles/colors';
 import { commonStyles } from '../../styles/commonStyles';
@@ -13,11 +13,18 @@ class Payment extends PureComponent {
   }
 
   componentDidMount = async () => {
+    this.backHandler = BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
     this.setState(prev => ({
       ...prev,
       url: this.props.navigation.getParam('paymentUrl'),
     }));
   }
+
+  componentWillUnmount() {
+    this.backHandler.remove();
+  }
+
+  handleBackPress = () => true;
 
   render() {
     return (
@@ -27,7 +34,10 @@ class Payment extends PureComponent {
           automaticallyAdjustContentInsets={false}
         >
           <BackButton
-            onPress={() => this.props.navigation.navigate('Wallet')}
+            onPress={() => this.props.navigation.navigate('QuoteDetails', {
+              fromPayment: true,
+              quote: this.props.navigation.getParam('quote'),
+            })}
             icon="arrow-left"
             color={appColors.primary}
             type="material-community"
@@ -46,7 +56,7 @@ class Payment extends PureComponent {
                   decelerationRate="normal"
                   startInLoadingState
                 />
-                <KeyboardSpacer/>
+                <KeyboardSpacer />
               </React.Fragment>
             ) : null}
           </View>

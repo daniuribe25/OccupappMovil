@@ -14,6 +14,20 @@ export const getUserPayments = async userId => (
   })
 );
 
+export const getLastPayment = async userId => (
+  fetch(`${appConstants.API_URL}get_last/${userId}`, {
+    method: 'GET',
+  })
+);
+
+export const updatePayment = async (pId, quote) => (
+  fetch(`${appConstants.API_URL}update_payment/${pId}`, {
+    method: 'POST',
+    body: JSON.stringify(quote),
+    headers: { 'Content-Type': 'application/json' },
+  })
+);
+
 export const disbursPayments = async id => (
   fetch(`${appConstants.API_URL}disbursPayments/${id}`, {
     method: 'GET',

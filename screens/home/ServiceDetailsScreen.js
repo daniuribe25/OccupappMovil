@@ -67,7 +67,7 @@ class ServiceDetails extends Component {
             <Icon
               style={servicesStyles.ratingIcon}
               name="star"
-              size={18}
+              size={16}
               color={appColors.primary}
             />
           </View>
