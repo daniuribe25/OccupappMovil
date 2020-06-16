@@ -52,7 +52,7 @@ class ListItem extends Component {
             </View>
           </View>
           <View style={chatStyles.nameSection}>
-            <TextF style={chatStyles.nameText}>{`${data.user2.name} ${data.user2.lastName}`}</TextF>
+            <TextF style={chatStyles.nameText}>{`${user2.name} ${user2.lastName}`}</TextF>
             {last.text !== '' ? (
               <TextF style={chatStyles.messageText}>{last.text}</TextF>
             ) : null}

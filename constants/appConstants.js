@@ -18,8 +18,10 @@ export const appConstants = {
 };
 
 export const appGlobalStyles = {
-  FONT_FAMILY: 'notoserif',
-  // FONT_FAMILY: 'normal',
+  // FONT_FAMILY: 'Moon2.0-Bold',
+  // FONT_FAMILY: 'Quicksand-Regular',
+  // FONT_FAMILY: 'notoserif',
+  FONT_FAMILY: 'normal',
   // FONT_FAMILY: 'sans-serif-medium',
   // FONT_FAMILY: 'Roboto',
 };

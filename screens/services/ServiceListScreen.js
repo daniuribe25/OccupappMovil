@@ -83,14 +83,13 @@ class ServiceList extends Component {
       q.status === quoteStatus.QUOTE_STATUS_ACCEPTED));
 
     this.setState(prevState => ({
-      ...prevState, toAnswer, sent, scheduled, finished, 
-      firstTime: false,
+      ...prevState, toAnswer, sent, scheduled, finished, firstTime: false,
     }));
   }
 
   onPressItem = (quote, type) => {
     this.props.navigation.navigate('QuoteDetails',
-      { quote, type });
+      { quote, type, fromPayment: null });
   }
 
   showLoader = (show) => {

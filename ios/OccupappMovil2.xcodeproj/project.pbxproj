@@ -66,6 +66,18 @@
 		3BD1DD5C6EFA44BD85C4067C /* libRCTOneSignal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A92F0E50BBC4B478B60A38F /* libRCTOneSignal.a */; };
 		A7FBE5AB4A6C4CB6B1D418DF /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 210A5F1615724B1195B2F90F /* libBVLinearGradient.a */; };
 		717D57F3D68D4838978775C3 /* libRCTImageResizer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F61BC8CBB914475BEBB4511 /* libRCTImageResizer.a */; };
+		6CEE0E93B3B44EAEBCD3C9BB /* quicksand.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FCD3F00C17AC4A2BB0B5AC45 /* quicksand.jpg */; };
+		40AB8773F81C42778645B584 /* specimenposter_4967.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E6662B08FD4A416D8794461F /* specimenposter_4967.jpg */; };
+		A9ACA8309FF94BD7A50349D0 /* Quicksand_Dash.otf in Resources */ = {isa = PBXBuildFile; fileRef = D8A2D8BF225340F8BF350FE8 /* Quicksand_Dash.otf */; };
+		A072221A52FD4B8CB8181237 /* Quicksand-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = F760BF7C05D441B38EE974E4 /* Quicksand-Bold.otf */; };
+		AA4BE994BCC1435CACCA596B /* Quicksand-BoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3773FC3E747E41DCBA8663F7 /* Quicksand-BoldItalic.otf */; };
+		5C3BAC792597417C9EA063B5 /* Quicksand-Italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3B8A88D2D38D440CAAC8C653 /* Quicksand-Italic.otf */; };
+		B2282F952DDA463DB88E1483 /* Quicksand-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = D102DC9E86654B47955B5805 /* Quicksand-Light.otf */; };
+		D39412B5202B48D8A362CE3B /* Quicksand-LightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = AEA776D341FC456280F01E1B /* Quicksand-LightItalic.otf */; };
+		3BF41134088145EEB9B9F36E /* Quicksand-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 59979F8CDB794609B5069330 /* Quicksand-Regular.otf */; };
+		E2CD8A0EF6F54F9C93FE5CAE /* Moon2.0-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 66138680CF8B4AC68A874842 /* Moon2.0-Bold.otf */; };
+		CA21B8DE045E47C2AE9D8BB9 /* Moon2.0-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 24673507B9964552B749F2A8 /* Moon2.0-Light.otf */; };
+		CA3BFD21E58A463283FDEFFF /* Moon2.0-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9E56B050F46745B083DEEDE8 /* Moon2.0-Regular.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -407,6 +419,18 @@
 		210A5F1615724B1195B2F90F /* libBVLinearGradient.a */ = {isa = PBXFileReference; name = "libBVLinearGradient.a"; path = "libBVLinearGradient.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 		EA2B6B066F75407183E80FDB /* RCTImageResizer.xcodeproj */ = {isa = PBXFileReference; name = "RCTImageResizer.xcodeproj"; path = "../node_modules/react-native-image-resizer/ios/RCTImageResizer.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		0F61BC8CBB914475BEBB4511 /* libRCTImageResizer.a */ = {isa = PBXFileReference; name = "libRCTImageResizer.a"; path = "libRCTImageResizer.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		FCD3F00C17AC4A2BB0B5AC45 /* quicksand.jpg */ = {isa = PBXFileReference; name = "quicksand.jpg"; path = "../assets/fonts/quicksand.jpg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		E6662B08FD4A416D8794461F /* specimenposter_4967.jpg */ = {isa = PBXFileReference; name = "specimenposter_4967.jpg"; path = "../assets/fonts/specimenposter_4967.jpg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		D8A2D8BF225340F8BF350FE8 /* Quicksand_Dash.otf */ = {isa = PBXFileReference; name = "Quicksand_Dash.otf"; path = "../assets/fonts/Quicksand_Dash.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		F760BF7C05D441B38EE974E4 /* Quicksand-Bold.otf */ = {isa = PBXFileReference; name = "Quicksand-Bold.otf"; path = "../assets/fonts/Quicksand-Bold.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		3773FC3E747E41DCBA8663F7 /* Quicksand-BoldItalic.otf */ = {isa = PBXFileReference; name = "Quicksand-BoldItalic.otf"; path = "../assets/fonts/Quicksand-BoldItalic.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		3B8A88D2D38D440CAAC8C653 /* Quicksand-Italic.otf */ = {isa = PBXFileReference; name = "Quicksand-Italic.otf"; path = "../assets/fonts/Quicksand-Italic.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		D102DC9E86654B47955B5805 /* Quicksand-Light.otf */ = {isa = PBXFileReference; name = "Quicksand-Light.otf"; path = "../assets/fonts/Quicksand-Light.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		AEA776D341FC456280F01E1B /* Quicksand-LightItalic.otf */ = {isa = PBXFileReference; name = "Quicksand-LightItalic.otf"; path = "../assets/fonts/Quicksand-LightItalic.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		59979F8CDB794609B5069330 /* Quicksand-Regular.otf */ = {isa = PBXFileReference; name = "Quicksand-Regular.otf"; path = "../assets/fonts/Quicksand-Regular.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		66138680CF8B4AC68A874842 /* Moon2.0-Bold.otf */ = {isa = PBXFileReference; name = "Moon2.0-Bold.otf"; path = "../assets/fonts/Moon2.0-Bold.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		24673507B9964552B749F2A8 /* Moon2.0-Light.otf */ = {isa = PBXFileReference; name = "Moon2.0-Light.otf"; path = "../assets/fonts/Moon2.0-Light.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		9E56B050F46745B083DEEDE8 /* Moon2.0-Regular.otf */ = {isa = PBXFileReference; name = "Moon2.0-Regular.otf"; path = "../assets/fonts/Moon2.0-Regular.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -709,6 +733,18 @@
 				B67C45A13F584B9F92EA19F2 /* rubicon-icon-font.ttf */,
 				FC9995EF80C849EFB7149431 /* SimpleLineIcons.ttf */,
 				F5CE18832F6345CDBA323911 /* Zocial.ttf */,
+				FCD3F00C17AC4A2BB0B5AC45 /* quicksand.jpg */,
+				E6662B08FD4A416D8794461F /* specimenposter_4967.jpg */,
+				D8A2D8BF225340F8BF350FE8 /* Quicksand_Dash.otf */,
+				F760BF7C05D441B38EE974E4 /* Quicksand-Bold.otf */,
+				3773FC3E747E41DCBA8663F7 /* Quicksand-BoldItalic.otf */,
+				3B8A88D2D38D440CAAC8C653 /* Quicksand-Italic.otf */,
+				D102DC9E86654B47955B5805 /* Quicksand-Light.otf */,
+				AEA776D341FC456280F01E1B /* Quicksand-LightItalic.otf */,
+				59979F8CDB794609B5069330 /* Quicksand-Regular.otf */,
+				66138680CF8B4AC68A874842 /* Moon2.0-Bold.otf */,
+				24673507B9964552B749F2A8 /* Moon2.0-Light.otf */,
+				9E56B050F46745B083DEEDE8 /* Moon2.0-Regular.otf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1178,6 +1214,18 @@
 				56AFA27798294D4FAEA30676 /* rubicon-icon-font.ttf in Resources */,
 				8FD2FB0B8AF24FD2BC323B6B /* SimpleLineIcons.ttf in Resources */,
 				3FED1429FBBD48538C2F6FC6 /* Zocial.ttf in Resources */,
+				6CEE0E93B3B44EAEBCD3C9BB /* quicksand.jpg in Resources */,
+				40AB8773F81C42778645B584 /* specimenposter_4967.jpg in Resources */,
+				A9ACA8309FF94BD7A50349D0 /* Quicksand_Dash.otf in Resources */,
+				A072221A52FD4B8CB8181237 /* Quicksand-Bold.otf in Resources */,
+				AA4BE994BCC1435CACCA596B /* Quicksand-BoldItalic.otf in Resources */,
+				5C3BAC792597417C9EA063B5 /* Quicksand-Italic.otf in Resources */,
+				B2282F952DDA463DB88E1483 /* Quicksand-Light.otf in Resources */,
+				D39412B5202B48D8A362CE3B /* Quicksand-LightItalic.otf in Resources */,
+				3BF41134088145EEB9B9F36E /* Quicksand-Regular.otf in Resources */,
+				E2CD8A0EF6F54F9C93FE5CAE /* Moon2.0-Bold.otf in Resources */,
+				CA21B8DE045E47C2AE9D8BB9 /* Moon2.0-Light.otf in Resources */,
+				CA3BFD21E58A463283FDEFFF /* Moon2.0-Regular.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

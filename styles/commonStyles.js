@@ -5,7 +5,6 @@ const { width, height } = Dimensions.get('window');
 
 export const commonStyles = StyleSheet.create({
   container: {
-    fontFamily: 'Georgia, Times New Roman, Times, serif',
     paddingVertical: 15,
     flexDirection: 'column',
     justifyContent: 'flex-start',
@@ -116,8 +115,9 @@ export const commonStyles = StyleSheet.create({
     justifyContent: 'center',
   },
   btnText: {
-    fontSize: 18,
+    fontSize: 20,
     textAlign: 'center',
+    color: appColors.white,
   },
   imagePickerContainer: {
     display: 'flex',

@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Icon } from 'react-native-elements';
 import ListItem from './components/ListItem';
-import { getPaymentUrl, getUserPayments, disbursPayments } from '../../services/paymentsServices';
+import { getUserPayments, disbursPayments } from '../../services/paymentsServices';
 import { linkDaviplata } from '../../services/loginServices';
 import { commonStyles } from '../../styles/commonStyles';
 import { paymentListStyles } from '../../styles/serviceListStyles';
@@ -56,23 +56,6 @@ class Wallet extends Component {
         firstTime: false,
       }));
     } catch (err) { handleException('017', err, this); }
-  }
-
-  getPaymentUrl = async () => {
-    try {
-      this.showLoader(true);
-      const preferences = {
-
-      };
-      const req = await getPaymentUrl(preferences);
-      const resp = await req.json();
-      this.showLoader(false);
-      if (!resp.success) {
-        Alert.alert('Error', resp.message);
-      } else {
-        this.props.navigation.navigate('Payment', { paymentUrl: resp.output });
-      }
-    } catch (err) { handleException('011', err, this); }
   }
 
   inputChangeHandler = (key, value) => {
@@ -171,8 +154,7 @@ class Wallet extends Component {
 
   daviBtnIcon = () => (
     <TouchableHighlight
-      // onPress={() => this.showDialog(true, 170, true)}
-      onPress={this.getPaymentUrl}
+      onPress={() => this.showDialog(true, 170, true)}
       underlayColor="white"
       style={paymentListStyles.daviBtnIconContainer}
     >

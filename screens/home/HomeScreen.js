@@ -36,7 +36,7 @@ class Home extends Component {
 
   componentDidMount = () => {
     this.getUser();
-    pushNotificationConfig(/* showNotification */ null, this.onOpenNotification);
+    pushNotificationConfig(showNotification, this.onOpenNotification);
   }
 
   onOpenNotification = (not) => {

@@ -6,8 +6,9 @@ import { Button, Rating } from 'react-native-elements';
 import { connect } from 'react-redux';
 import ImageView from 'react-native-image-view';
 import PropTypes from 'prop-types';
+import { StackActions, NavigationActions } from 'react-navigation';
 import { getQuote, answerQuote, rateService } from '../../services/quoteServices';
-import { getPaymentUrl, getLastPayment, updatePayment } from '../../services/paymentsServices';
+import { getPaymentUrl, updatePayment } from '../../services/paymentsServices';
 import Loader from '../../components/custom/Loader';
 import { commonStyles } from '../../styles/commonStyles';
 import { quoteStyles } from '../../styles/quoteStyles';
@@ -40,10 +41,14 @@ class QuoteDetails extends Component {
   componentWillMount() {
     this.props.navigation.addListener(
       'didFocus',
-      () => {
+      async () => {
         const fromPayment = this.props.navigation.getParam('fromPayment');
         if (fromPayment) {
-          this.fetchLastPayments();
+          this.fetchQuote();
+          // await this.updatePayment();
+          // this.acceptQuote(true);
+          Alert.alert('Info', 'Te notificaremos tan pronto tu pago sea aprobado',
+            [{ text: 'OK', onPress: () => this.props.navigation.dispatch(this.resetAction) }]);
         } else {
           this.fetchQuote();
         }
@@ -51,45 +56,11 @@ class QuoteDetails extends Component {
     );
   }
 
-  fetchLastPayments = async () => {
-    this.showLoader(true);
-    this.getLastPayment();
-    this.setState({ paymentCont: 0 });
-  }
-
-  sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
-
-  getLastPayment = async () => {
-    this.showLoader(true);
-    const req = await getLastPayment(this.props.loginInfo.email);
-    const res = await req.json();
-    this.setState(prev => ({ ...prev, paymentCont: prev.paymentCont + 1 }));
-    if (!res.success) {
-      if (this.state.paymentCont !== 5) {
-        await this.sleep(2500);
-        this.getLastPayment();
-      } else {
-        this.showLoader(false);
-        Alert.alert('Info', 'Lo sentimos, su pago no pudo ser procesado en el momento, intentelo más tarde',
-          [{ text: 'OK', onPress: () => this.props.navigation.navigate('ServiceList') }],
-          { cancelable: false });
-      }
-    } else {
-      this.showLoader(false);
-      this.acceptQuote(true);
-      this.updatePayment(res.output[0]._id);
-      this.fetchQuote();
-    }
-  }
-
-  updatePayment = async (pId) => {
+  updatePayment = async () => {
     const quote = this.props.navigation.getParam('quote') || {};
-    console.log(quote);
-    if (quote) {
-      const req = await updatePayment(pId, quote);
-      const res = await req.json();
-      console.log(res);
-    }
+    const req = await updatePayment(this.props.loginInfo.email, quote);
+    const res = await req.json();
+    console.log(res);
   }
 
   setDateTime = (dateTime) => {
@@ -132,6 +103,11 @@ class QuoteDetails extends Component {
       images,
     }));
   }
+
+  resetAction = StackActions.reset({
+    index: 0,
+    actions: [NavigationActions.navigate({ routeName: 'ServiceList' })],
+  });
 
   inputChangeHandler = (name, value) => {
     this.setState(prevState => ({ ...prevState,
@@ -186,7 +162,7 @@ class QuoteDetails extends Component {
       const { quote, user, formData } = this.state;
       const preferences = {
         title: quote.service.name,
-        unit_price: Math.round(formData.price + (formData.price * appConstants.PRICE_FARE)),
+        unit_price: formData.price,
         email: user.email,
         name: user.name,
         surname: user.lastName,
@@ -328,7 +304,7 @@ class QuoteDetails extends Component {
                 />
               </View>
             ) : null}
-            {action === 'Sent' || action === 'Answered' ? (
+            {(action === 'Sent' && user._id !== formData.sentBy) || action === 'Answered' ? (
               <View style={{ paddingVertical: 25, textAlign: 'center', height: 100, justifyContent: 'center', alignItems: 'stretch', flexDirection: 'row', width: '100%' }}>
                 <Button
                   buttonStyle={{ paddingVertical: 10, backgroundColor: appColors.primary }}

@@ -14,6 +14,9 @@ export const chatStyles = StyleSheet.create({
   },
   avatarSection: {
     width: 60,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   avatarContainer: {
     borderRadius: 100,

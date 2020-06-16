@@ -56,12 +56,14 @@ const TabsNavigator = createBottomTabNavigator({
         const n = 0;
         return (
           <IconBadge
-            MainElement={(
-              <FontAwesome
-                name="wechat"
-                size={22}
-                color={props.focused ? appColors.primary : appColors.grey}
-              />)}
+            MainElement={
+              (
+                <FontAwesome
+                  name="wechat"
+                  size={22}
+                  color={props.focused ? appColors.primary : appColors.grey}
+                />
+              )}
             IconBadgeStyle={{ width: 22, height: 22, backgroundColor: appColors.secondary, top: -10, right: -10 }}
             BadgeElement={<TextF style={{ color: 'white' }}>{n}</TextF>}
             Hidden={n === 0}

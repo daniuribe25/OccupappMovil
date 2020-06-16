@@ -73,6 +73,16 @@
 		<string>rubicon-icon-font.ttf</string>
 		<string>SimpleLineIcons.ttf</string>
 		<string>Zocial.ttf</string>
+		<string>Quicksand_Dash.otf</string>
+		<string>Quicksand-Bold.otf</string>
+		<string>Quicksand-BoldItalic.otf</string>
+		<string>Quicksand-Italic.otf</string>
+		<string>Quicksand-Light.otf</string>
+		<string>Quicksand-LightItalic.otf</string>
+		<string>Quicksand-Regular.otf</string>
+		<string>Moon2.0-Bold.otf</string>
+		<string>Moon2.0-Light.otf</string>
+		<string>Moon2.0-Regular.otf</string>
 	</array>
 </dict>
 </plist>
