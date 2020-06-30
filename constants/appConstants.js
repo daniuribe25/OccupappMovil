@@ -9,10 +9,10 @@ export const quoteStatus = {
 };
 
 export const appConstants = {
-  API_URL: 'https://occupapp.herokuapp.com/api/',
+  // API_URL: 'https://occupapp.herokuapp.com/api/',
   SOCKET_EP: 'https://occupapp.herokuapp.com',
   // API_URL: 'http://127.0.0.1:3000/api/',
-  // API_URL: 'http://10.0.2.2:3000/api/',
+  API_URL: 'http://10.0.2.2:3000/api/',
   // SOCKET_EP: 'http://10.0.2.2:3000',
   PRICE_FARE: 0.2,
 };

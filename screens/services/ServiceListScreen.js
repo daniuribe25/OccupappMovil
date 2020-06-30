@@ -123,7 +123,7 @@ class ServiceList extends Component {
           )}
         >
           <View style={{ ...commonStyles.titleContainer, ...{ paddingBottom: 5 } }}>
-            <TextF style={{ ...commonStyles.title, fontWeight: 'bold' }} h1>OCCUPAPP</TextF>
+            <TextF style={{ ...commonStyles.title, fontWeight: 'bold' }} h1>MOTORAPP</TextF>
           </View>
             {toAnswer.length ? this.renderList(toAnswer, this.props.language.answer_pending) : null}
             {scheduled.length ? this.renderList(scheduled, this.props.language.scheduled) : null}

@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
 
 class QuoteCarousel extends Component {
   renderItem = ({ item }) => {
-    const { uri, type } = item;
+    const { uri } = item;
     return (
       <View style={{ ...styles.slide, ...carouselStyles.slide }}>
         <View style={{ ...styles.slideInnerContainer, ...carouselStyles.slideInnerContainer }}>
@@ -62,8 +62,15 @@ class QuoteCarousel extends Component {
   );
 }
 
+QuoteCarousel.defaultProps = {
+  onRemove: null,
+  onPressImage: null,
+};
+
 QuoteCarousel.propTypes = {
   media: PropTypes.arrayOf(PropTypes.instanceOf({})).isRequired,
+  onRemove: PropTypes.func,
+  onPressImage: PropTypes.func,
 };
 
 export default QuoteCarousel;

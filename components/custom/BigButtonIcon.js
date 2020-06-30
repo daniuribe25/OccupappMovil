@@ -20,7 +20,7 @@ class BigButtonIcon extends Component {
             <TextF style={commonStyles.btnText}>{this.props.text}</TextF>
           ) : null}
           {this.props.iconName ? (
-            <Icon name={this.props.iconName} color={appColors.white} type={this.props.iconType} />
+            <Icon style={{ paddingLeft: 10 }} name={this.props.iconName} color={appColors.white} type={this.props.iconType} />
           ) : null}
         </Button>
       </View>

@@ -16,13 +16,13 @@ class Welcome extends Component {
       <React.Fragment>
         <ImageBackground source={backgroudSource} style={{ width: '100%', height: '100%' }}>
           <View style={commonStyles.welcomeTitleContainer}>
-            <TextF style={{ ...commonStyles.welcomeTitle, fontWeight: 'bold' }} h1>OCCUPAPP</TextF>
+            <TextF style={{ ...commonStyles.welcomeTitle, fontWeight: 'bold' }} h1>MOTORAPP</TextF>
           </View>
           <View style={sessionStyles.welcomeBtnsContainer}>
             <View style={sessionStyles.welcomeBtnsContent}>
               <BigButtonIcon
                 text={this.props.language['continue']}
-                btnStyle={{ flexBasis: '80%', justifyContent: 'center', borderRadius: 30 }}
+                btnStyle={{ flexBasis: '80%', justifyContent: 'center', borderRadius: 15 }}
                 onPress={() => this.props.navigation.navigate('LoginRegister', { type: 0 })}
               />
             </View>
@@ -51,10 +51,7 @@ class Welcome extends Component {
 
 Welcome.propTypes = {
   language: PropTypes.objectOf(PropTypes.string).isRequired,
-};
-
-// Maps states and dispatches to props
-const mapDispachToProps = {
+  navigation: PropTypes.any.isRequired,
 };
 
 const mapStateToProps = state => ({

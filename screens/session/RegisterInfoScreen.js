@@ -9,7 +9,6 @@ import { storeLocally, handleException, compressImage } from '../../services/han
 import { registerUserInfo } from '../../redux/actions/session/loginActions';
 import { commonStyles } from '../../styles/commonStyles';
 import TextInputIcon from '../../components/custom/TextInputIcon';
-import DatePickerIcon from '../../components/custom/DatePickerIcon';
 import BigButtonIcon from '../../components/custom/BigButtonIcon';
 import Loader from '../../components/custom/Loader';
 import { appColors } from '../../styles/colors';
@@ -22,7 +21,6 @@ class RegisterInfo extends Component {
       ...{
         name: '',
         lastName: '',
-        birthday: new Date(1900, 0, 1),
         cel: undefined,
         profileImage: null,
         loginType: 'CL', // common login
@@ -34,14 +32,6 @@ class RegisterInfo extends Component {
     imagePickerBtnStyles: commonStyles.imagePickerBtn,
     imagePickerBtnTextStyles: commonStyles.imagePickerBtnText,
     registerType: this.props.navigation.getParam('type'),
-  }
-
-  setDate = (th, newDate) => {
-    th.setState(prevState => (
-      { ...prevState,
-        formData: { ...prevState.formData, birthday: newDate },
-      }
-    ));
   }
 
   UNSAFE_componentWillReceiveProps = (nextProps) => {
@@ -88,8 +78,7 @@ class RegisterInfo extends Component {
     let isValid = true;
     const errorMessages = [];
 
-    if (((!data.name || !data.lastName) && this.state.registerType === 'CL')
-    || data.birthday.getTime() === (new Date(1900, 0, 1)).getTime() || !data.cel) {
+    if (((!data.name || !data.lastName) && this.state.registerType === 'CL') || !data.cel) {
       errorMessages.push('Todos los campos son requeridos.');
       isValid = false;
     } else if (data.cel.length < 10 || !(/^\d+$/.test(data.cel))) {
@@ -99,7 +88,7 @@ class RegisterInfo extends Component {
     errorMessages.forEach(x => Alert.alert('Error', x));
     return isValid;
   }
-
+ 
   onSendInfo = async () => {
     if (!this.validateForm(this.state.formData)) return;
 
@@ -120,19 +109,11 @@ class RegisterInfo extends Component {
   }
 
   getFormatData = () => {
-    const userInfo = this.state.formData;
-    userInfo.birthday = userInfo.birthday instanceof Date ? (userInfo.birthday.toISOString()).substring(0, 10) : '';
     return {
       ...this.props.loginInfo,
-      ...userInfo,
+      ...this.state.formData,
     };
   };
-
-  setDefaultDate = () => {
-    const dt = new Date(Date.now());
-    dt.setDate(dt.getDate() - 6574);
-    return dt;
-  }
 
   showLoader = (show) => {
     this.setState(prevState => ({ ...prevState, showLoader: show }));
@@ -143,7 +124,7 @@ class RegisterInfo extends Component {
       <Container style={commonStyles.container}>
         <Loader show={this.state.showLoader} />
         <View style={commonStyles.titleContainer}>
-          <TextF style={{ ...commonStyles.title, fontWeight: 'bold' }} h1>OCCUPAPP</TextF>
+          <TextF style={{ ...commonStyles.title, fontWeight: 'bold' }} h1>MOTORAPP</TextF>
         </View>
 
         <View style={commonStyles.inputContainer}>
@@ -165,14 +146,6 @@ class RegisterInfo extends Component {
               />
             </React.Fragment>
           )}
-          <DatePickerIcon
-            onDateChange={newDate => this.setDate(this, newDate)}
-            placeHolder={this.props.language.birthday}
-            iconName="calendar"
-            locale="es"
-            maximumDate={this.setDefaultDate()}
-            defaultDate={this.setDefaultDate()}
-          />
           <TextInputIcon
             iconName="cellphone"
             iconType="material-community"

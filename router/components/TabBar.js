@@ -37,11 +37,13 @@ class TabBar extends React.Component {
     });
   }
 
-  render = () => {
-    return this.state.isVisible
-      ? <BottomTabBar {...this.props} />
-      : <TextF>Hide</TextF>;
-  }
+  render = () => this.state.isVisible
+    ? (
+      <BottomTabBar
+        {...this.props}
+        display={['ServiceList', 'Profile']}
+      />
+    ) : <TextF>Hide</TextF>;
 }
 
 export default TabBar;

@@ -10,14 +10,15 @@
     "compile": "npx lingui compile"
   },
   "dependencies": {
+    "jetifier": "^1.6.6",
     "native-base": "^2.12.0",
     "prop-types": "^15.7.2",
     "react": "16.8.3",
-    "react-native": "^0.59.4",
+    "react-native": "^0.59.10",
     "react-native-debugger": "^1.1.0",
     "react-native-elements": "^1.1.0",
     "react-native-enhanced-popup-menu": "^0.6.1",
-    "react-native-fbsdk": "0.8.0",
+    "react-native-fbsdk": "1.0.0-rc.3",
     "react-native-gesture-handler": "^1.1.0",
     "react-native-gifted-chat": "^0.9.11",
     "react-native-icon-badge": "^1.1.3",

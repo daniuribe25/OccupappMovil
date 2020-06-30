@@ -9,7 +9,7 @@ export const quoteStyles = StyleSheet.create({
     color: appColors.grey,
     textAlign: 'center',
     width: sliderWidth - 40,
-    marginVertical: 10,
+    marginVertical: 5,
   },
   textCounter: {
     fontSize: 14,

@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-expressions */
 import React, { Component } from 'react';
 import { View, Alert } from 'react-native';
-import { Container, Text } from 'native-base';
+import { Container } from 'native-base';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { storeLocally, handleException } from '../../services/handlers/commonServices';
@@ -49,7 +49,7 @@ class LoginRegister extends Component {
   }
 
   loginRegister = async () => {
-    if (!this.validateForm(this.state.formData)) return;
+    // if (!this.validateForm(this.state.formData)) return;
 
     if (!+this.state.formData.type) {
       try {
@@ -93,25 +93,25 @@ class LoginRegister extends Component {
 
   redirectToRegister = (type, loginInfo) => {
     this.props.storeLoginInfo(loginInfo);
-    this.props.navigation.push('RegisterInfo', { type, loginInfo });
+    this.props.navigation.push('RegisterUserRole', { type, loginInfo });
   }
 
   checkDuplicatedEmail = async () => {
-    this.showLoader(true);
-    try {
-      const req = await getUserByEmail(this.state.formData.email);
-      const resp = await req.json();
-      this.showLoader(false);
-      if (resp.success) {
-        let mess = '';
-        mess = resp.output.loginType === 'FB'
-          ? 'Email ya registrado en Occupapp con una cuenta de facebook, por favor intenta logandote desde esta opción'
-          : 'Email ya registrado, si no recuerdas la contraseña puedes recuperarla.';
-        Alert.alert('Información', mess);
-      } else {
+    // this.showLoader(true);
+    // try {
+    //   const req = await getUserByEmail(this.state.formData.email);
+    //   const resp = await req.json();
+    //   this.showLoader(false);
+    //   if (resp.success) {
+    //     let mess = '';
+    //     mess = resp.output.loginType === 'FB'
+    //       ? 'Email ya registrado en Motorapp con una cuenta de facebook, por favor intenta logandote desde esta opción'
+    //       : 'Email ya registrado, si no recuerdas la contraseña puedes recuperarla.';
+    //     Alert.alert('Información', mess);
+    //   } else {
         this.redirectToRegister('CL', this.state.formData);
-      }
-    } catch (err) { handleException('003', err, this); }
+    //   }
+    // } catch (err) { handleException('003', err, this); }
   }
 
   validateEmail = (email) => {

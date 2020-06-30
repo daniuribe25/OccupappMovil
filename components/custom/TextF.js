@@ -15,7 +15,11 @@ TextF.defaultProps = {
 
 TextF.propTypes = {
   style: PropTypes.shape({}),
-  children: PropTypes.shape({}).isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+    PropTypes.any,
+  ]).isRequired,
 };
 
 export default TextF;

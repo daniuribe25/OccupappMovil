@@ -37,6 +37,16 @@
         "react/forbid-prop-types": "off",
         "react/sort-comp": "off",
         "no-nested-ternary": "off",
-        "max-len": "off"
+        "max-len": "off",
+        "default-case": "off",
+        "consistent-return": "off",
+        "no-case-declarations": "off",
+        "no-tabs": "off",
+        "no-mixed-spaces-and-tabs": "off",
+        "indent": "off",
+        "react/jsx-indent": "off",
+        "react/jsx-indent-props": "off",
+        "react/jsx-one-expression-per-line": "off",
+        "object-property-newline": "off"
     }
 }
